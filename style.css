@@ -1,0 +1,45 @@
+div {
+  text-align: justify;
+}
+
+body {
+  background-color: white;
+}
+
+h1 {
+  color: cadetblue;
+  text-align: left;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+h2 {
+  color: darksalmon;
+  font-weight: bold;
+  text-align: left;
+  font-size: 1.4em;
+}
+
+
+h3 {
+  text-align: left;
+  font-size: 1.3em;
+}
+
+p {
+  font-family: Roboto;
+  font-size: 1.1em;
+}
+
+.centrado
+{
+ text-align: center;
+ background-color: #E8E8E8;
+}
+
+.footer
+{
+ text-align: center;
+ font-size: 0.9em;
+ font-weight: bold;
+}

@@ -1,0 +1,16 @@
+---
+title: 'Acerca de ...'
+---
+
+# ¿Quiénes somos?
+
+<span style="class= 'centrado' width: 100%; ">![](https://drive.google.com/uc?export=view&id=1RuRVvr4CNzrJZrXlOWBmzPuTUaS-vir1)</span>
+
+InvestigaOnline.com desarrolla junto a sus clientes, los más nuevos y avanzados métodos de investigación científica.
+En InvestigaOnline.com, somos conscientes del tremendo impacto que la tecnología y la globalización de la recolección de la información tienen dentro de la empresa, es por eso que desarrollamos nuestra actividad guiado por esos dos conceptos. 
+
+Ahora, también la llevamos a nuestra especialidad: el análisis de datos.
+
+La más novedosa tecnología en el medio más global, ofreciendo servicios de proceso de datos, desarrollo de aplicaciones y estudios de mercado, siempre de forma online.
+
+<span style="class= 'centrado' width: 100%; ">![](https://drive.google.com/uc?export=view&id=1-NGpmcgSgqDHSR6k41JWnXfwB35u7Tgy)</span>
