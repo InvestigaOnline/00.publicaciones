@@ -1,0 +1,280 @@
+---
+title: "Modelo H8-H19"
+author: "RGS"
+date: "`r Sys.Date()`"
+output:
+  html_document
+---
+
+<style type="text/css">
+.main-container {
+  max-width: 100%;
+  margin-left: 10px;
+  margin-right: 10px;}
+</style>
+
+# PLS (SEMinR)  {.tabset .tabset-pills}
+
+## Introducción
+
+Con la base de datos utilizada en la tesis, jugando con las hipótesis de la H8 a la H19: RVALUE, TRUST, ENGAGEMENT, ECOSAT, SOCSAT & LOYALTY
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, comment = NA)
+options(width=9999)
+suppressMessages(library(seminr))
+suppressMessages(library(kableExtra))
+suppressMessages(library(dplyr))
+suppressMessages(library(expss))
+setwd("~/R/r-data/00.tesis")
+suppressMessages(data <- read_spss('tesis.sav'))
+as.datatable_widget(data %>% tab_cells(DCP1) %>% tab_stat_cases() %>% tab_pivot())
+```
+
+Descripción de las variables indicadores
+
+* trust
+  * CFZP05. Este proveedor es sincero y honrado
+  * CFZP06. Este proveedor cumple sus promesas
+  * CFZP07. Comunica de forma honesta cualquier problema que pueda afectarme
+  * CFZP08. Este proveedor se preocupa por mis intereses
+  * CFZP09. La información que proporciona este proveedor es fiable
+  * CFZP10. Este proveedor es experto en los productos que le compro
+  * CFZP11. En general, tengo absoluta confianza en este proveedor
+* engagement
+  * CMPP12. Estoy muy comprometido en esta relación con este proveedor
+  * CMPP13. Soy muy fiel a este proveedor
+  * CMPP14. Intento mantener a largo plazo esta relación
+  * CMPP15. Esta relación merece por mi parte hacer el máximo esfuerzo para mantenerla
+  * CMPP16. En general, me siento comprometido con este proveedor
+* value
+  * VALRELP39. Comparando con el segundo proveedor al que más le compro, este proveedor añade más valor a la relación en su conjunto
+  * VALRELP40. Comparando con el segundo proveedor al que más le compro, gano más en mi relación con este proveedor
+  * VALRELP41. Comparando con el segundo proveedor al que más le compro, la relación con este proveedor es más valiosa
+  * VALRELP42. Comparando con el segundo proveedor al que más le compro, este proveedor crea más valor para mi cuando comparo todos los costes y beneficios de la relación
+* ecosat
+  * SATP43. La relación con este proveedor me ha dado una posición de mercado dominante y rentable en el área de ventas
+  * SATP44. Estoy muy contento en mi decisión de vender productos de este proveedor ya que su alta calidad aumenta el tráfico de clientes
+  * SATP45. La política de marketing de este proveedor me ayuda a trabajar con eficacia
+* socsat
+  * SATP46. Las relaciones con este proveedor se caracterizan por el respeto mutuo
+  * SATP47. Estoy satisfecho con la relación de trabajo en general
+  * SATP48. Si pudiera hacerlo de nuevo, volvería a escoger la línea de productos de este proveedor en lugar de la línea de otro proveedor de la competencia
+* loyalty
+  * LOYP49. He comprado más productos a este proveedor en los últimos años que a otro
+  * LOYP50. Considero a este proveedor principal proveedor para mi negocio
+  * LOYP51. Este proveedor ha sido mi principal proveedor en los últimos años
+
+## PLS Alimentación
+
+```{r}
+suppressMessages(data <- read_spss('tesis.sav'))
+data <- where(data, DCP1 == 1)
+data <- subset(data[,c(1,5:11, 12:16, 39:42, 43:45, 46:48, 49:51)])
+data <- rename(data, CFZP5=CFZP05,CFZP6=CFZP06,CFZP7=CFZP07,CFZP8=CFZP08,CFZP9=CFZP09)
+data <- na.omit(data)
+measurements <- constructs(
+  reflective("trust", multi_items("CFZP",05:11)),
+  reflective("engagement", multi_items("CMPP",12:16)),
+  reflective("rel", multi_items("VALRELP",39:42)),
+  reflective("ecosat", multi_items("SATP",43:45)),
+  reflective("socsat", multi_items("SATP",46:48)),
+  reflective("loyalty", multi_items("LOYP",49:51))
+  )
+
+strmodel <- relationships(
+  paths(from = "rel", to = c("trust","engagement","ecosat")),
+  paths(from = "trust", to = c("engagement", "loyalty")),
+  paths(from = "engagement", to = c("ecosat", "socsat", "loyalty")),
+  paths(from = "ecosat", to = c("socsat", "loyalty")),
+  paths(from = "socsat", to = "loyalty")
+  )
+```
+
+### Modelo
+
+```{r fig.height=8, fig.width=8}
+model <- estimate_pls(
+  data = data,
+  measurement_model = measurements,
+  structural_model = strmodel,
+  inner_weights = path_weighting)
+summary(model)
+plot(model)
+bmodel <- bootstrap_model(model)
+summary(bmodel)
+plot(bmodel)
+```
+
+## PLS Textil y Calzado
+
+
+```{r}
+setwd("~/R/r-data/00.tesis")
+suppressMessages(data <- read_spss('tesis.sav'))
+data <- where(data, DCP1 == 2)
+data <- subset(data[,c(1,5:11, 12:16, 39:42, 43:45, 46:48, 49:51)])
+data <- rename(data, CFZP5=CFZP05,CFZP6=CFZP06,CFZP7=CFZP07,CFZP8=CFZP08,CFZP9=CFZP09)
+data <- na.omit(data)
+measurements <- constructs(
+  reflective("trust", multi_items("CFZP",05:11)),
+  reflective("engagement", multi_items("CMPP",12:16)),
+  reflective("rel", multi_items("VALRELP",39:42)),
+  reflective("ecosat", multi_items("SATP",43:45)),
+  reflective("socsat", multi_items("SATP",46:48)),
+  reflective("loyalty", multi_items("LOYP",49:51))
+  )
+
+strmodel <- relationships(
+  paths(from = "rel", to = c("trust","engagement","ecosat")),
+  paths(from = "trust", to = c("engagement", "loyalty")),
+  paths(from = "engagement", to = c("ecosat", "socsat", "loyalty")),
+  paths(from = "ecosat", to = c("socsat", "loyalty")),
+  paths(from = "socsat", to = "loyalty")
+  )
+```
+
+### Modelo
+
+```{r fig.height=8, fig.width=8}
+model <- estimate_pls(
+  data = data,
+  measurement_model = measurements,
+  structural_model = strmodel,
+  inner_weights = path_weighting)
+summary(model)
+plot(model)
+bmodel <- bootstrap_model(model)
+summary(bmodel)
+plot(bmodel)
+```
+
+## PLS Electr*
+
+
+```{r}
+setwd("~/R/r-data/00.tesis")
+suppressMessages(data <- read_spss('tesis.sav'))
+data <- where(data, DCP1 == 3)
+data <- subset(data[,c(1,5:11, 12:16, 39:42, 43:45, 46:48, 49:51)])
+data <- rename(data, CFZP5=CFZP05,CFZP6=CFZP06,CFZP7=CFZP07,CFZP8=CFZP08,CFZP9=CFZP09)
+data <- na.omit(data)
+measurements <- constructs(
+  reflective("trust", multi_items("CFZP",05:11)),
+  reflective("engagement", multi_items("CMPP",12:16)),
+  reflective("rel", multi_items("VALRELP",39:42)),
+  reflective("ecosat", multi_items("SATP",43:45)),
+  reflective("socsat", multi_items("SATP",46:48)),
+  reflective("loyalty", multi_items("LOYP",49:51))
+  )
+
+strmodel <- relationships(
+  paths(from = "rel", to = c("trust","engagement","ecosat")),
+  paths(from = "trust", to = c("engagement", "loyalty")),
+  paths(from = "engagement", to = c("ecosat", "socsat", "loyalty")),
+  paths(from = "ecosat", to = c("socsat", "loyalty")),
+  paths(from = "socsat", to = "loyalty")
+  )
+```
+
+### Modelo
+
+```{r fig.height=8, fig.width=8}
+model <- estimate_pls(
+  data = data,
+  measurement_model = measurements,
+  structural_model = strmodel,
+  inner_weights = path_weighting)
+summary(model)
+plot(model)
+bmodel <- bootstrap_model(model)
+summary(bmodel)
+plot(bmodel)
+```
+
+## Mueble / Madera
+
+```{r}
+setwd("~/R/r-data/00.tesis")
+suppressMessages(data <- read_spss('tesis.sav'))
+data <- where(data, DCP1 == 4)
+data <- subset(data[,c(1,5:11, 12:16, 39:42, 43:45, 46:48, 49:51)])
+data <- rename(data, CFZP5=CFZP05,CFZP6=CFZP06,CFZP7=CFZP07,CFZP8=CFZP08,CFZP9=CFZP09)
+data <- na.omit(data)
+measurements <- constructs(
+  reflective("trust", multi_items("CFZP",05:11)),
+  reflective("engagement", multi_items("CMPP",12:16)),
+  reflective("rel", multi_items("VALRELP",39:42)),
+  reflective("ecosat", multi_items("SATP",43:45)),
+  reflective("socsat", multi_items("SATP",46:48)),
+  reflective("loyalty", multi_items("LOYP",49:51))
+  )
+
+strmodel <- relationships(
+  paths(from = "rel", to = c("trust","engagement","ecosat")),
+  paths(from = "trust", to = c("engagement", "loyalty")),
+  paths(from = "engagement", to = c("ecosat", "socsat", "loyalty")),
+  paths(from = "ecosat", to = c("socsat", "loyalty")),
+  paths(from = "socsat", to = "loyalty")
+  )
+```
+
+### Modelo
+
+```{r fig.height=8, fig.width=8}
+model <- estimate_pls(
+  data = data,
+  measurement_model = measurements,
+  structural_model = strmodel,
+  inner_weights = path_weighting)
+summary(model)
+plot(model)
+bmodel <- bootstrap_model(model)
+summary(bmodel)
+plot(bmodel)
+```
+
+
+## Total
+
+
+```{r}
+setwd("~/R/r-data/00.tesis")
+suppressMessages(data <- read_spss('tesis.sav'))
+data <- subset(data[,c(1,5:11, 12:16, 39:42, 43:45, 46:48, 49:51)])
+data <- rename(data, CFZP5=CFZP05,CFZP6=CFZP06,CFZP7=CFZP07,CFZP8=CFZP08,CFZP9=CFZP09)
+data <- na.omit(data)
+measurements <- constructs(
+  reflective("trust", multi_items("CFZP",05:11)),
+  reflective("engagement", multi_items("CMPP",12:16)),
+  reflective("rel", multi_items("VALRELP",39:42)),
+  reflective("ecosat", multi_items("SATP",43:45)),
+  reflective("socsat", multi_items("SATP",46:48)),
+  reflective("loyalty", multi_items("LOYP",49:51))
+  )
+
+strmodel <- relationships(
+  paths(from = "rel", to = c("trust","engagement","ecosat")),
+  paths(from = "trust", to = c("engagement", "loyalty")),
+  paths(from = "engagement", to = c("ecosat", "socsat", "loyalty")),
+  paths(from = "ecosat", to = c("socsat", "loyalty")),
+  paths(from = "socsat", to = "loyalty")
+  )
+```
+
+### Modelo
+
+```{r fig.height=8, fig.width=8}
+model <- estimate_pls(
+  data = data,
+  measurement_model = measurements,
+  structural_model = strmodel,
+  inner_weights = path_weighting)
+summary(model)
+plot(model)
+bmodel <- bootstrap_model(model)
+summary(bmodel)
+plot(bmodel)
+```
+

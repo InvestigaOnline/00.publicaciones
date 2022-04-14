@@ -1,0 +1,122 @@
+---
+title: "Primer Least...PLS: Corporate reputation"
+author: "RGS"
+date: "`r Sys.Date()`"
+output:
+  html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+<style type="text/css">
+.main-container {
+  max-width: 100%;
+  margin-left: 10px;
+  margin-right: 10px;}
+</style>
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, comment = NA)
+options(width=9999)
+suppressMessages(library(seminr))
+suppressMessages(library(kableExtra))
+suppressMessages(library(readr))
+suppressMessages(library(dplyr))
+
+setwd("~/R/r-data/00.goal2023")
+suppressMessages(data <- read_delim("data.csv",";", escape_double = FALSE, trim_ws = TRUE))
+data <- data[,3:12]
+corp_rep_data <- data
+```
+
+# PLS (PLS_SEM con SEMinR)  {.tabset .tabset-pills}
+
+## Corporate reputation Model
+
+```{r echo = FALSE, messages= FALSE, comment = NA}
+
+## Partial Least Squares Structural Equation Modeling (PLS-SEM) Using R - A Workbook (2021)
+## Hair, J.F. (Jr), Hult, T.M., Ringle, C.M., Sarstedt, M., Danks, N.P., and Ray, S.
+
+## Chapter 3: Introduction to SEMinR
+
+# Show the first several rows of the corporate reputation data
+# Create measurement model ----
+simple_mm <- constructs(
+     composite("COMP", multi_items("comp_", 1:3)),
+     composite("LIKE", multi_items("like_", 1:3)),
+     composite("CUSA", single_item("cusa")),
+     composite("CUSL", multi_items("cusl_", 1:3)))
+
+# Create structural model ----
+simple_sm <- relationships(
+     paths(from = c("COMP", "LIKE"), to = c("CUSA", "CUSL")),
+     paths(from = c("CUSA"), to = c("CUSL")))
+
+# Estimate the model
+corp_rep_simple_model <- estimate_pls(data = corp_rep_data,
+                                      measurement_model = simple_mm,
+                                      structural_model  = simple_sm,
+                                      inner_weights = path_weighting,
+                                      missing = mean_replacement,
+                                      missing_value = "-99")
+
+# Estimate the model with default settings
+corp_rep_simple_model <- estimate_pls(data = corp_rep_data,
+                                      measurement_model = simple_mm,
+                                      structural_model  = simple_sm,
+                                      missing_value = "-99")
+
+# Summarize the model results
+summary_simple_corp_rep <- summary(corp_rep_simple_model)
+
+# Inspect the structural paths
+summary_simple_corp_rep$paths
+
+# Inspect the construct reliability metrics
+summary_simple_corp_rep$reliability
+
+# Plot model
+plot(corp_rep_simple_model)
+
+# Bootstrap the model
+boot_simple_corp_rep <- bootstrap_model(seminr_model = corp_rep_simple_model,
+                                        nboot = 1000,
+                                        cores = NULL,
+                                        seed = 123)
+
+# Store the summary of the bootstrapped model
+sum_boot_simple_corp_rep <- summary(boot_simple_corp_rep)
+
+# Inspect the bootstrapped structural paths
+sum_boot_simple_corp_rep$bootstrapped_paths
+
+# Inspect the bootstrapped outer weights
+sum_boot_simple_corp_rep$bootstrapped_weights
+
+# Write the bootstrapped paths object to csv file
+write.csv(x = sum_boot_simple_corp_rep$bootstrapped_weights, file = "boot_paths.csv")
+
+# Generate the plot for exporting
+plot(summary_simple_corp_rep$reliability)
+```
+
+## Orden del libro
+
+```{r}
+cat("Outer loadings")
+summary_simple_corp_rep$loadings
+
+cat("Añado que lo muestre todo en fiabilidad.")
+summary_simple_corp_rep$reliability
+
+cat("Para ver los Cronbach's")
+plot(summary_simple_corp_rep$reliability)
+
+cat("Añado que lo muestre todo en validez")
+summary_simple_corp_rep$validity
+
+cat("Añado las Cross loadings")
+summary_simple_corp_rep$loadings
+```

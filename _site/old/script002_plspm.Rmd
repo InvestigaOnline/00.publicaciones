@@ -1,0 +1,249 @@
+---
+output:
+        html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, comment = NA)
+suppressMessages(library(plspm))
+suppressMessages(library(kableExtra))
+data(spainfoot)
+```
+
+Descripción de las variables
+
+* GSH total number of goals scored at home
+* GSA total number of goals scored away
+* SSH percentage of matches with scores goals at home
+* SSA percentage of matches with scores goals away
+* GCH total number of goals conceded at home
+* GCA total number of goals conceded away
+* CSH percentage of matches with no conceded goals at home
+* CSA percentage of matches with no conceded goals away
+* WMH total number of won matches at home
+* WMA total number of won matches away
+* LWR longest run of won matches
+* LRWL longest run of matches without losing
+* YC total number of yellow cards
+* RC total number of red cards
+
+Los datos ...
+
+```{r}
+kable(spainfoot) %>% 
+  kable_styling(full_width=T)
+```
+
+
+
+Creación del modelo
+
+```{r}
+Attack = c(0, 0, 0)
+Defense = c(0, 0, 0)
+Success = c(1, 1, 0)
+# creating the matrix by binding rows
+foot_path = rbind(Attack, Defense, Success)
+# add column names (optional)
+colnames(foot_path) = rownames(foot_path)
+# let's see it
+foot_path
+```
+
+Indicando que pool de variables pertenece a cada latente
+
+```{r}
+# list indicating what variables are associated with what latent
+# variables
+foot_blocks = list(1:4, 5:8, 9:12)
+```
+
+Indicando la forma en que se miden las latentes (reflectivo o formativo)
+
+```{r}
+# all latent variables are measured in a reflective way
+foot_modes = rep("A", 3)
+
+```
+
+Rodando el modelo
+
+```{r}
+foot_pls = plspm(spainfoot, foot_path, foot_blocks, modes = foot_modes)
+summary(foot_pls)
+```
+
+Algunas informaciones más ...
+
+```{r}
+#inner model
+plot(foot_pls, arr.tcol = '#000000')  
+
+#outer model
+plot(foot_pls, what = "loadings", arr.width = 0.5,arr.tcol = '#000000') 
+
+#scores
+foot_pls$scores
+
+#unidimensinality (alpha)
+foot_pls$unidim
+```
+
+Extraemos de la tabla anterior:
+
+Alpha de Cronbach, mstb > 0.7
+
+```{r}
+foot_pls$unidim[, 3, drop = FALSE]
+```
+
+Dillon Goldstein mstb> 0.7
+
+```{r}
+foot_pls$unidim[, 4, drop = FALSE]
+```
+
+Primer y segundo autovalores, mstb mucho > 1 y mstb mucho < 1
+
+```{r}
+foot_pls$unidim[, 5:6]
+```
+
+Mostramos las cargas  y vemos que hay un probelma pues part de lso indicadores no funcionan com ose espera (rojo, inversos) y se confirma con el ouet model
+
+```{r}
+plot(foot_pls, what = "loadings")
+foot_pls$outer_model
+```
+
+Si interpretamos el significado de las variables, vemos que son indicadores invertidos; los modificamos en línea
+
+nuestro problema se localiza en este subset de los datos
+
+```{r}
+subset(foot_pls$outer_model, block == "Defense")
+```
+
+Sacamos los pesos para verificar
+
+```{r}
+# plotting weights
+plot(foot_pls, what = "weights")
+```
+
+creamos las nuevas variables invertidas
+
+```{r}
+# add two more columns NGCH and NGCA
+spainfoot$NGCH = -1 * spainfoot$GCH
+spainfoot$NGCA = -1 * spainfoot$GCA
+```
+
+reasignamos los bloques, quitando los indicadores que fallaban y poniendo los nuevos invertidos calculados.
+
+```{r}
+# new list of blocks (with column positions of variables)
+new_blocks_pos = list(1:4, c(15,16,7,8), 9:12)
+# new list of blocks (with names of variables)
+new_blocks_str = list(
+c("GSH", "GSA", "SSH", "SSA"),
+c("NGCH", "NGCA", "CSH", "CSA"),
+c("WMH", "WMA", "LWR", "LRWL")) #nuevo para usar luego en el gráfico, lo mismo pero con el nombre de variable
+```
+
+Rodamos de nuevo el modelo y vemos las cargas
+
+```{r}
+# re-apply plspm
+foot_pls = plspm(spainfoot, foot_path, new_blocks_str, modes = foot_modes)
+# plot loadings
+plot(foot_pls, "loadings")
+```
+
+
+y vemos los resultados del análisis unidimensional
+
+```{r}
+foot_pls$unidim
+```
+
+Vemos las cargas y las comunalidades
+
+```{r}
+# loadings and communalities
+foot_pls$outer_model
+```
+
+Vemos las cargas cruzadas
+
+```{r}
+# loadings and communalities
+foot_pls$outer_model
+```
+
+Representamos las cargas (ggplot)...
+
+```{r}
+library(ggplot2)
+library(reshape)
+# reshape crossloadings data.frame for ggplot
+xloads = melt(foot_pls$crossloadings, id.vars = c("name", "block"),variable_name = "LV")
+# bar-charts of crossloadings by block
+ggplot(data = xloads,aes(x = name, y = value, fill = block)) + # add horizontal reference lines
+  geom_hline(yintercept = 0, color = "gray75") + 
+  geom_hline(yintercept = 0.5, color = "gray70", linetype = 2) +
+  geom_bar(stat ='identity', position = 'dodge') + # indicate the use of bar-charts
+  facet_wrap(block ~ LV) + # panel display (i.e. faceting)
+  theme(axis.text.x = element_text(angle = 90),line = element_blank(),plot.title = element_text(size = 12)) +
+  ggtitle("Crossloadings") # add title
+```
+
+
+Vemos el modelo estructural
+
+```{r}
+# inner model
+foot_pls$inner_model
+```
+
+El coefiente de determinación
+
+```{r}
+# inner model summary
+foot_pls$inner_summary
+```
+
+
+La bondad del ajuste (GoF)
+
+```{r}
+foot_pls$gof
+```
+
+Rodamos el modelo ahora con viendo la precisión de la estimacion haciendo bootstrapping (200 submuestras)
+
+```{r}
+# running bootstrap validation
+foot_val = plspm(spainfoot, foot_path, new_blocks_str, modes = foot_modes, boot.val = TRUE, br = 200)
+
+# bootstrap results
+foot_val$boot
+
+# pesos
+foot_val$boot$weights
+
+# cargas
+foot_val$boot$loadings
+
+# paths
+foot_val$boot$paths
+
+# RSQ
+foot_val$boot$rsq
+
+#total efs
+foot_val$boot$total.efs
+```
+

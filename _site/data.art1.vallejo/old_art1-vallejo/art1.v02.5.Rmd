@@ -1,0 +1,397 @@
+---
+title: "PLS - Agencias"
+author: "Roberto Gil-Saura"
+date: "2/4/2021"
+output:
+  html_document:
+    highlight: tango
+    number_sections: yes
+    df_print: paged
+    toc: yes
+  word_document:
+    toc: yes
+subtitle: Artículo 1 (versión 2)
+---
+
+NOTA: Modelo completo, pero quitamos LOY3.
+
+```{=html}
+<style type="text/css">
+.main-container {
+  max-width: 100%;
+  margin-left: 10px;
+  margin-right: 10px;}
+.p {
+  font-size: 0.8em
+}
+</style>
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, comment=NA)
+suppressMessages(library(readr))
+suppressMessages(library(dplyr))
+suppressMessages(library(seminr))
+suppressMessages(library(lavaan))
+suppressMessages(library(matrixpls))
+suppressMessages(library(plspm))
+suppressMessages(library(semPLS))
+suppressMessages(library(pwr))
+suppressMessages(library(expss))
+suppressMessages(library(openxlsx))
+suppressMessages(agencias <- read_spss("~/R/r-data/00.pls-seminr/data/agencias_dc.sav"))
+suppressMessages(a.data <- read_delim("~/R/r-data/00.pls-seminr/data/datos.art01.v02bis.csv","\t", escape_double = FALSE, locale = locale(decimal_mark = ",", grouping_mark = ""), trim_ws = TRUE))
+options(width=9999)
+a.df <- a.data
+wb = createWorkbook()
+sh = addWorksheet(wb, "Tablas")
+```
+
+# Consideraciones sobre la muestra
+
+Recolección de datos a agencias de viaje mediante entrevista personal y presencial. La muestra de 256 empresas mediante muestreo de conveniencia fue recogida en [ciudades] y los datos más relevantes son [descripción mínima de muestra]. El banco de datos, a partir de las hipótesis teóricas previamente establecidas, permite establecer un modelo de medida y un conjunto de relaciones que conforman un modelo estructural con 6 variables latentes o constructos. La muestra es suficiente pues permite gran margen sobre las reglas de 10 veces más que el mayor número de indicadores sobre constructo y/o también 10 veces mayor que el mayor número de relaciones indicando a una variable latente (). El objetivo de la investigación es claramente exploratorio y predictivo.
+
+```{r echo=FALSE, message=FALSE}
+tab1 <- agencias %>%
+     tab_cells(mrset(P1_1,P1_2), mrset_f(P2_),mrset_f(P3_)) %>% 
+     tab_stat_cases(label='casos') %>%
+     tab_stat_cpct(label='% casos') %>% 
+     tab_pivot(stat_position='inside_columns')
+xl_write(tab1, wb, sh)
+tab2 <- agencias %>%
+    tab_cols(total()) %>% 
+     tab_cells(P5) %>%
+     tab_stat_fun(Mean = w_mean, "Sd" = w_sd) %>% 
+     tab_weight(1) %>% 
+     tab_cells(P6*10) %>%
+     tab_stat_fun(Mean = w_mean, "Sd" = w_sd) %>% 
+     tab_pivot()
+xl_write(tab2, wb, sh, row=40)
+saveWorkbook(wb, "~/R/r-data/00.pls-seminr/art1-vallejo/tablas.xlsx", overwrite = TRUE)
+```
+
+# Modelización
+
+Seguidamente mostramos el modelo de medida (outer model) y el modelo estructural (inner model), establecidos a partir de las hipótesis lanzadas.
+
+```{r include=FALSE, warning=FALSE, message=FALSE}
+a.df <- a.data
+#======================================
+# Create mesaurment model
+#======================================
+a.simple_mm <- constructs(
+     composite("ICT", multi_items("ICT", 1:5)),
+     composite("VCC", multi_items("VCC", c(1:6))),
+     composite("TRUST", multi_items("TRUST", 1:3)),
+     composite("COMMITMENT", multi_items("COMMITMENT", 1:4)),
+     composite("SOCSAT", multi_items("SOCSAT",1:3)),
+     composite("ECOSAT", multi_items("ECOSAT", 1:3)),
+     composite("LOY", multi_items("LOY",c(1:2,4))))
+#======================================
+# Create structural model
+#======================================
+a.simple_sm <- relationships(
+  paths(from = c("ICT"), to = c("VCC")),
+  paths(from = c("VCC"), to = c("TRUST","COMMITMENT")),
+  paths(from = c("TRUST"), to = c("COMMITMENT")),
+  paths(from = c("COMMITMENT"), to = c("ECOSAT")),
+  paths(from = c("COMMITMENT"), to = c("SOCSAT")),
+  paths(from = c("TRUST"), to = c("ECOSAT")),
+  paths(from = c("TRUST"), to = c("SOCSAT")),
+  paths(from = c("SOCSAT"), to = c("ECOSAT")),
+  paths(from = c("ECOSAT"), to = c("LOY")),
+  paths(from = c("SOCSAT"), to = c("LOY")))
+# Estimate the model
+
+simple_model <- estimate_pls(data = a.df,
+                                      measurement_model = a.simple_mm,
+                                      structural_model  = a.simple_sm,
+                                      inner_weights = path_weighting,
+                                      missing = mean_replacement,
+                                      missing_value = NA)
+```
+
+El modelo de medida es el siguiente:
+
+```{r fig.cap='Modelo de medida', warning=FALSE, message=FALSE, fig.width=8, fig.height=4.5}
+plot(a.simple_mm)
+```
+
+El modelo estructural es el siguiente:
+
+```{r fig.cap='Modelo estructural', warning=FALSE, message=FALSE, fig.width=8, fig.height=4.5}
+# Dibujamos el modelo estructural
+plot(a.simple_sm)
+```
+
+## Análisis de la fiabilidad
+
+Para el modelo de medida se han considerado constructos reflectivos. De este modo, el primer paso debe ser observar el resumen de los indicadores de fiabilidad, consistencia interna y validez.
+
+El resultado del análisis muestra todas las escalas que apoyan las variables latentes tienen un *Cronbach's alpha* mayor que 0.7, completado por una fiabilidad del compuesto *rhoC* también por encima de 0.7. para valores superiores a 0.9[^1].
+
+[^1]: En <https://forum.smartpls.com/viewtopic.php?f=5&t=3805> hay una "discusión en torno al "greater than 0.9" de Primer PLS ... de Hair; lo solventa un investigador / desarrollador de SmartPLS: <https://www.researchgate.net/profile/Jan_Michael_Becker>
+
+```{r fig.cap='Tabla Resumen', fig.width=16, fig.height=9}
+# Summarize the model results
+summary_simple <- summary(simple_model)
+summary_simple$reliability
+```
+
+## Validez convergente
+
+### AVE
+
+Del mismo modo, para evaluar la *validez convergente* o grado con el que una medida correlaciona positivamente con medidas alternativas del mismo constructo, usamos el coeficiente *AVE (average variance extracted)* que también cumple con la expectativa de estar por encima de 0.5.
+
+```{r fig.cap='AVE (average variance extracted)'}
+summary_simple$reliability
+```
+
+Los indicadores son mostrados de forma conjunta en el siguiente gráfico.
+
+```{r fig.cap='Tabla de fiabilidad', fig.width=16, fig.height=9}
+plot(summary_simple$reliability)
+```
+
+### Análisis de las cargas
+
+Por otro lado, es importante analizar también las cargas o *loadings*, indicadores de la fiabilidad del indicador en el constructo, y que deberían ser mayores de 0.7 para retener el indicador; para aquellas que están entre 0.4 y 0.7 debe ser analizado el comportamiento del constructo ante una eliminación del indicador con carga baja[^2].
+
+[^2]: En nuestro caso al proceder con la eliminación de aquellas cargas menores de 0.7 no mejoraba significativamente el modelo
+
+```{r fig.cap='Loadings'}
+summary_simple$loadings
+#as.data.frame(rowSums(round(summary_simple$loadings,3)))
+```
+
+## Validez discriminante
+
+### Cross-loadings
+
+Para el análisis de la validez discriminante o capacidad de un constructo de ser realmente distinto a otros, utilizamos las denominadas *cross-loadings*, que miden esa capacidad del constructo. En la tabla adjunta se puede observar en cada indicador carga de forma superior en su variable latente, siendo el resto de cargas de menor intensidad.
+
+```{r fig.cap='Cross-loadings'}
+summary_simple$validity$cross_loadings
+```
+
+### Fornell-Larcker
+
+El criterio de Fornell-Larcker, compara la raíz cuadrado del *AVE* con la correlación de las variables latentes. La raíz cuadrada del AVE de cada constructo, debería ser más grande que la más alta correlación con cualquier otro constructo. Se puede observar en la tabla siguiente que el valor en la diagonal principal, es mayor que el resto de valores en la parte inferior de la matriz.
+
+```{r fig.cap='criterio de Fornell-Larcker'}
+summary_simple$validity$fl_criteria
+```
+
+### HTMT
+
+Por último el HTMT es un ratio que si es mayor que 0.90 indica una pérdida de validez discriminante.
+
+```{r fig.cap='Hetero trait - mono trait ratio'}
+summary_simple$validity$htmt
+```
+
+## Análisis del modelo estructural
+
+Una vez analizados los constructos desde el punto de vista de su composición, debemos analizar el modelo estructural en su conjunto. Partiendo de que el objetivo del PLS es la maximización de la varianza explicada, las medidas más importantes son la fiabilidad, la validez convergente y la validez discriminante del conjunto del modelo.
+
+-   R<sup>2</sup>, coeficiente de determinación y/o % de varianza explicada
+-   f<sup>2</sup> y q<sup>2</sup> efecto tamaño
+-   Q<sup>2</sup>, relevancia predictiva
+
+### Colinealidad
+
+Colinealidad, estudiada con los inner VIF value (inverso de la tolerancia). Todos los valores deben ser menores a 0.20 en tolerancia, lo que implica ser menores a 5 en VIF. Los valores se dan para cada constructo.
+
+#### vif items
+
+```{r fig.cap=''}
+summary_simple$validity$vif_items
+```
+
+#### vif antecedents
+
+```{r fig.cap=''}
+summary_simple$vif_antecedents
+```
+
+#### Paths
+
+```{r fig.cap=''}
+summary_simple$paths
+```
+
+### R<sup>2</sup>
+
+Buscar R<sup>2</sup> mayores de 0.7, aunque valores alrededor de 0.25 sean aceptados según ámbitos; (sustancial mayor que 0.75, moderado alrededor de 0.5 y débil, 0.25). Usar R<sup>2</sup><sub>adj</sub> para comparar modelos con diferente número de constructos y/u observaciones.
+
+```{r fig.cap=''}
+simple_model$rSquared
+```
+
+### f<sup>2</sup> - effect sizes
+
+El f<sup>2</sup> permite evaluar la contribución de cada constructo exógeno a la R<sup>2</sup> de un constructo endógeno. Los valores de 0.02, 0.15 y 0.35 indican un efecto pequeño, mediano o grande sobre el constructo endógeno.
+
+```{r fig.cap=''}
+summary_simple$fSquare
+```
+
+### Efectos
+
+#### Totales
+
+```{r fig.cap='Efectos totales'}
+summary_simple$total_effects
+```
+
+#### Indirectos
+
+```{r fig.cap='Efectos indirectos'}
+summary_simple$total_indirect_effects
+```
+
+### it_criteria
+
+```{r fig.cap='IT Criteria'}
+summary_simple$it_criteria
+```
+
+# Modelización con bootstrapping
+
+*Bootstrapping* para calcular la significatividad de los paths estimados. Habitualmente se trabaja con un 5% (t \> 1.96) lo que implica significatividad al 95%. Podemos cambiar al 10 o al 1 según ámbito. Usar doble *bootstrapping* si hay menos de 4 constructos.
+
+```{r fig.cap=''}
+# Bootstrap the model
+boot_model <- bootstrap_model(seminr_model = simple_model,
+                                        nboot = 5000,
+                                        cores = NULL,
+                                        seed = 123)
+summary_boot <- summary(boot_model)
+```
+
+## Structural paths
+
+```{r fig.cap='Paths estructurales'}
+summary_boot$bootstrapped_paths
+```
+
+## Bootstrapped weights
+
+```{r fig.cap='Pesos'}
+summary_boot$bootstrapped_weights
+```
+
+## Bootstrapped loadings
+
+```{r fig.cap='Cargas'}
+summary_boot$bootstrapped_loadings
+```
+
+## Bootstrapped HTMT
+
+```{r fig.cap='Ratio Hetero Trait - Mono Trait'}
+summary_boot$bootstrapped_HTMT
+```
+
+## Total effects (paths)
+
+```{r fig.cap='Paths totales'}
+summary_boot$bootstrapped_total_paths
+```
+
+## Plot model
+
+```{r fig.cap='Modelo con bootstrapping', fig.width=16, fig.height=9}
+plot(boot_model, theme=seminr_theme_smart())
+```
+
+# Predicción (seminr)
+
+RMSE: root mean squared residuals
+MAE: mean absolute residuals
+
+```{r}
+# Generate the model predictions
+predict_simple_model <- predict_pls(
+  model = simple_model,
+  technique = predict_DA,
+  noFolds = 10,
+  reps = 10)
+
+# Summarize the prediction results
+sum_predict_simple_model <- summary(predict_simple_model)
+
+sum_predict_simple_model
+```
+# Relevancia predictiva (matrixpls)
+
+(con matrixpls -Aldás y Uriel, 2017-)
+
+```{r}
+#===================================
+# Modelo Lavaan y uso de matrixpls para la relevancia predictiva
+#===================================
+modelo.lavaan <- 
+'
+  ICT=~ICT1+ICT2+ICT3+ICT4+ICT5
+  VCC=~VCC1+VCC2+VCC3+VCC4+VCC5+VCC6
+  TRUST=~TRUST1+TRUST2+TRUST3
+  COMMITMENT=~COMMITMENT1+COMMITMENT2+COMMITMENT3+COMMITMENT4
+  ECOSAT=~ECOSAT1+ECOSAT2+ECOSAT3
+  SOCSAT=~SOCSAT1+SOCSAT2+SOCSAT3
+  LOY=~LOY1+LOY2+LOY4
+  
+  ICT~VCC
+  VCC~TRUST+COMMITMENT
+  TRUST~COMMITMENT
+  COMMITMENT~ECOSAT
+  COMMITMENT~SOCSAT
+  TRUST~ECOSAT
+  TRUST~SOCSAT
+  SOCSAT~ECOSAT
+  ECOSAT~LOY
+  SOCSAT~LOY
+'
+#Estimate the model
+#modelización
+modelo.lavaan.out <- matrixpls(cov(select(a.df, c(-22))),modelo.lavaan)
+summary(modelo.lavaan.out)
+#bootstrapping model
+#boot.out <- matrixpls.boot(cov(select(a.df, c(-22))), model = modelo.lavaan, R = 5000)
+#summary(boot.out)  
+#predictions
+predictions.blindfold <- matrixpls.crossvalidate(cov(select(a.df, c(-22))), 
+                                                 model = modelo.lavaan, 
+                                                 blindfold = TRUE, 
+                                                 predictionType = "redundancy", 
+                                                 groups = 7)
+prediction_relevance <- q2(cov(select(a.df, c(-22))), predictions.blindfold, model=modelo.lavaan)
+prediction_relevance
+```
+
+
+# Potencia (matrixpls)
+
+En nuestro ejemplo tenemos una muestra 256 empresas, y la regresión más complicada es la del constructo VCC con 6 regresores por lo que v=256-5-1=250.
+
+
+```{r warning=FALSE, message=FALSE, echo=FALSE}
+#======================================
+# Potencia de las regresiones
+#======================================
+
+# N= (tamaño muestral) 
+# u = número de variables independientes de la mayor regresión
+# v = N -u -1
+# f2 = 0.15 (efecto medio)
+# sig.level es el nivel de significación, normalmente 0.05
+
+pwr.f2.test(u =6, v = 250 , f2 =0.15 , sig.level = 0.05, power = NULL)
+
+#Si quisiéramos saber la muestra necesaria para alcanzar una potencia del 80%
+
+pwr.f2.test(u =6, v = NULL , f2 =0.15 , sig.level = 0.05, power = 0.80)
+```
+
+El resultado indica que nuestro tamaño muestra posee una potencia del _power_, ya que el tamaño muestral máximo para una potencia del 80% sería de _v_ elementos con los parámetros indicados.

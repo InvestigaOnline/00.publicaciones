@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Roberto Gil-Saura" />
+
+
+<title>PLS - Agencias</title>
+
+<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="site_libs/viz-1.8.2/viz.js"></script>
+<link href="site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+<script src="site_libs/grViz-binding-1.0.9/grViz.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<!DOCTYPE html>
+<head><link rel="shortcut icon" href="https://drive.google.com/uc?export=view&id=1JbeH3BFMq-xjBIroa3lcnqhOJS4Ap-RB">&nbsp;</head>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  background-color: #f8f8f8; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">||IO||</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Inicio</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    J.Moreno
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="nodata.html">1</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    L.Vallejo
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Artículo 1</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="vll.art1.a.v02.html">Agencias - Modelo 02</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Artículo 2</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="vll.art2.a.v01.html">Agencias - Modelo 01</a>
+        </li>
+        <li>
+          <a href="vll.art2.h.v01.html">Hoteles - Modelo 01</a>
+        </li>
+        <li>
+          <a href="vll.art2.mga.v01.html">MGA de los dos grupos</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="about.html">
+    <span class="fa fa-question-circle"></span>
+     
+    Acerca de ...
+  </a>
+</li>
+<li>
+  <a href="https://www.investigaonline.com">InvestigaOnline.com</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">PLS - Agencias</h1>
+<h3 class="subtitle">Artículo 1 (versión 2) Artículo final</h3>
+<h4 class="author">Roberto Gil-Saura</h4>
+<h4 class="date">2/4/2021</h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#consideraciones-sobre-la-muestra"><span
+class="toc-section-number">1</span> Consideraciones sobre la
+muestra</a></li>
+<li><a href="#modelización"><span class="toc-section-number">2</span>
+Modelización</a>
+<ul>
+<li><a href="#análisis-de-la-fiabilidad"><span
+class="toc-section-number">2.1</span> Análisis de la fiabilidad</a></li>
+<li><a href="#validez-convergente"><span
+class="toc-section-number">2.2</span> Validez convergente</a>
+<ul>
+<li><a href="#ave-reflectivos"><span
+class="toc-section-number">2.2.1</span> AVE (reflectivos)</a></li>
+<li><a
+href="#análisis-de-las-cargas-reflectivos-o-de-los-pesos-formativos"><span
+class="toc-section-number">2.2.2</span> Análisis de las cargas
+(reflectivos) o de los pesos (formativos)</a></li>
+</ul></li>
+<li><a href="#validez-discriminante"><span
+class="toc-section-number">2.3</span> Validez discriminante</a>
+<ul>
+<li><a href="#cross-loadings"><span
+class="toc-section-number">2.3.1</span> Cross-loadings</a></li>
+<li><a href="#fornell-larcker"><span
+class="toc-section-number">2.3.2</span> Fornell-Larcker</a></li>
+<li><a href="#htmt"><span class="toc-section-number">2.3.3</span>
+HTMT</a></li>
+</ul></li>
+<li><a href="#análisis-del-modelo-estructural"><span
+class="toc-section-number">2.4</span> Análisis del modelo
+estructural</a>
+<ul>
+<li><a href="#colinealidad-formativos"><span
+class="toc-section-number">2.4.1</span> Colinealidad
+(formativos)</a></li>
+<li><a href="#r2"><span class="toc-section-number">2.4.2</span>
+R<sup>2</sup></a></li>
+<li><a href="#f2---effect-sizes"><span
+class="toc-section-number">2.4.3</span> f<sup>2</sup> - effect
+sizes</a></li>
+<li><a href="#efectos"><span class="toc-section-number">2.4.4</span>
+Efectos</a></li>
+<li><a href="#it_criteria"><span class="toc-section-number">2.4.5</span>
+it_criteria</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#modelización-con-bootstrapping"><span
+class="toc-section-number">3</span> Modelización con bootstrapping</a>
+<ul>
+<li><a href="#structural-paths"><span
+class="toc-section-number">3.1</span> Structural paths</a></li>
+<li><a href="#bootstrapped-weights"><span
+class="toc-section-number">3.2</span> Bootstrapped weights</a></li>
+<li><a href="#bootstrapped-loadings"><span
+class="toc-section-number">3.3</span> Bootstrapped loadings</a></li>
+<li><a href="#bootstrapped-htmt"><span
+class="toc-section-number">3.4</span> Bootstrapped HTMT</a></li>
+<li><a href="#total-effects-paths"><span
+class="toc-section-number">3.5</span> Total effects (paths)</a></li>
+<li><a href="#plot-model"><span class="toc-section-number">3.6</span>
+Plot model</a></li>
+</ul></li>
+<li><a href="#predicción-seminr"><span
+class="toc-section-number">4</span> Predicción (seminr)</a></li>
+<li><a href="#relevancia-predictiva-matrixpls"><span
+class="toc-section-number">5</span> Relevancia predictiva
+(matrixpls)</a></li>
+<li><a href="#potencia-matrixpls"><span
+class="toc-section-number">6</span> Potencia (matrixpls)</a></li>
+</ul>
+</div>
+
+<p>NOTA: Modelo completo, pero quitamos LOY3 por carga demasiado baja.
+Ítem inverso</p>
+<style type="text/css">
+.main-container {
+  max-width: 100%;
+  margin-left: 10px;
+  margin-right: 10px;}
+.p {
+  font-size: 0.8em
+}
+</style>
+<div id="consideraciones-sobre-la-muestra" class="section level1"
+number="1">
+<h1><span class="header-section-number">1</span> Consideraciones sobre
+la muestra</h1>
+<p>Recolección de datos a agencias de viaje mediante entrevista personal
+y presencial. La muestra de 256 empresas mediante muestreo de
+conveniencia fue recogida en [ciudades] y los datos más relevantes son
+[descripción mínima de muestra]. El banco de datos, a partir de las
+hipótesis teóricas previamente establecidas, permite establecer un
+modelo de medida y un conjunto de relaciones que conforman un modelo
+estructural con 6 variables latentes o constructos. La muestra es
+suficiente pues permite gran margen sobre las reglas de 10 veces más que
+el mayor número de indicadores sobre constructo y/o también 10 veces
+mayor que el mayor número de relaciones indicando a una variable latente
+(). El objetivo de la investigación es claramente exploratorio y
+predictivo.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>tab1 <span class="ot">&lt;-</span> agencias <span class="sc">%&gt;%</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>     <span class="fu">tab_cells</span>(<span class="fu">mrset</span>(P1_1,P1_2), <span class="fu">mrset_f</span>(P2_),<span class="fu">mrset_f</span>(P3_)) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>     <span class="fu">tab_stat_cases</span>(<span class="at">label=</span><span class="st">&#39;casos&#39;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>     <span class="fu">tab_stat_cpct</span>(<span class="at">label=</span><span class="st">&#39;% casos&#39;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>     <span class="fu">tab_pivot</span>(<span class="at">stat_position=</span><span class="st">&#39;inside_columns&#39;</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">xl_write</span>(tab1, wb, sh)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>tab2 <span class="ot">&lt;-</span> agencias <span class="sc">%&gt;%</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">tab_cols</span>(<span class="fu">total</span>()) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>     <span class="fu">tab_cells</span>(P5) <span class="sc">%&gt;%</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>     <span class="fu">tab_stat_fun</span>(<span class="at">Mean =</span> w_mean, <span class="st">&quot;Sd&quot;</span> <span class="ot">=</span> w_sd) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>     <span class="fu">tab_weight</span>(<span class="dv">1</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>     <span class="fu">tab_cells</span>(P6<span class="sc">*</span><span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>     <span class="fu">tab_stat_fun</span>(<span class="at">Mean =</span> w_mean, <span class="st">&quot;Sd&quot;</span> <span class="ot">=</span> w_sd) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>     <span class="fu">tab_pivot</span>()</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="fu">xl_write</span>(tab2, wb, sh, <span class="at">row=</span><span class="dv">40</span>)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="fu">saveWorkbook</span>(wb, <span class="st">&quot;~/R/r-projects/00.publicaciones/art01.tablas.xlsx&quot;</span>, <span class="at">overwrite =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+</div>
+<div id="modelización" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Modelización</h1>
+<p>Seguidamente mostramos el modelo de medida (outer model) y el modelo
+estructural (inner model), establecidos a partir de las hipótesis
+lanzadas.</p>
+<p>El modelo de medida es el siguiente:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(a.simple_mm)</span></code></pre></div>
+<div class="figure">
+<div id="htmlwidget-a815673443808dba4029" style="width:768px;height:432px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a815673443808dba4029">{"x":{"diagram":"digraph G {\n\n// ----------------------\n// General graph settings\n// ----------------------\ngraph [\ncharset = \"UTF-8\",\nlayout = dot,\nlabel = \"\",\nfontsize = 24,\nfontcolor = black,\nfontname = helvetica,\nrankdir = LR,\nlabelloc = t,\nsplines = TRUE\nbgcolor = transparent\n]\n\n// --------------------\n// The structural model\n// --------------------\nsubgraph sm {\nrankdir = LR;\nnode [\nshape = ellipse,\ncolor = black,\nfillcolor = white,\nstyle = filled,\nfontsize = 12,\nfontcolor = black,\nheight = 1.00833333333333,\nwidth = 1.38958333333333,\nfontname = helvetica,\nfixedsize = true\n]\n\"ICT\" [label=<<B>ICT <\/B>>, shape = hexagon]\n\"VCC\" [label=<<B>VCC <\/B>>, shape = hexagon]\n\"TRUST\" [label=<<B>TRUST <\/B>>, shape = hexagon]\n\"COMMITMENT\" [label=<<B>COMMITMENT <\/B>>, shape = hexagon]\n\"SOCSAT\" [label=<<B>SOCSAT <\/B>>, shape = hexagon]\n\"ECOSAT\" [label=<<B>ECOSAT <\/B>>, shape = hexagon]\n\"LOY\" [label=<<B>LOY <\/B>>, shape = hexagon]\n}\n// ---------------------\n// The measurement model\n// ---------------------\n\nsubgraph construct_1 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = white,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 1.19270833333333,\nfontname = helvetica,\nfixedsize = true\n]\n\"ICT1\" [label = \"ICT1\", shape = box]\n\"ICT2\" [label = \"ICT2\", shape = box]\n\"ICT3\" [label = \"ICT3\", shape = box]\n\"ICT4\" [label = \"ICT4\", shape = box]\n\"ICT5\" [label = \"ICT5\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = normal\narrowtail = none\n]\n\"ICT\" -> {\"ICT1\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"ICT\" -> {\"ICT2\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"ICT\" -> {\"ICT3\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"ICT\" -> {\"ICT4\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"ICT\" -> {\"ICT5\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\n}\nsubgraph construct_2 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = white,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 1.19270833333333,\nfontname = helvetica,\nfixedsize = true\n]\n\"VCC1\" [label = \"VCC1\", shape = box]\n\"VCC2\" [label = \"VCC2\", shape = box]\n\"VCC3\" [label = \"VCC3\", shape = box]\n\"VCC4\" [label = \"VCC4\", shape = box]\n\"VCC5\" [label = \"VCC5\", shape = box]\n\"VCC6\" [label = \"VCC6\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = normal\narrowtail = none\n]\n\"VCC\" -> {\"VCC1\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"VCC\" -> {\"VCC2\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"VCC\" -> {\"VCC3\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"VCC\" -> {\"VCC4\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"VCC\" -> {\"VCC5\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"VCC\" -> {\"VCC6\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\n}\nsubgraph construct_3 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = white,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 1.19270833333333,\nfontname = helvetica,\nfixedsize = true\n]\n\"TRUST1\" [label = \"TRUST1\", shape = box]\n\"TRUST2\" [label = \"TRUST2\", shape = box]\n\"TRUST3\" [label = \"TRUST3\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = normal\narrowtail = none\n]\n\"TRUST\" -> {\"TRUST1\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"TRUST\" -> {\"TRUST2\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"TRUST\" -> {\"TRUST3\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\n}\nsubgraph construct_4 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = white,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 1.19270833333333,\nfontname = helvetica,\nfixedsize = true\n]\n\"COMMITMENT1\" [label = \"COMMITMENT1\", shape = box]\n\"COMMITMENT2\" [label = \"COMMITMENT2\", shape = box]\n\"COMMITMENT3\" [label = \"COMMITMENT3\", shape = box]\n\"COMMITMENT4\" [label = \"COMMITMENT4\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = normal\narrowtail = none\n]\n\"COMMITMENT\" -> {\"COMMITMENT1\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"COMMITMENT\" -> {\"COMMITMENT2\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"COMMITMENT\" -> {\"COMMITMENT3\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"COMMITMENT\" -> {\"COMMITMENT4\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\n}\nsubgraph construct_5 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = white,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 1.19270833333333,\nfontname = helvetica,\nfixedsize = true\n]\n\"SOCSAT1\" [label = \"SOCSAT1\", shape = box]\n\"SOCSAT2\" [label = \"SOCSAT2\", shape = box]\n\"SOCSAT3\" [label = \"SOCSAT3\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = normal\narrowtail = none\n]\n\"SOCSAT\" -> {\"SOCSAT1\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"SOCSAT\" -> {\"SOCSAT2\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"SOCSAT\" -> {\"SOCSAT3\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\n}\nsubgraph construct_6 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = white,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 1.19270833333333,\nfontname = helvetica,\nfixedsize = true\n]\n\"ECOSAT1\" [label = \"ECOSAT1\", shape = box]\n\"ECOSAT2\" [label = \"ECOSAT2\", shape = box]\n\"ECOSAT3\" [label = \"ECOSAT3\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = normal\narrowtail = none\n]\n\"ECOSAT\" -> {\"ECOSAT1\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"ECOSAT\" -> {\"ECOSAT2\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"ECOSAT\" -> {\"ECOSAT3\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\n}\nsubgraph construct_7 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = white,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 1.19270833333333,\nfontname = helvetica,\nfixedsize = true\n]\n\"LOY1\" [label = \"LOY1\", shape = box]\n\"LOY2\" [label = \"LOY2\", shape = box]\n\"LOY4\" [label = \"LOY4\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = normal\narrowtail = none\n]\n\"LOY\" -> {\"LOY1\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"LOY\" -> {\"LOY2\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"LOY\" -> {\"LOY4\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\n}\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<p class="caption">
+Modelo de medida
+</p>
+</div>
+<p>El modelo estructural es el siguiente:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dibujamos el modelo estructural</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(a.simple_sm)</span></code></pre></div>
+<div class="figure">
+<div id="htmlwidget-bff3aa4e3fd2cc56cf06" style="width:768px;height:432px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-bff3aa4e3fd2cc56cf06">{"x":{"diagram":"digraph G {\n\n// ----------------------\n// General graph settings\n// ----------------------\ngraph [\ncharset = \"UTF-8\",\nlayout = dot,\nlabel = \"\",\nfontsize = 24,\nfontcolor = black,\nfontname = helvetica,\nrankdir = LR,\nlabelloc = t,\nsplines = TRUE\nbgcolor = transparent\n]\n\n// --------------------\n// The structural model\n// --------------------\nsubgraph sm {\nrankdir = LR;\nnode [\nshape = ellipse,\ncolor = black,\nfillcolor = white,\nstyle = filled,\nfontsize = 12,\nfontcolor = black,\nheight = 1.00833333333333,\nwidth = 1.38958333333333,\nfontname = helvetica,\nfixedsize = true\n]\n\"ICT\" [label=<<B>ICT <\/B>>, shape = ellipse]\n\"VCC\" [label=<<B>VCC <\/B>>, shape = ellipse]\n\"TRUST\" [label=<<B>TRUST <\/B>>, shape = ellipse]\n\"COMMITMENT\" [label=<<B>COMMITMENT <\/B>>, shape = ellipse]\n\"SOCSAT\" [label=<<B>SOCSAT <\/B>>, shape = ellipse]\n\"ECOSAT\" [label=<<B>ECOSAT <\/B>>, shape = ellipse]\n\"LOY\" [label=<<B>LOY <\/B>>, shape = ellipse]\nedge [\ncolor = black,\nfontsize = 9,\nfontcolor = black,\nfontname = helvetica,\ndir = both,\narrowhead = normal,\narrowtail = none\n]\n\"ICT\" -> {\"VCC\"}[weight = 1, penwidth = 1.5, style = solid, color = black]\n\"VCC\" -> {\"TRUST\"}[weight = 1, penwidth = 1.5, style = solid, color = black]\n\"VCC\" -> {\"COMMITMENT\"}[weight = 1, penwidth = 1.5, style = solid, color = black]\n\"TRUST\" -> {\"COMMITMENT\"}[weight = 1, penwidth = 1.5, style = solid, color = black]\n\"TRUST\" -> {\"SOCSAT\"}[weight = 1, penwidth = 1.5, style = solid, color = black]\n\"COMMITMENT\" -> {\"SOCSAT\"}[weight = 1, penwidth = 1.5, style = solid, color = black]\n\"SOCSAT\" -> {\"ECOSAT\"}[weight = 1, penwidth = 1.5, style = solid, color = black]\n\"ECOSAT\" -> {\"LOY\"}[weight = 1, penwidth = 1.5, style = solid, color = black]\n}\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<p class="caption">
+Modelo estructural
+</p>
+</div>
+<div id="análisis-de-la-fiabilidad" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Análisis de la
+fiabilidad</h2>
+<p>Para el modelo de medida se han considerado constructos reflectivos.
+De este modo, el primer paso debe ser observar el resumen de los
+indicadores de fiabilidad, consistencia interna y validez.</p>
+<p>El resultado del análisis muestra todas las escalas que apoyan las
+variables latentes tienen un <em>Cronbach’s alpha</em> mayor que 0.7,
+completado por una fiabilidad del compuesto <em>rhoC</em> también por
+encima de 0.7. para valores superiores a 0.9<a href="#fn1"
+class="footnote-ref" id="fnref1"><sup>1</sup></a>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarize the model results</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>summary_simple <span class="ot">&lt;-</span> <span class="fu">summary</span>(simple_model)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>summary_simple<span class="sc">$</span>reliability</span></code></pre></div>
+<pre><code>##            alpha  rhoC   AVE  rhoA
+## ICT        0.891 0.922 0.707 0.910
+## VCC        0.829 0.864 0.524 0.877
+## TRUST      0.842 0.905 0.762 0.854
+## COMMITMENT 0.894 0.926 0.758 0.896
+## SOCSAT     0.832 0.898 0.748 0.884
+## ECOSAT     0.789 0.880 0.712 0.796
+## LOY        0.839 0.903 0.757 0.843
+## 
+## Alpha, rhoC, and rhoA should exceed 0.7 while AVE should exceed 0.5</code></pre>
+</div>
+<div id="validez-convergente" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Validez
+convergente</h2>
+<div id="ave-reflectivos" class="section level3" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> AVE
+(reflectivos)</h3>
+<p>Del mismo modo, para evaluar la <em>validez convergente</em> o grado
+con el que una medida correlaciona positivamente con medidas
+alternativas del mismo constructo, usamos el coeficiente <em>AVE
+(average variance extracted)</em> que también cumple con la expectativa
+de estar por encima de 0.5.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>summary_simple<span class="sc">$</span>reliability</span></code></pre></div>
+<pre><code>##            alpha  rhoC   AVE  rhoA
+## ICT        0.891 0.922 0.707 0.910
+## VCC        0.829 0.864 0.524 0.877
+## TRUST      0.842 0.905 0.762 0.854
+## COMMITMENT 0.894 0.926 0.758 0.896
+## SOCSAT     0.832 0.898 0.748 0.884
+## ECOSAT     0.789 0.880 0.712 0.796
+## LOY        0.839 0.903 0.757 0.843
+## 
+## Alpha, rhoC, and rhoA should exceed 0.7 while AVE should exceed 0.5</code></pre>
+<p>Los indicadores son mostrados de forma conjunta en el siguiente
+gráfico.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(summary_simple<span class="sc">$</span>reliability)</span></code></pre></div>
+<div class="figure">
+<img src="vll.art1.a.v02_files/figure-html/unnamed-chunk-7-1.png" alt="Tabla de fiabilidad" width="1536" />
+<p class="caption">
+Tabla de fiabilidad
+</p>
+</div>
+</div>
+<div id="análisis-de-las-cargas-reflectivos-o-de-los-pesos-formativos"
+class="section level3" number="2.2.2">
+<h3><span class="header-section-number">2.2.2</span> Análisis de las
+cargas (reflectivos) o de los pesos (formativos)</h3>
+<p>Por otro lado, es importante analizar también las cargas o
+<em>loadings</em>, indicadores de la fiabilidad del indicador en el
+constructo, y que deberían ser mayores de 0.7 para retener el indicador;
+para aquellas que están entre 0.4 y 0.7 debe ser analizado el
+comportamiento del constructo ante una eliminación del indicador con
+carga baja<a href="#fn2" class="footnote-ref"
+id="fnref2"><sup>2</sup></a>.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>summary_simple<span class="sc">$</span>loadings</span></code></pre></div>
+<pre><code>##               ICT   VCC TRUST COMMITMENT SOCSAT ECOSAT   LOY
+## ICT1        0.906 0.000 0.000      0.000  0.000  0.000 0.000
+## ICT2        0.925 0.000 0.000      0.000  0.000  0.000 0.000
+## ICT3        0.930 0.000 0.000      0.000  0.000  0.000 0.000
+## ICT4        0.761 0.000 0.000      0.000  0.000  0.000 0.000
+## ICT5        0.644 0.000 0.000      0.000  0.000  0.000 0.000
+## VCC1        0.000 0.792 0.000      0.000  0.000  0.000 0.000
+## VCC2        0.000 0.831 0.000      0.000  0.000  0.000 0.000
+## VCC3        0.000 0.634 0.000      0.000  0.000  0.000 0.000
+## VCC4        0.000 0.862 0.000      0.000  0.000  0.000 0.000
+## VCC5        0.000 0.683 0.000      0.000  0.000  0.000 0.000
+## VCC6        0.000 0.465 0.000      0.000  0.000 -0.000 0.000
+## TRUST1      0.000 0.000 0.940      0.000  0.000  0.000 0.000
+## TRUST2      0.000 0.000 0.804      0.000  0.000  0.000 0.000
+## TRUST3      0.000 0.000 0.869      0.000  0.000  0.000 0.000
+## COMMITMENT1 0.000 0.000 0.000      0.858  0.000  0.000 0.000
+## COMMITMENT2 0.000 0.000 0.000      0.888  0.000  0.000 0.000
+## COMMITMENT3 0.000 0.000 0.000      0.851  0.000  0.000 0.000
+## COMMITMENT4 0.000 0.000 0.000      0.885  0.000  0.000 0.000
+## SOCSAT1     0.000 0.000 0.000      0.000  0.748  0.000 0.000
+## SOCSAT2     0.000 0.000 0.000      0.000  0.927  0.000 0.000
+## SOCSAT3     0.000 0.000 0.000      0.000  0.907  0.000 0.000
+## ECOSAT1     0.000 0.000 0.000      0.000  0.000  0.918 0.000
+## ECOSAT2     0.000 0.000 0.000      0.000  0.000  0.895 0.000
+## ECOSAT3     0.000 0.000 0.000      0.000  0.000  0.703 0.000
+## LOY1        0.000 0.000 0.000      0.000  0.000  0.000 0.890
+## LOY2        0.000 0.000 0.000      0.000  0.000  0.000 0.835
+## LOY4        0.000 0.000 0.000      0.000  0.000  0.000 0.883</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">#as.data.frame(rowSums(round(summary_simple$loadings,3)))</span></span></code></pre></div>
+</div>
+</div>
+<div id="validez-discriminante" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> Validez
+discriminante</h2>
+<div id="cross-loadings" class="section level3" number="2.3.1">
+<h3><span class="header-section-number">2.3.1</span> Cross-loadings</h3>
+<p>Para el análisis de la validez discriminante o capacidad de un
+constructo de ser realmente distinto a otros, utilizamos las denominadas
+<em>cross-loadings</em>, que miden esa capacidad del constructo. En la
+tabla adjunta se puede observar en cada indicador carga de forma
+superior en su variable latente, siendo el resto de cargas de menor
+intensidad.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>summary_simple<span class="sc">$</span>validity<span class="sc">$</span>cross_loadings</span></code></pre></div>
+<pre><code>##               ICT   VCC TRUST COMMITMENT SOCSAT ECOSAT   LOY
+## ICT1        0.906 0.451 0.081      0.209  0.235  0.248 0.323
+## ICT2        0.925 0.437 0.122      0.239  0.214  0.250 0.310
+## ICT3        0.930 0.476 0.142      0.280  0.284  0.331 0.344
+## ICT4        0.761 0.357 0.076      0.162  0.176  0.263 0.226
+## ICT5        0.644 0.344 0.084      0.194  0.206  0.055 0.175
+## VCC1        0.424 0.792 0.434      0.546  0.413  0.612 0.648
+## VCC2        0.431 0.831 0.321      0.522  0.378  0.551 0.583
+## VCC3        0.268 0.634 0.079      0.216  0.314  0.109 0.231
+## VCC4        0.411 0.862 0.354      0.513  0.446  0.439 0.549
+## VCC5        0.309 0.683 0.131      0.287  0.227  0.106 0.252
+## VCC6        0.237 0.465 0.132      0.143  0.256 -0.036 0.101
+## TRUST1      0.103 0.362 0.940      0.546  0.544  0.471 0.488
+## TRUST2      0.095 0.305 0.804      0.493  0.392  0.486 0.473
+## TRUST3      0.121 0.335 0.869      0.530  0.488  0.386 0.427
+## COMMITMENT1 0.248 0.560 0.514      0.858  0.475  0.509 0.610
+## COMMITMENT2 0.253 0.572 0.520      0.888  0.505  0.527 0.649
+## COMMITMENT3 0.197 0.393 0.531      0.851  0.467  0.252 0.396
+## COMMITMENT4 0.207 0.450 0.524      0.885  0.518  0.366 0.475
+## SOCSAT1     0.219 0.358 0.229      0.329  0.748  0.452 0.447
+## SOCSAT2     0.222 0.440 0.578      0.524  0.927  0.624 0.629
+## SOCSAT3     0.258 0.445 0.539      0.568  0.907  0.666 0.728
+## ECOSAT1     0.198 0.419 0.507      0.443  0.581  0.918 0.623
+## ECOSAT2     0.211 0.427 0.521      0.479  0.578  0.895 0.622
+## ECOSAT3     0.307 0.450 0.246      0.282  0.568  0.703 0.543
+## LOY1        0.290 0.593 0.489      0.549  0.676  0.663 0.890
+## LOY2        0.281 0.486 0.414      0.499  0.497  0.586 0.835
+## LOY4        0.303 0.538 0.473      0.560  0.679  0.597 0.883</code></pre>
+</div>
+<div id="fornell-larcker" class="section level3" number="2.3.2">
+<h3><span class="header-section-number">2.3.2</span>
+Fornell-Larcker</h3>
+<p>El criterio de Fornell-Larcker, compara la raíz cuadrado del
+<em>AVE</em> con la correlación de las variables latentes. La raíz
+cuadrada del AVE de cada constructo, debería ser más grande que la más
+alta correlación con cualquier otro constructo. Se puede observar en la
+tabla siguiente que el valor en la diagonal principal, es mayor que el
+resto de valores en la parte inferior de la matriz.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>summary_simple<span class="sc">$</span>validity<span class="sc">$</span>fl_criteria</span></code></pre></div>
+<pre><code>##              ICT   VCC TRUST COMMITMENT SOCSAT ECOSAT   LOY
+## ICT        0.841     .     .          .      .      .     .
+## VCC        0.496 0.724     .          .      .      .     .
+## TRUST      0.122 0.383 0.873          .      .      .     .
+## COMMITMENT 0.261 0.570 0.599      0.871      .      .     .
+## SOCSAT     0.268 0.482 0.548      0.565  0.865      .     .
+## ECOSAT     0.281 0.512 0.510      0.480  0.684  0.844     .
+## LOY        0.335 0.622 0.528      0.616  0.712  0.709 0.870
+## 
+## FL Criteria table reports square root of AVE on the diagonal and construct correlations on the lower triangle.</code></pre>
+</div>
+<div id="htmt" class="section level3" number="2.3.3">
+<h3><span class="header-section-number">2.3.3</span> HTMT</h3>
+<p>Por último el HTMT es un ratio que si es mayor que 0.90 indica una
+pérdida de validez discriminante. El ratio Ht - MT nos indica que los
+indicadores que pertenecen a una determinada variables latente están
+correlacionando más como otra variable latente que con la propia.
+HT/MT&gt; 0.85 Clark &amp; Watson, &gt; 0.90 Gold et al. 2001; Teo et
+al. 2008).</p>
+<p>Clark, L. y Watson, D. (1995). Constructing validity: basic issues in
+objective scale development. Psychological Assessment, 7(3):309—319.</p>
+<p>Gold, A. , Malhotra, A. , y Segars, A. (2001). Knowledge management:
+An organizational capabilities perspective. Journal of Management
+Information Systems, 18(1):185—214.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>summary_simple<span class="sc">$</span>validity<span class="sc">$</span>htmt</span></code></pre></div>
+<pre><code>##              ICT   VCC TRUST COMMITMENT SOCSAT ECOSAT LOY
+## ICT            .     .     .          .      .      .   .
+## VCC        0.553     .     .          .      .      .   .
+## TRUST      0.150 0.475     .          .      .      .   .
+## COMMITMENT 0.290 0.591 0.692          .      .      .   .
+## SOCSAT     0.313 0.565 0.614      0.634      .      .   .
+## ECOSAT     0.339 0.584 0.625      0.564  0.832      .   .
+## LOY        0.382 0.640 0.630      0.706  0.828  0.871   .</code></pre>
+</div>
+</div>
+<div id="análisis-del-modelo-estructural" class="section level2"
+number="2.4">
+<h2><span class="header-section-number">2.4</span> Análisis del modelo
+estructural</h2>
+<p>Una vez analizados los constructos desde el punto de vista de su
+composición, debemos analizar el modelo estructural en su conjunto.
+Partiendo de que el objetivo del PLS es la maximización de la varianza
+explicada, las medidas más importantes son la fiabilidad, la validez
+convergente y la validez discriminante del conjunto del modelo.</p>
+<ul>
+<li>R<sup>2</sup>, coeficiente de determinación y/o % de varianza
+explicada</li>
+<li>f<sup>2</sup> y q<sup>2</sup> efecto tamaño</li>
+<li>Q<sup>2</sup>, relevancia predictiva</li>
+</ul>
+<div id="colinealidad-formativos" class="section level3" number="2.4.1">
+<h3><span class="header-section-number">2.4.1</span> Colinealidad
+(formativos)</h3>
+<p>Colinealidad, estudiada con los inner VIF value (inverso de la
+tolerancia). Todos los valores deben ser menores a 0.20 en tolerancia,
+lo que implica ser menores a 5 en VIF. Los valores se dan para cada
+constructo.</p>
+<div id="vif-items" class="section level4" number="2.4.1.1">
+<h4><span class="header-section-number">2.4.1.1</span> vif items</h4>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>summary_simple<span class="sc">$</span>validity<span class="sc">$</span>vif_items</span></code></pre></div>
+<pre><code>## ICT :
+##  ICT1  ICT2  ICT3  ICT4  ICT5 
+## 5.577 7.862 5.074 1.796 1.402 
+## 
+## VCC :
+##  VCC1  VCC2  VCC3  VCC4  VCC5  VCC6 
+## 3.056 3.057 2.747 2.385 2.304 2.660 
+## 
+## TRUST :
+## TRUST1 TRUST2 TRUST3 
+##  3.427  1.825  2.452 
+## 
+## COMMITMENT :
+## COMMITMENT1 COMMITMENT2 COMMITMENT3 COMMITMENT4 
+##       2.966       3.256       3.379       3.742 
+## 
+## SOCSAT :
+## SOCSAT1 SOCSAT2 SOCSAT3 
+##   1.569   2.801   2.431 
+## 
+## ECOSAT :
+## ECOSAT1 ECOSAT2 ECOSAT3 
+##   4.052   3.819   1.232 
+## 
+## LOY :
+##  LOY1  LOY2  LOY4 
+## 2.168 1.734 2.220</code></pre>
+</div>
+<div id="vif-antecedents-formativos" class="section level4"
+number="2.4.1.2">
+<h4><span class="header-section-number">2.4.1.2</span> vif antecedents
+(formativos)</h4>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>summary_simple<span class="sc">$</span>vif_antecedents</span></code></pre></div>
+<pre><code>## VCC :
+## ICT 
+##   . 
+## 
+## TRUST :
+## VCC 
+##   . 
+## 
+## COMMITMENT :
+##   VCC TRUST 
+## 1.172 1.172 
+## 
+## SOCSAT :
+##      TRUST COMMITMENT 
+##       1.56       1.56 
+## 
+## ECOSAT :
+## SOCSAT 
+##      . 
+## 
+## LOY :
+## ECOSAT 
+##      .</code></pre>
+</div>
+<div id="paths" class="section level4" number="2.4.1.3">
+<h4><span class="header-section-number">2.4.1.3</span> Paths</h4>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>summary_simple<span class="sc">$</span>paths</span></code></pre></div>
+<pre><code>##              VCC TRUST COMMITMENT SOCSAT ECOSAT   LOY
+## R^2        0.246 0.147      0.495  0.387  0.468 0.503
+## AdjR^2     0.243 0.144      0.491  0.382  0.466 0.501
+## ICT        0.496     .          .      .      .     .
+## VCC            . 0.383      0.399      .      .     .
+## TRUST          .     .      0.446  0.327      .     .
+## COMMITMENT     .     .          .  0.369      .     .
+## SOCSAT         .     .          .      .  0.684     .
+## ECOSAT         .     .          .      .      . 0.709</code></pre>
+</div>
+</div>
+<div id="r2" class="section level3" number="2.4.2">
+<h3><span class="header-section-number">2.4.2</span> R<sup>2</sup></h3>
+<p>Buscar R<sup>2</sup> mayores de 0.7, aunque valores alrededor de 0.25
+sean aceptados según ámbitos; (sustancial mayor que 0.75, moderado
+alrededor de 0.5 y débil, 0.25). Usar R<sup>2</sup><sub>adj</sub> para
+comparar modelos con diferente número de constructos y/u
+observaciones.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>simple_model<span class="sc">$</span>rSquared</span></code></pre></div>
+<pre><code>##              VCC     TRUST COMMITMENT    SOCSAT    ECOSAT       LOY
+## Rsq    0.2457372 0.1469308  0.4950779 0.3873394 0.4676629 0.5029493
+## AdjRsq 0.2427677 0.1435722  0.4910865 0.3824963 0.4655671 0.5009924</code></pre>
+</div>
+<div id="f2---effect-sizes" class="section level3" number="2.4.3">
+<h3><span class="header-section-number">2.4.3</span> f<sup>2</sup> -
+effect sizes</h3>
+<p>El f<sup>2</sup> permite evaluar la contribución de cada constructo
+exógeno a la R<sup>2</sup> de un constructo endógeno. Los valores de
+0.02, 0.15 y 0.35 indican un efecto pequeño, mediano o grande sobre el
+constructo endógeno.</p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>summary_simple<span class="sc">$</span>fSquare</span></code></pre></div>
+<pre><code>##              ICT   VCC TRUST COMMITMENT SOCSAT ECOSAT   LOY
+## ICT        0.000 0.326 0.000      0.000  0.000  0.000 0.000
+## VCC        0.000 0.000 0.172      0.269  0.000  0.000 0.000
+## TRUST      0.000 0.000 0.000      0.329  0.115  0.000 0.000
+## COMMITMENT 0.000 0.000 0.000      0.000  0.137  0.000 0.000
+## SOCSAT     0.000 0.000 0.000      0.000  0.000  0.879 0.000
+## ECOSAT     0.000 0.000 0.000      0.000  0.000  0.000 1.012
+## LOY        0.000 0.000 0.000      0.000  0.000  0.000 0.000</code></pre>
+</div>
+<div id="efectos" class="section level3" number="2.4.4">
+<h3><span class="header-section-number">2.4.4</span> Efectos</h3>
+<div id="totales" class="section level4" number="2.4.4.1">
+<h4><span class="header-section-number">2.4.4.1</span> Totales</h4>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>summary_simple<span class="sc">$</span>total_effects</span></code></pre></div>
+<pre><code>##              ICT   VCC TRUST COMMITMENT SOCSAT ECOSAT   LOY
+## ICT        0.000 0.496 0.190      0.283  0.166  0.114 0.081
+## VCC        0.000 0.000 0.383      0.570  0.336  0.229 0.163
+## TRUST      0.000 0.000 0.000      0.446  0.492  0.336 0.238
+## COMMITMENT 0.000 0.000 0.000      0.000  0.369  0.252 0.179
+## SOCSAT     0.000 0.000 0.000      0.000  0.000  0.684 0.485
+## ECOSAT     0.000 0.000 0.000      0.000  0.000  0.000 0.709
+## LOY        0.000 0.000 0.000      0.000  0.000  0.000 0.000</code></pre>
+</div>
+<div id="indirectos" class="section level4" number="2.4.4.2">
+<h4><span class="header-section-number">2.4.4.2</span> Indirectos</h4>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>summary_simple<span class="sc">$</span>total_indirect_effects</span></code></pre></div>
+<pre><code>##              ICT   VCC TRUST COMMITMENT SOCSAT ECOSAT   LOY
+## ICT        0.000 0.000 0.190      0.283  0.166  0.114 0.081
+## VCC        0.000 0.000 0.000      0.171  0.336  0.229 0.163
+## TRUST      0.000 0.000 0.000      0.000  0.164  0.336 0.238
+## COMMITMENT 0.000 0.000 0.000      0.000  0.000  0.252 0.179
+## SOCSAT     0.000 0.000 0.000      0.000  0.000  0.000 0.485
+## ECOSAT     0.000 0.000 0.000      0.000  0.000  0.000 0.000
+## LOY        0.000 0.000 0.000      0.000  0.000  0.000 0.000</code></pre>
+</div>
+</div>
+<div id="it_criteria" class="section level3" number="2.4.5">
+<h3><span class="header-section-number">2.4.5</span> it_criteria</h3>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>summary_simple<span class="sc">$</span>it_criteria</span></code></pre></div>
+<pre><code>##         VCC   TRUST COMMITMENT   SOCSAT   ECOSAT      LOY
+## AIC -69.198 -37.684   -169.940 -120.428 -158.404 -175.962
+## BIC -62.107 -30.594   -159.304 -109.792 -151.314 -168.872</code></pre>
+</div>
+</div>
+</div>
+<div id="modelización-con-bootstrapping" class="section level1"
+number="3">
+<h1><span class="header-section-number">3</span> Modelización con
+bootstrapping</h1>
+<p><em>Bootstrapping</em> para calcular la significatividad de los paths
+estimados. Habitualmente se trabaja con un 5% (t &gt; 1.96) lo que
+implica significatividad al 95%. Podemos cambiar al 10 o al 1 según
+ámbito. Usar doble <em>bootstrapping</em> si hay menos de 4
+constructos.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Bootstrap the model</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>boot_model <span class="ot">&lt;-</span> <span class="fu">bootstrap_model</span>(<span class="at">seminr_model =</span> simple_model,</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">nboot =</span> <span class="dv">5000</span>,</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">cores =</span> <span class="cn">NULL</span>,</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>                                        <span class="at">seed =</span> <span class="dv">123</span>)</span></code></pre></div>
+<pre><code>## Bootstrapping model using seminr...</code></pre>
+<pre><code>## SEMinR Model successfully bootstrapped</code></pre>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>summary_boot <span class="ot">&lt;-</span> <span class="fu">summary</span>(boot_model)</span></code></pre></div>
+<div id="structural-paths" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Structural paths</h2>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>summary_boot<span class="sc">$</span>bootstrapped_paths</span></code></pre></div>
+<pre><code>##                        Original Est. Bootstrap Mean Bootstrap SD T Stat. 2.5% CI 97.5% CI
+## ICT  -&gt;  VCC                   0.496          0.500        0.055   8.946   0.386    0.601
+## VCC  -&gt;  TRUST                 0.383          0.386        0.056   6.881   0.271    0.488
+## VCC  -&gt;  COMMITMENT            0.399          0.401        0.048   8.288   0.303    0.490
+## TRUST  -&gt;  COMMITMENT          0.446          0.445        0.054   8.291   0.339    0.549
+## TRUST  -&gt;  SOCSAT              0.327          0.326        0.076   4.300   0.177    0.475
+## COMMITMENT  -&gt;  SOCSAT         0.369          0.368        0.082   4.516   0.205    0.524
+## SOCSAT  -&gt;  ECOSAT             0.684          0.685        0.043  15.887   0.593    0.763
+## ECOSAT  -&gt;  LOY                0.709          0.711        0.046  15.422   0.611    0.791</code></pre>
+</div>
+<div id="bootstrapped-weights" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Bootstrapped
+weights</h2>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>summary_boot<span class="sc">$</span>bootstrapped_weights</span></code></pre></div>
+<pre><code>##                             Original Est. Bootstrap Mean Bootstrap SD T Stat. 2.5% CI 97.5% CI
+## ICT1  -&gt;  ICT                       0.258          0.258        0.015  16.782   0.229    0.289
+## ICT2  -&gt;  ICT                       0.250          0.249        0.016  15.736   0.217    0.279
+## ICT3  -&gt;  ICT                       0.272          0.272        0.018  15.331   0.241    0.310
+## ICT4  -&gt;  ICT                       0.204          0.204        0.029   7.019   0.146    0.259
+## ICT5  -&gt;  ICT                       0.197          0.196        0.026   7.552   0.144    0.246
+## VCC1  -&gt;  VCC                       0.318          0.318        0.024  13.282   0.276    0.370
+## VCC2  -&gt;  VCC                       0.293          0.292        0.020  14.538   0.255    0.334
+## VCC3  -&gt;  VCC                       0.132          0.130        0.028   4.731   0.072    0.180
+## VCC4  -&gt;  VCC                       0.292          0.292        0.016  18.191   0.262    0.325
+## VCC5  -&gt;  VCC                       0.169          0.170        0.024   7.145   0.120    0.213
+## VCC6  -&gt;  VCC                       0.115          0.113        0.027   4.281   0.056    0.161
+## TRUST1  -&gt;  TRUST                   0.415          0.414        0.017  25.124   0.382    0.448
+## TRUST2  -&gt;  TRUST                   0.340          0.343        0.025  13.545   0.295    0.395
+## TRUST3  -&gt;  TRUST                   0.387          0.386        0.019  19.903   0.346    0.423
+## COMMITMENT1  -&gt;  COMMITMENT         0.293          0.293        0.015  18.878   0.265    0.326
+## COMMITMENT2  -&gt;  COMMITMENT         0.302          0.302        0.015  19.738   0.274    0.334
+## COMMITMENT3  -&gt;  COMMITMENT         0.267          0.267        0.014  19.065   0.240    0.295
+## COMMITMENT4  -&gt;  COMMITMENT         0.286          0.286        0.013  21.680   0.259    0.311
+## SOCSAT1  -&gt;  SOCSAT                 0.267          0.267        0.020  13.345   0.226    0.305
+## SOCSAT2  -&gt;  SOCSAT                 0.428          0.427        0.016  27.507   0.397    0.459
+## SOCSAT3  -&gt;  SOCSAT                 0.445          0.446        0.016  28.026   0.417    0.479
+## ECOSAT1  -&gt;  ECOSAT                 0.407          0.408        0.016  25.136   0.379    0.443
+## ECOSAT2  -&gt;  ECOSAT                 0.406          0.406        0.016  25.850   0.378    0.439
+## ECOSAT3  -&gt;  ECOSAT                 0.375          0.374        0.022  17.077   0.328    0.415
+## LOY1  -&gt;  LOY                       0.412          0.412        0.019  21.503   0.378    0.452
+## LOY2  -&gt;  LOY                       0.365          0.365        0.018  19.865   0.329    0.401
+## LOY4  -&gt;  LOY                       0.372          0.371        0.018  20.682   0.335    0.407</code></pre>
+</div>
+<div id="bootstrapped-loadings" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> Bootstrapped
+loadings</h2>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>summary_boot<span class="sc">$</span>bootstrapped_loadings</span></code></pre></div>
+<pre><code>##                             Original Est. Bootstrap Mean Bootstrap SD T Stat. 2.5% CI 97.5% CI
+## ICT1  -&gt;  ICT                       0.906          0.906        0.016  55.603   0.871    0.934
+## ICT2  -&gt;  ICT                       0.925          0.925        0.015  62.107   0.890    0.949
+## ICT3  -&gt;  ICT                       0.930          0.930        0.013  72.676   0.902    0.952
+## ICT4  -&gt;  ICT                       0.761          0.760        0.049  15.389   0.652    0.843
+## ICT5  -&gt;  ICT                       0.644          0.643        0.047  13.674   0.543    0.727
+## VCC1  -&gt;  VCC                       0.792          0.792        0.030  26.373   0.727    0.846
+## VCC2  -&gt;  VCC                       0.831          0.830        0.034  24.507   0.756    0.890
+## VCC3  -&gt;  VCC                       0.634          0.628        0.060  10.551   0.496    0.728
+## VCC4  -&gt;  VCC                       0.862          0.861        0.019  45.454   0.820    0.893
+## VCC5  -&gt;  VCC                       0.683          0.680        0.053  12.834   0.567    0.774
+## VCC6  -&gt;  VCC                       0.465          0.460        0.075   6.234   0.298    0.590
+## TRUST1  -&gt;  TRUST                   0.940          0.940        0.010  90.076   0.917    0.957
+## TRUST2  -&gt;  TRUST                   0.804          0.806        0.027  29.875   0.751    0.855
+## TRUST3  -&gt;  TRUST                   0.869          0.866        0.025  34.540   0.810    0.907
+## COMMITMENT1  -&gt;  COMMITMENT         0.858          0.858        0.022  38.194   0.809    0.897
+## COMMITMENT2  -&gt;  COMMITMENT         0.888          0.888        0.016  54.259   0.852    0.916
+## COMMITMENT3  -&gt;  COMMITMENT         0.851          0.851        0.024  35.067   0.799    0.894
+## COMMITMENT4  -&gt;  COMMITMENT         0.885          0.884        0.020  44.333   0.840    0.918
+## SOCSAT1  -&gt;  SOCSAT                 0.748          0.746        0.038  19.584   0.665    0.815
+## SOCSAT2  -&gt;  SOCSAT                 0.927          0.927        0.010  88.877   0.906    0.946
+## SOCSAT3  -&gt;  SOCSAT                 0.907          0.907        0.013  67.826   0.878    0.930
+## ECOSAT1  -&gt;  ECOSAT                 0.918          0.918        0.013  73.090   0.893    0.941
+## ECOSAT2  -&gt;  ECOSAT                 0.895          0.895        0.019  47.352   0.852    0.926
+## ECOSAT3  -&gt;  ECOSAT                 0.703          0.700        0.043  16.366   0.609    0.774
+## LOY1  -&gt;  LOY                       0.890          0.891        0.014  64.812   0.862    0.915
+## LOY2  -&gt;  LOY                       0.835          0.835        0.031  27.128   0.767    0.887
+## LOY4  -&gt;  LOY                       0.883          0.883        0.018  48.343   0.844    0.914</code></pre>
+</div>
+<div id="bootstrapped-htmt" class="section level2" number="3.4">
+<h2><span class="header-section-number">3.4</span> Bootstrapped
+HTMT</h2>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>summary_boot<span class="sc">$</span>bootstrapped_HTMT</span></code></pre></div>
+<pre><code>##                        Original Est. Bootstrap Mean Bootstrap SD T Stat. 2.5% CI 97.5% CI
+## ICT  -&gt;  VCC                   0.553          0.552        0.065   8.449   0.416    0.672
+## ICT  -&gt;  TRUST                 0.150          0.164        0.057   2.640   0.071    0.288
+## ICT  -&gt;  COMMITMENT            0.290          0.291        0.067   4.358   0.160    0.421
+## ICT  -&gt;  SOCSAT                0.313          0.314        0.075   4.166   0.162    0.456
+## ICT  -&gt;  ECOSAT                0.339          0.345        0.070   4.834   0.202    0.476
+## ICT  -&gt;  LOY                   0.382          0.385        0.072   5.310   0.238    0.523
+## VCC  -&gt;  TRUST                 0.475          0.474        0.052   9.200   0.369    0.571
+## VCC  -&gt;  COMMITMENT            0.591          0.591        0.044  13.301   0.502    0.677
+## VCC  -&gt;  SOCSAT                0.565          0.563        0.067   8.432   0.424    0.685
+## VCC  -&gt;  ECOSAT                0.584          0.599        0.044  13.382   0.516    0.687
+## VCC  -&gt;  LOY                   0.640          0.644        0.052  12.315   0.540    0.745
+## TRUST  -&gt;  COMMITMENT          0.692          0.690        0.053  12.984   0.581    0.789
+## TRUST  -&gt;  SOCSAT              0.614          0.616        0.061  10.066   0.496    0.733
+## TRUST  -&gt;  ECOSAT              0.625          0.625        0.074   8.495   0.478    0.761
+## TRUST  -&gt;  LOY                 0.630          0.629        0.070   9.064   0.487    0.756
+## COMMITMENT  -&gt;  SOCSAT         0.634          0.632        0.068   9.262   0.489    0.760
+## COMMITMENT  -&gt;  ECOSAT         0.564          0.564        0.068   8.291   0.427    0.694
+## COMMITMENT  -&gt;  LOY            0.706          0.705        0.049  14.295   0.602    0.795
+## SOCSAT  -&gt;  ECOSAT             0.832          0.834        0.050  16.699   0.727    0.921
+## SOCSAT  -&gt;  LOY                0.828          0.827        0.047  17.588   0.726    0.911
+## ECOSAT  -&gt;  LOY                0.871          0.873        0.055  15.743   0.751    0.965</code></pre>
+</div>
+<div id="total-effects-paths" class="section level2" number="3.5">
+<h2><span class="header-section-number">3.5</span> Total effects
+(paths)</h2>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>summary_boot<span class="sc">$</span>bootstrapped_total_paths</span></code></pre></div>
+<pre><code>##                        Original Est. Bootstrap Mean Bootstrap SD T Stat. 2.5% CI 97.5% CI
+## ICT  -&gt;  VCC                   0.496          0.500        0.055   8.946   0.386    0.601
+## ICT  -&gt;  TRUST                 0.190          0.193        0.037   5.134   0.121    0.266
+## ICT  -&gt;  COMMITMENT            0.283          0.287        0.038   7.449   0.210    0.360
+## ICT  -&gt;  SOCSAT                0.166          0.169        0.030   5.491   0.112    0.232
+## ICT  -&gt;  ECOSAT                0.114          0.116        0.024   4.697   0.072    0.168
+## ICT  -&gt;  LOY                   0.081          0.083        0.020   4.005   0.048    0.127
+## VCC  -&gt;  TRUST                 0.383          0.386        0.056   6.881   0.271    0.488
+## VCC  -&gt;  COMMITMENT            0.570          0.573        0.037  15.431   0.496    0.642
+## VCC  -&gt;  SOCSAT                0.336          0.339        0.046   7.364   0.248    0.427
+## VCC  -&gt;  ECOSAT                0.229          0.233        0.039   5.913   0.157    0.311
+## VCC  -&gt;  LOY                   0.163          0.166        0.034   4.763   0.102    0.237
+## TRUST  -&gt;  COMMITMENT          0.446          0.445        0.054   8.291   0.339    0.549
+## TRUST  -&gt;  SOCSAT              0.492          0.489        0.060   8.218   0.368    0.605
+## TRUST  -&gt;  ECOSAT              0.336          0.336        0.049   6.863   0.242    0.434
+## TRUST  -&gt;  LOY                 0.238          0.240        0.044   5.466   0.161    0.330
+## COMMITMENT  -&gt;  SOCSAT         0.369          0.368        0.082   4.516   0.205    0.524
+## COMMITMENT  -&gt;  ECOSAT         0.252          0.253        0.060   4.229   0.136    0.369
+## COMMITMENT  -&gt;  LOY            0.179          0.181        0.047   3.764   0.091    0.277
+## SOCSAT  -&gt;  ECOSAT             0.684          0.685        0.043  15.887   0.593    0.763
+## SOCSAT  -&gt;  LOY                0.485          0.489        0.058   8.346   0.369    0.594
+## ECOSAT  -&gt;  LOY                0.709          0.711        0.046  15.422   0.611    0.791</code></pre>
+</div>
+<div id="plot-model" class="section level2" number="3.6">
+<h2><span class="header-section-number">3.6</span> Plot model</h2>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(boot_model, <span class="at">theme=</span><span class="fu">seminr_theme_smart</span>())</span></code></pre></div>
+<div class="figure">
+<div id="htmlwidget-5435a0e1e22a37fe6f28" style="width:1536px;height:864px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5435a0e1e22a37fe6f28">{"x":{"diagram":"digraph G {\n\n// ----------------------\n// General graph settings\n// ----------------------\ngraph [\ncharset = \"UTF-8\",\nlayout = dot,\nlabel = \"\",\nfontsize = 24,\nfontcolor = black,\nfontname = helvetica,\nrankdir = LR,\nlabelloc = t,\nsplines = TRUE\nbgcolor = transparent\n]\n\n// --------------------\n// The structural model\n// --------------------\nsubgraph sm {\nrankdir = LR;\nnode [\nshape = ellipse,\ncolor = black,\nfillcolor = lightcyan,\nstyle = filled,\nfontsize = 12,\nfontcolor = black,\nheight = 1.00833333333333,\nwidth = 1.38958333333333,\nfontname = helvetica,\nfixedsize = true\n]\n\"ICT\" [label=<<B>ICT <\/B>>, shape = hexagon]\n\"VCC\" [label=<<B>VCC <\/B><BR /><FONT POINT-SIZE=\"10\">r² = 0.246<\/FONT>>, shape = hexagon]\n\"TRUST\" [label=<<B>TRUST <\/B><BR /><FONT POINT-SIZE=\"10\">r² = 0.147<\/FONT>>, shape = hexagon]\n\"COMMITMENT\" [label=<<B>COMMITMENT <\/B><BR /><FONT POINT-SIZE=\"10\">r² = 0.495<\/FONT>>, shape = hexagon]\n\"SOCSAT\" [label=<<B>SOCSAT <\/B><BR /><FONT POINT-SIZE=\"10\">r² = 0.387<\/FONT>>, shape = hexagon]\n\"ECOSAT\" [label=<<B>ECOSAT <\/B><BR /><FONT POINT-SIZE=\"10\">r² = 0.468<\/FONT>>, shape = hexagon]\n\"LOY\" [label=<<B>LOY <\/B><BR /><FONT POINT-SIZE=\"10\">r² = 0.503<\/FONT>>, shape = hexagon]\nedge [\ncolor = black,\nfontsize = 9,\nfontcolor = black,\nfontname = helvetica,\ndir = both,\narrowhead = normal,\narrowtail = none\n]\n\"ICT\" -> {\"VCC\"}[weight = 1, label = < 𝛽 = 0.496***<BR /><FONT POINT-SIZE=\"7\">95% CI [0.386, 0.601]   <\/FONT> >, penwidth = 2.98, style = solid, color = black]\n\"VCC\" -> {\"TRUST\"}[weight = 1, label = < 𝛽 = 0.383***<BR /><FONT POINT-SIZE=\"7\">95% CI [0.271, 0.488]   <\/FONT> >, penwidth = 2.415, style = solid, color = black]\n\"VCC\" -> {\"COMMITMENT\"}[weight = 1, label = < 𝛽 = 0.399***<BR /><FONT POINT-SIZE=\"7\">95% CI [0.303, 0.49]   <\/FONT> >, penwidth = 2.495, style = solid, color = black]\n\"TRUST\" -> {\"COMMITMENT\"}[weight = 1, label = < 𝛽 = 0.446***<BR /><FONT POINT-SIZE=\"7\">95% CI [0.339, 0.549]   <\/FONT> >, penwidth = 2.73, style = solid, color = black]\n\"TRUST\" -> {\"SOCSAT\"}[weight = 1, label = < 𝛽 = 0.327***<BR /><FONT POINT-SIZE=\"7\">95% CI [0.177, 0.475]   <\/FONT> >, penwidth = 2.135, style = solid, color = black]\n\"COMMITMENT\" -> {\"SOCSAT\"}[weight = 1, label = < 𝛽 = 0.369***<BR /><FONT POINT-SIZE=\"7\">95% CI [0.205, 0.524]   <\/FONT> >, penwidth = 2.345, style = solid, color = black]\n\"SOCSAT\" -> {\"ECOSAT\"}[weight = 1, label = < 𝛽 = 0.684***<BR /><FONT POINT-SIZE=\"7\">95% CI [0.593, 0.763]   <\/FONT> >, penwidth = 3.92, style = solid, color = black]\n\"ECOSAT\" -> {\"LOY\"}[weight = 1, label = < 𝛽 = 0.709***<BR /><FONT POINT-SIZE=\"7\">95% CI [0.611, 0.791]   <\/FONT> >, penwidth = 4.045, style = solid, color = black]\n}\n// ---------------------\n// The measurement model\n// ---------------------\n\nsubgraph construct_1 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = lightgoldenrodyellow,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 1.19270833333333,\nfontname = helvetica,\nfixedsize = true\n]\n\"ICT1\" [label = \"ICT1\", shape = box]\n\"ICT2\" [label = \"ICT2\", shape = box]\n\"ICT3\" [label = \"ICT3\", shape = box]\n\"ICT4\" [label = \"ICT4\", shape = box]\n\"ICT5\" [label = \"ICT5\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"ICT1\" -> {\"ICT\"}[weight = 1000, label = < 𝜆 = 0.906*** >, penwidth = 3.218, style = solid, color = dimgrey]\n\"ICT2\" -> {\"ICT\"}[weight = 1000, label = < 𝜆 = 0.925*** >, penwidth = 3.275, style = solid, color = dimgrey]\n\"ICT3\" -> {\"ICT\"}[weight = 1000, label = < 𝜆 = 0.93*** >, penwidth = 3.29, style = solid, color = dimgrey]\n\"ICT4\" -> {\"ICT\"}[weight = 1000, label = < 𝜆 = 0.761*** >, penwidth = 2.783, style = solid, color = dimgrey]\n\"ICT5\" -> {\"ICT\"}[weight = 1000, label = < 𝜆 = 0.644*** >, penwidth = 2.432, style = solid, color = dimgrey]\n\n}\nsubgraph construct_2 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = lightgoldenrodyellow,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 1.19270833333333,\nfontname = helvetica,\nfixedsize = true\n]\n\"VCC1\" [label = \"VCC1\", shape = box]\n\"VCC2\" [label = \"VCC2\", shape = box]\n\"VCC3\" [label = \"VCC3\", shape = box]\n\"VCC4\" [label = \"VCC4\", shape = box]\n\"VCC5\" [label = \"VCC5\", shape = box]\n\"VCC6\" [label = \"VCC6\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"VCC1\" -> {\"VCC\"}[weight = 1000, label = < 𝜆 = 0.792*** >, penwidth = 2.876, style = solid, color = dimgrey]\n\"VCC2\" -> {\"VCC\"}[weight = 1000, label = < 𝜆 = 0.831*** >, penwidth = 2.993, style = solid, color = dimgrey]\n\"VCC3\" -> {\"VCC\"}[weight = 1000, label = < 𝜆 = 0.634*** >, penwidth = 2.402, style = solid, color = dimgrey]\n\"VCC4\" -> {\"VCC\"}[weight = 1000, label = < 𝜆 = 0.862*** >, penwidth = 3.086, style = solid, color = dimgrey]\n\"VCC5\" -> {\"VCC\"}[weight = 1000, label = < 𝜆 = 0.683*** >, penwidth = 2.549, style = solid, color = dimgrey]\n\"VCC6\" -> {\"VCC\"}[weight = 1000, label = < 𝜆 = 0.465*** >, penwidth = 1.895, style = solid, color = dimgrey]\n\n}\nsubgraph construct_3 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = lightgoldenrodyellow,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 1.19270833333333,\nfontname = helvetica,\nfixedsize = true\n]\n\"TRUST1\" [label = \"TRUST1\", shape = box]\n\"TRUST2\" [label = \"TRUST2\", shape = box]\n\"TRUST3\" [label = \"TRUST3\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"TRUST1\" -> {\"TRUST\"}[weight = 1000, label = < 𝜆 = 0.94*** >, penwidth = 3.32, style = solid, color = dimgrey]\n\"TRUST2\" -> {\"TRUST\"}[weight = 1000, label = < 𝜆 = 0.804*** >, penwidth = 2.912, style = solid, color = dimgrey]\n\"TRUST3\" -> {\"TRUST\"}[weight = 1000, label = < 𝜆 = 0.869*** >, penwidth = 3.107, style = solid, color = dimgrey]\n\n}\nsubgraph construct_4 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = lightgoldenrodyellow,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 1.19270833333333,\nfontname = helvetica,\nfixedsize = true\n]\n\"COMMITMENT1\" [label = \"COMMITMENT1\", shape = box]\n\"COMMITMENT2\" [label = \"COMMITMENT2\", shape = box]\n\"COMMITMENT3\" [label = \"COMMITMENT3\", shape = box]\n\"COMMITMENT4\" [label = \"COMMITMENT4\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"COMMITMENT1\" -> {\"COMMITMENT\"}[weight = 1000, label = < 𝜆 = 0.858*** >, penwidth = 3.074, style = solid, color = dimgrey]\n\"COMMITMENT2\" -> {\"COMMITMENT\"}[weight = 1000, label = < 𝜆 = 0.888*** >, penwidth = 3.164, style = solid, color = dimgrey]\n\"COMMITMENT3\" -> {\"COMMITMENT\"}[weight = 1000, label = < 𝜆 = 0.851*** >, penwidth = 3.053, style = solid, color = dimgrey]\n\"COMMITMENT4\" -> {\"COMMITMENT\"}[weight = 1000, label = < 𝜆 = 0.885*** >, penwidth = 3.155, style = solid, color = dimgrey]\n\n}\nsubgraph construct_5 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = lightgoldenrodyellow,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 1.19270833333333,\nfontname = helvetica,\nfixedsize = true\n]\n\"SOCSAT1\" [label = \"SOCSAT1\", shape = box]\n\"SOCSAT2\" [label = \"SOCSAT2\", shape = box]\n\"SOCSAT3\" [label = \"SOCSAT3\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"SOCSAT1\" -> {\"SOCSAT\"}[weight = 1000, label = < 𝜆 = 0.748*** >, penwidth = 2.744, style = solid, color = dimgrey]\n\"SOCSAT2\" -> {\"SOCSAT\"}[weight = 1000, label = < 𝜆 = 0.927*** >, penwidth = 3.281, style = solid, color = dimgrey]\n\"SOCSAT3\" -> {\"SOCSAT\"}[weight = 1000, label = < 𝜆 = 0.907*** >, penwidth = 3.221, style = solid, color = dimgrey]\n\n}\nsubgraph construct_6 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = lightgoldenrodyellow,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 1.19270833333333,\nfontname = helvetica,\nfixedsize = true\n]\n\"ECOSAT1\" [label = \"ECOSAT1\", shape = box]\n\"ECOSAT2\" [label = \"ECOSAT2\", shape = box]\n\"ECOSAT3\" [label = \"ECOSAT3\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"ECOSAT1\" -> {\"ECOSAT\"}[weight = 1000, label = < 𝜆 = 0.918*** >, penwidth = 3.254, style = solid, color = dimgrey]\n\"ECOSAT2\" -> {\"ECOSAT\"}[weight = 1000, label = < 𝜆 = 0.895*** >, penwidth = 3.185, style = solid, color = dimgrey]\n\"ECOSAT3\" -> {\"ECOSAT\"}[weight = 1000, label = < 𝜆 = 0.703*** >, penwidth = 2.609, style = solid, color = dimgrey]\n\n}\nsubgraph construct_7 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = lightgoldenrodyellow,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 1.19270833333333,\nfontname = helvetica,\nfixedsize = true\n]\n\"LOY1\" [label = \"LOY1\", shape = box]\n\"LOY2\" [label = \"LOY2\", shape = box]\n\"LOY4\" [label = \"LOY4\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = normal\narrowtail = none\n]\n\"LOY\" -> {\"LOY1\"}[weight = 1000, label = < 𝜆 = 0.89*** >, penwidth = 3.17, style = solid, color = dimgrey]\n\"LOY\" -> {\"LOY2\"}[weight = 1000, label = < 𝜆 = 0.835*** >, penwidth = 3.005, style = solid, color = dimgrey]\n\"LOY\" -> {\"LOY4\"}[weight = 1000, label = < 𝜆 = 0.883*** >, penwidth = 3.149, style = solid, color = dimgrey]\n\n}\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<p class="caption">
+Modelo con bootstrapping
+</p>
+</div>
+</div>
+</div>
+<div id="predicción-seminr" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Predicción
+(seminr)</h1>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate the model predictions</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>predict_simple_model <span class="ot">&lt;-</span> <span class="fu">predict_pls</span>(</span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">model =</span> simple_model,</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">technique =</span> predict_DA,</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">noFolds =</span> <span class="dv">10</span>,</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">reps =</span> <span class="dv">10</span>)</span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Summarize the prediction results</span></span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(predict_simple_model)</span></code></pre></div>
+<pre><code>## 
+## PLS in-sample metrics:
+##       VCC1  VCC2  VCC3  VCC4  VCC5  VCC6 TRUST1 TRUST2 TRUST3 COMMITMENT1 COMMITMENT2 COMMITMENT3 COMMITMENT4 SOCSAT1 SOCSAT2 SOCSAT3 ECOSAT1 ECOSAT2 ECOSAT3  LOY1  LOY2  LOY4
+## RMSE 1.681 1.443 1.487 1.350 1.152 1.328  0.767  1.239  0.736       1.088       0.865       0.841       0.874   0.914   0.734   0.899   1.239   1.232   1.147 0.860 1.254 0.930
+## MAE  1.433 1.168 1.200 1.082 0.914 1.103  0.580  1.025  0.566       0.861       0.709       0.613       0.653   0.707   0.557   0.682   0.993   0.988   0.801 0.670 0.978 0.694
+## 
+## PLS out-of-sample metrics:
+##       VCC1  VCC2  VCC3  VCC4  VCC5  VCC6 TRUST1 TRUST2 TRUST3 COMMITMENT1 COMMITMENT2 COMMITMENT3 COMMITMENT4 SOCSAT1 SOCSAT2 SOCSAT3 ECOSAT1 ECOSAT2 ECOSAT3  LOY1  LOY2  LOY4
+## RMSE 1.708 1.463 1.509 1.372 1.166 1.340  0.782  1.251  0.747       1.098       0.874       0.849       0.884   0.929   0.753   0.916   1.259   1.245   1.157 0.867 1.275 0.944
+## MAE  1.452 1.187 1.215 1.099 0.922 1.115  0.591  1.036  0.574       0.869       0.715       0.617       0.660   0.718   0.571   0.695   1.008   1.000   0.806 0.673 0.998 0.701
+## 
+## LM in-sample metrics:
+##       VCC1  VCC2  VCC3  VCC4  VCC5  VCC6 TRUST1 TRUST2 TRUST3 COMMITMENT1 COMMITMENT2 COMMITMENT3 COMMITMENT4 SOCSAT1 SOCSAT2 SOCSAT3 ECOSAT1 ECOSAT2 ECOSAT3  LOY1  LOY2  LOY4
+## RMSE 1.071 1.064 1.138 1.068 0.980 1.011  0.566  0.806  0.562       0.899       0.749       0.728       0.789   0.620   0.560   0.629   0.897   0.872   0.854 0.665 1.070 0.693
+## MAE  0.856 0.850 0.892 0.872 0.773 0.782  0.445  0.632  0.452       0.696       0.600       0.540       0.575   0.487   0.436   0.492   0.713   0.689   0.635 0.512 0.854 0.537
+## 
+## LM out-of-sample metrics:
+##       VCC1  VCC2  VCC3  VCC4  VCC5  VCC6 TRUST1 TRUST2 TRUST3 COMMITMENT1 COMMITMENT2 COMMITMENT3 COMMITMENT4 SOCSAT1 SOCSAT2 SOCSAT3 ECOSAT1 ECOSAT2 ECOSAT3  LOY1  LOY2  LOY4
+## RMSE 1.237 1.207 1.339 1.219 1.166 1.193  0.672  0.988  0.663       1.039       0.855       0.873       0.966   0.757   0.671   0.786   1.078   1.069   1.068 0.820 1.282 0.877
+## MAE  0.972 0.957 1.015 0.977 0.883 0.894  0.519  0.734  0.523       0.785       0.672       0.625       0.683   0.567   0.510   0.592   0.830   0.810   0.744 0.612 0.994 0.634</code></pre>
+</div>
+<div id="relevancia-predictiva-matrixpls" class="section level1"
+number="5">
+<h1><span class="header-section-number">5</span> Relevancia predictiva
+(matrixpls)</h1>
+<p>(con matrixpls -Aldás y Uriel, 2017-)</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a><span class="do">##===================================</span></span>
+<span id="cb51-2"><a href="#cb51-2" aria-hidden="true" tabindex="-1"></a><span class="do">## Modelo Lavaan y uso de matrixpls para la relevancia predictiva</span></span>
+<span id="cb51-3"><a href="#cb51-3" aria-hidden="true" tabindex="-1"></a><span class="do">##===================================</span></span>
+<span id="cb51-4"><a href="#cb51-4" aria-hidden="true" tabindex="-1"></a><span class="co">#modelo.lavaan &lt;- &#39;</span></span>
+<span id="cb51-5"><a href="#cb51-5" aria-hidden="true" tabindex="-1"></a><span class="co">#  ICT=~ICT1+ICT2+ICT3+ICT4+ICT5</span></span>
+<span id="cb51-6"><a href="#cb51-6" aria-hidden="true" tabindex="-1"></a><span class="co">#  VCC=~VCC1+VCC2+VCC3+VCC4+VCC5+VCC6</span></span>
+<span id="cb51-7"><a href="#cb51-7" aria-hidden="true" tabindex="-1"></a><span class="co">#  TRUST=~TRUST1+TRUST2+TRUST3</span></span>
+<span id="cb51-8"><a href="#cb51-8" aria-hidden="true" tabindex="-1"></a><span class="co">#  COMMITMENT=~COMMITMENT1+COMMITMENT2+COMMITMENT3+COMMITMENT4</span></span>
+<span id="cb51-9"><a href="#cb51-9" aria-hidden="true" tabindex="-1"></a><span class="co">#  SOCSAT=~SOCSAT1+SOCSAT2+SOCSAT3</span></span>
+<span id="cb51-10"><a href="#cb51-10" aria-hidden="true" tabindex="-1"></a><span class="co">#  ECOSAT=~ECOSAT1+ECOSAT2+ECOSAT3</span></span>
+<span id="cb51-11"><a href="#cb51-11" aria-hidden="true" tabindex="-1"></a><span class="co">#  LOY=~LOY1+LOY2+LOY4</span></span>
+<span id="cb51-12"><a href="#cb51-12" aria-hidden="true" tabindex="-1"></a><span class="co">#  </span></span>
+<span id="cb51-13"><a href="#cb51-13" aria-hidden="true" tabindex="-1"></a><span class="co">#  ICT~VCC</span></span>
+<span id="cb51-14"><a href="#cb51-14" aria-hidden="true" tabindex="-1"></a><span class="co">#  VCC~TRUST+COMMITMENT</span></span>
+<span id="cb51-15"><a href="#cb51-15" aria-hidden="true" tabindex="-1"></a><span class="co">#  TRUST~COMMITMENT+SOCSAT</span></span>
+<span id="cb51-16"><a href="#cb51-16" aria-hidden="true" tabindex="-1"></a><span class="co">#  COMMITMENT~SOCSAT</span></span>
+<span id="cb51-17"><a href="#cb51-17" aria-hidden="true" tabindex="-1"></a><span class="co">#  SOCSAT~ECOSAT</span></span>
+<span id="cb51-18"><a href="#cb51-18" aria-hidden="true" tabindex="-1"></a><span class="co">#  ECOSAT~LOY</span></span>
+<span id="cb51-19"><a href="#cb51-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&#39;</span></span>
+<span id="cb51-20"><a href="#cb51-20" aria-hidden="true" tabindex="-1"></a><span class="co">#</span></span>
+<span id="cb51-21"><a href="#cb51-21" aria-hidden="true" tabindex="-1"></a><span class="do">##Estimate the model</span></span>
+<span id="cb51-22"><a href="#cb51-22" aria-hidden="true" tabindex="-1"></a><span class="do">##modelización</span></span>
+<span id="cb51-23"><a href="#cb51-23" aria-hidden="true" tabindex="-1"></a><span class="do">##modelo.lavaan.out &lt;- matrixpls(cor(select(a.df, c(-22))),modelo.lavaan)</span></span>
+<span id="cb51-24"><a href="#cb51-24" aria-hidden="true" tabindex="-1"></a><span class="do">##summary(modelo.lavaan.out)</span></span>
+<span id="cb51-25"><a href="#cb51-25" aria-hidden="true" tabindex="-1"></a><span class="do">##bootstrapping model</span></span>
+<span id="cb51-26"><a href="#cb51-26" aria-hidden="true" tabindex="-1"></a><span class="do">##boot.out &lt;- matrixpls.boot(cov(select(a.df, c(-22))), model = modelo.lavaan, R = 5000)</span></span>
+<span id="cb51-27"><a href="#cb51-27" aria-hidden="true" tabindex="-1"></a><span class="do">##summary(boot.out)  </span></span>
+<span id="cb51-28"><a href="#cb51-28" aria-hidden="true" tabindex="-1"></a><span class="do">##predictions</span></span>
+<span id="cb51-29"><a href="#cb51-29" aria-hidden="true" tabindex="-1"></a><span class="co">#predictions.blindfold &lt;- matrixpls.crossvalidate(cov(select(a.df, c(-22))), </span></span>
+<span id="cb51-30"><a href="#cb51-30" aria-hidden="true" tabindex="-1"></a><span class="co">#                                                 model = modelo.lavaan, </span></span>
+<span id="cb51-31"><a href="#cb51-31" aria-hidden="true" tabindex="-1"></a><span class="co">#                                                 blindfold = TRUE, </span></span>
+<span id="cb51-32"><a href="#cb51-32" aria-hidden="true" tabindex="-1"></a><span class="co">#                                                 predictionType = &quot;redundancy&quot;, </span></span>
+<span id="cb51-33"><a href="#cb51-33" aria-hidden="true" tabindex="-1"></a><span class="co">#                                                 groups = 7)</span></span>
+<span id="cb51-34"><a href="#cb51-34" aria-hidden="true" tabindex="-1"></a><span class="co">#prediction_relevance &lt;- q2(cov(select(a.df, c(-22))), predictions.blindfold, model=modelo.lavaan)</span></span>
+<span id="cb51-35"><a href="#cb51-35" aria-hidden="true" tabindex="-1"></a><span class="co">#prediction_relevance</span></span></code></pre></div>
+</div>
+<div id="potencia-matrixpls" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> Potencia
+(matrixpls)</h1>
+<p>En nuestro ejemplo tenemos una muestra 256 empresas, y la regresión
+más complicada en el modelo, se localiza en la parte estructural y es la
+del constructo SOCSAT con 2 regresores por lo que v=256-2-1=253.</p>
+<pre><code>## 
+##      Multiple regression power calculation 
+## 
+##               u = 2
+##               v = 253
+##              f2 = 0.15
+##       sig.level = 0.05
+##           power = 0.999938</code></pre>
+<pre><code>## 
+##      Multiple regression power calculation 
+## 
+##               u = 2
+##               v = 84.43254
+##              f2 = 0.15
+##       sig.level = 0.05
+##           power = 0.9</code></pre>
+<p>El resultado indica que nuestro tamaño muestra posee una potencia del
+<em>power</em>, ya que el tamaño muestral máximo para una potencia del
+90% sería de <em>v</em> elementos con los parámetros indicados.</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>modelo.lavaan <span class="ot">&lt;-</span> <span class="st">&#39;</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a><span class="st">  ICT=~ICT1+ICT2+ICT3+ICT4+ICT5</span></span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a><span class="st">  VCC=~VCC1+VCC2+VCC3+VCC4+VCC5</span></span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a><span class="st">  TRUST=~TRUST1+TRUST2+TRUST3</span></span>
+<span id="cb54-5"><a href="#cb54-5" aria-hidden="true" tabindex="-1"></a><span class="st">  COMMITMENT=~COMMITMENT1+COMMITMENT2+COMMITMENT3+COMMITMENT4</span></span>
+<span id="cb54-6"><a href="#cb54-6" aria-hidden="true" tabindex="-1"></a><span class="st">  ECOSAT=~ECOSAT1+ECOSAT2+ECOSAT3</span></span>
+<span id="cb54-7"><a href="#cb54-7" aria-hidden="true" tabindex="-1"></a><span class="st">  SOCSAT=~SOCSAT1+SOCSAT2+SOCSAT3</span></span>
+<span id="cb54-8"><a href="#cb54-8" aria-hidden="true" tabindex="-1"></a><span class="st">  LOY =~LOY1+LOY2+LOY4 </span></span>
+<span id="cb54-9"><a href="#cb54-9" aria-hidden="true" tabindex="-1"></a><span class="st">  </span></span>
+<span id="cb54-10"><a href="#cb54-10" aria-hidden="true" tabindex="-1"></a><span class="st">  ICT~VCC</span></span>
+<span id="cb54-11"><a href="#cb54-11" aria-hidden="true" tabindex="-1"></a><span class="st">  VCC~TRUST+COMMITMENT</span></span>
+<span id="cb54-12"><a href="#cb54-12" aria-hidden="true" tabindex="-1"></a><span class="st">  TRUST~COMMITMENT+SOCSAT</span></span>
+<span id="cb54-13"><a href="#cb54-13" aria-hidden="true" tabindex="-1"></a><span class="st">  COMMITMENT~SOCSAT</span></span>
+<span id="cb54-14"><a href="#cb54-14" aria-hidden="true" tabindex="-1"></a><span class="st">  SOCSAT~ECOSAT</span></span>
+<span id="cb54-15"><a href="#cb54-15" aria-hidden="true" tabindex="-1"></a><span class="st">  ECOSAT~LOY</span></span>
+<span id="cb54-16"><a href="#cb54-16" aria-hidden="true" tabindex="-1"></a><span class="st">&#39;</span></span>
+<span id="cb54-17"><a href="#cb54-17" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">select</span>(a.df, <span class="sc">-</span><span class="dv">22</span>)</span>
+<span id="cb54-18"><a href="#cb54-18" aria-hidden="true" tabindex="-1"></a>datos <span class="ot">&lt;-</span> <span class="fu">scale</span>(datos)</span>
+<span id="cb54-19"><a href="#cb54-19" aria-hidden="true" tabindex="-1"></a><span class="co">#Estimacion e indicadores de calidad OBLIGATORIO que use matriz de covarianzas no raw data</span></span>
+<span id="cb54-20"><a href="#cb54-20" aria-hidden="true" tabindex="-1"></a>modelo.lavaan.out <span class="ot">&lt;-</span> <span class="fu">matrixpls</span>(<span class="fu">cov</span>(datos),modelo.lavaan)</span>
+<span id="cb54-21"><a href="#cb54-21" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelo.lavaan.out)</span></code></pre></div>
+<pre><code>## 
+##  matrixpls parameter estimates
+##                               Est.
+## ICT~VCC                 0.49160264
+## VCC~TRUST               0.05409681
+## VCC~COMMITMENT          0.54776471
+## TRUST~COMMITMENT        0.42421302
+## SOCSAT~ECOSAT           0.68435036
+## TRUST~SOCSAT            0.30953184
+## COMMITMENT~SOCSAT       0.56552282
+## ECOSAT~LOY              0.70913866
+## ICT=~ICT1               0.90929662
+## ICT=~ICT2               0.92830913
+## ICT=~ICT3               0.93166223
+## ICT=~ICT4               0.76021549
+## ICT=~ICT5               0.63405168
+## VCC=~VCC1               0.82071224
+## VCC=~VCC2               0.85512880
+## VCC=~VCC3               0.59128545
+## VCC=~VCC4               0.86144517
+## VCC=~VCC5               0.65184400
+## TRUST=~TRUST1           0.93921161
+## TRUST=~TRUST2           0.80931516
+## TRUST=~TRUST3           0.86511082
+## COMMITMENT=~COMMITMENT1 0.86160561
+## COMMITMENT=~COMMITMENT2 0.89006661
+## COMMITMENT=~COMMITMENT3 0.84809314
+## COMMITMENT=~COMMITMENT4 0.88246468
+## ECOSAT=~ECOSAT1         0.91825965
+## ECOSAT=~ECOSAT2         0.89510411
+## ECOSAT=~ECOSAT3         0.70204569
+## SOCSAT=~SOCSAT1         0.74336153
+## SOCSAT=~SOCSAT2         0.92858954
+## SOCSAT=~SOCSAT3         0.90900323
+## LOY=~LOY1               0.89031296
+## LOY=~LOY2               0.83524673
+## LOY=~LOY4               0.88290326
+## 
+##  matrixpls weights
+##                ICT1      ICT2      ICT3      ICT4      ICT5      VCC1      VCC2     VCC3      VCC4     VCC5    TRUST1    TRUST2    TRUST3 COMMITMENT1 COMMITMENT2 COMMITMENT3 COMMITMENT4   ECOSAT1   ECOSAT2   ECOSAT3   SOCSAT1   SOCSAT2   SOCSAT3     LOY1      LOY2      LOY4
+## ICT        0.261831 0.2535251 0.2752204 0.2033165 0.1823062 0.0000000 0.0000000 0.000000 0.0000000 0.000000 0.0000000 0.0000000 0.0000000   0.0000000   0.0000000   0.0000000   0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.000000 0.0000000 0.0000000
+## VCC        0.000000 0.0000000 0.0000000 0.0000000 0.0000000 0.3202783 0.3103732 0.151102 0.3014643 0.188228 0.0000000 0.0000000 0.0000000   0.0000000   0.0000000   0.0000000   0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.000000 0.0000000 0.0000000
+## TRUST      0.000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.000000 0.0000000 0.000000 0.4117074 0.3509441 0.3806394   0.0000000   0.0000000   0.0000000   0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.000000 0.0000000 0.0000000
+## COMMITMENT 0.000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.000000 0.0000000 0.000000 0.0000000 0.0000000 0.0000000   0.2990829   0.3056921   0.2619988   0.2810569 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.000000 0.0000000 0.0000000
+## ECOSAT     0.000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.000000 0.0000000 0.000000 0.0000000 0.0000000 0.0000000   0.0000000   0.0000000   0.0000000   0.0000000 0.4070685 0.4060158 0.3743047 0.0000000 0.0000000 0.0000000 0.000000 0.0000000 0.0000000
+## SOCSAT     0.000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.000000 0.0000000 0.000000 0.0000000 0.0000000 0.0000000   0.0000000   0.0000000   0.0000000   0.0000000 0.0000000 0.0000000 0.0000000 0.2576686 0.4331295 0.4469286 0.000000 0.0000000 0.0000000
+## LOY        0.000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.000000 0.0000000 0.000000 0.0000000 0.0000000 0.0000000   0.0000000   0.0000000   0.0000000   0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.0000000 0.412285 0.3649388 0.3716413
+## 
+## Weight algorithm converged in 7 iterations.
+## 
+##  Total Effects (column on row)
+##                  VCC      TRUST COMMITMENT    ECOSAT    SOCSAT        LOY
+## ICT        0.4916026 0.02659414  0.2805642 0.1142161 0.1668972 0.08099508
+## VCC        0.0000000 0.05409681  0.5707133 0.2323343 0.3394961 0.16475721
+## TRUST      0.0000000 0.00000000  0.4242130 0.3760053 0.5494340 0.26663993
+## COMMITMENT 0.0000000 0.00000000  0.0000000 0.3870157 0.5655228 0.27444783
+## ECOSAT     0.0000000 0.00000000  0.0000000 0.0000000 0.0000000 0.70913866
+## SOCSAT     0.0000000 0.00000000  0.0000000 0.6843504 0.0000000 0.48529930
+## 
+##  Direct Effects
+##                  VCC      TRUST COMMITMENT    ECOSAT    SOCSAT       LOY
+## ICT        0.4916026 0.00000000  0.0000000 0.0000000 0.0000000 0.0000000
+## VCC        0.0000000 0.05409681  0.5477647 0.0000000 0.0000000 0.0000000
+## TRUST      0.0000000 0.00000000  0.4242130 0.0000000 0.3095318 0.0000000
+## COMMITMENT 0.0000000 0.00000000  0.0000000 0.0000000 0.5655228 0.0000000
+## ECOSAT     0.0000000 0.00000000  0.0000000 0.0000000 0.0000000 0.7091387
+## SOCSAT     0.0000000 0.00000000  0.0000000 0.6843504 0.0000000 0.0000000
+## 
+##  Indirect Effects
+##            VCC      TRUST COMMITMENT    ECOSAT    SOCSAT        LOY
+## ICT          0 0.02659414 0.28056416 0.1142161 0.1668972 0.08099508
+## VCC          0 0.00000000 0.02294857 0.2323343 0.3394961 0.16475721
+## TRUST        0 0.00000000 0.00000000 0.3760053 0.2399021 0.26663993
+## COMMITMENT   0 0.00000000 0.00000000 0.3870157 0.0000000 0.27444783
+## ECOSAT       0 0.00000000 0.00000000 0.0000000 0.0000000 0.00000000
+## SOCSAT       0 0.00000000 0.00000000 0.0000000 0.0000000 0.48529930
+## 
+##  Inner model squared multiple correlations (R2)
+##        ICT        VCC      TRUST COMMITMENT     ECOSAT     SOCSAT        LOY 
+##  0.2416732  0.3384876  0.4242813  0.3198161  0.5028776  0.4683354  0.0000000 
+## 
+##  Inner model (composite) residual covariance matrix
+##                    ICT        VCC       TRUST COMMITMENT     ECOSAT     SOCSAT
+## ICT         0.75832684 0.32520125 -0.07142817  0.1292124 0.06114904 0.08710361
+## VCC         0.32520125 0.66151240  0.03114454  0.3881900 0.27519675 0.27469591
+## TRUST      -0.07142817 0.03114454  0.57571865  0.2885429 0.16871439 0.26437301
+## COMMITMENT  0.12921236 0.38819001  0.28854288  0.6801839 0.19663378 0.30066846
+## ECOSAT      0.06114904 0.27519675  0.16871439  0.1966338 0.49712235 0.34020586
+## SOCSAT      0.08710361 0.27469591  0.26437301  0.3006685 0.34020586 0.53166459
+## 
+##  Outer model (indicator) residual covariance matrix
+##                   ICT1       ICT2      ICT3       ICT4        ICT5      VCC1      VCC2       VCC3      VCC4       VCC5     TRUST1     TRUST2     TRUST3 COMMITMENT1 COMMITMENT2 COMMITMENT3 COMMITMENT4   ECOSAT1   ECOSAT2   ECOSAT3   SOCSAT1   SOCSAT2   SOCSAT3      LOY1      LOY2      LOY4
+## ICT1        0.82682035 0.84410836 0.8471573 0.69126138  0.57654105 0.3811760 0.3867312 0.23624328 0.3658632 0.27270673 0.12170579 0.11199295 0.13456231   0.2498599   0.2549304   0.2001784   0.2102205 0.1905649 0.2012061 0.2859099 0.2030807 0.2080089 0.2430697 0.2479587 0.2431361 0.2605920
+## ICT2        0.84410836 0.86175784 0.8648706 0.70571498  0.58859597 0.4087820 0.4152767 0.25532971 0.3941236 0.29400447 0.08709710 0.08231964 0.10315373   0.2341842   0.2386703   0.1837917   0.1932099 0.1979179 0.2086966 0.2944633 0.2264102 0.2361965 0.2714876 0.2701394 0.2641648 0.2828955
+## ICT3        0.84715732 0.86487056 0.8679945 0.70826406  0.59072200 0.3806496 0.3859262 0.23492012 0.3644688 0.27154980 0.06931216 0.06702068 0.08685479   0.2006745   0.2040420   0.1506387   0.1587205 0.1252473 0.1379155 0.2394208 0.1758269 0.1728406 0.2096135 0.2421356 0.2379318 0.2551790
+## ICT4        0.69126138 0.70571498 0.7082641 0.57792760  0.48201591 0.3408913 0.3464671 0.21351191 0.3291914 0.24563592 0.09311224 0.08618674 0.10454255   0.2205660   0.2251907   0.1788468   0.1877080 0.1080000 0.1181907 0.1997971 0.1850646 0.1929921 0.2219020 0.2465322 0.2400740 0.2567678
+## ICT5        0.57654105 0.58859597 0.5907220 0.48201591  0.40202153 0.2661773 0.2700670 0.16500858 0.2555187 0.19046281 0.06035938 0.05697590 0.07125767   0.1348227   0.1370568   0.1007978   0.1062282 0.2410787 0.2457704 0.2820863 0.1109040 0.1066897 0.1319466 0.2172387 0.2111336 0.2256789
+## VCC1        0.35256146 0.34029721 0.3711353 0.27254833  0.24545718 0.6735686 0.7018147 0.48527520 0.7069986 0.53497635 0.17664017 0.17012493 0.15266987   0.4182332   0.4180418   0.2528198   0.2992373 0.2103372 0.2208097 0.2461520 0.2566280 0.3337789 0.3437196 0.3840703 0.3089415 0.3366934
+## VCC2        0.37777558 0.36521509 0.3973848 0.29269717  0.26302288 0.7018147 0.7312453 0.50562521 0.7366466 0.55741058 0.30912568 0.28503846 0.27428192   0.4767558   0.4779102   0.3037630   0.3537620 0.2987229 0.3076282 0.3173051 0.3066047 0.3967623 0.4060867 0.4824712 0.3991018 0.4324225
+## VCC3        0.29238085 0.28434743 0.3067064 0.22844315  0.20360053 0.4852752 0.5056252 0.34961848 0.5093600 0.38542587 0.35221650 0.31641041 0.31719874   0.4571225   0.4621312   0.3355062   0.3751633 0.4564616 0.4563174 0.4104670 0.1754793 0.2287183 0.2361281 0.4867235 0.4196069 0.4508427
+## VCC4        0.40429050 0.39213329 0.4246281 0.31469398  0.28150875 0.7069986 0.7366466 0.50935999 0.7420878 0.56152786 0.28353604 0.26312583 0.25063399   0.4919973   0.4935473   0.3175428   0.3683787 0.4074542 0.4137391 0.4010912 0.2612663 0.3402283 0.3508758 0.5198156 0.4337411 0.4691162
+## VCC5        0.31005827 0.30094558 0.3255492 0.24158350  0.21589867 0.5349763 0.5574106 0.38542587 0.5615279 0.42490060 0.34569252 0.31211060 0.31044909   0.4614665   0.4655852   0.3280606   0.3700850 0.5158071 0.5153305 0.4621361 0.2806244 0.3610375 0.3669093 0.5392057 0.4650523 0.4996281
+## TRUST1      0.08628597 0.12524356 0.1437955 0.08077882  0.08467307 0.4128085 0.3050415 0.07245418 0.3351677 0.12247228 0.88211845 0.76011819 0.81252212   0.4996576   0.5038966   0.5127198   0.5062818 0.4866276 0.4990418 0.2363538 0.1899795 0.5140402 0.4790547 0.4675430 0.3980836 0.4520600
+## TRUST2      0.06723277 0.10065352 0.1166134 0.06365454  0.06799803 0.3378008 0.2441871 0.04952674 0.2700089 0.09130527 0.76011819 0.65499102 0.70014730   0.4096401   0.4126021   0.4212238   0.4148419 0.3460243 0.3585700 0.1476238 0.2204431 0.5138229 0.4821810 0.3563832 0.2994061 0.3434285
+## TRUST3      0.05701956 0.09243393 0.1094393 0.05562906  0.06233219 0.3902732 0.2914294 0.07396679 0.3192560 0.12077900 0.81252212 0.70014730 0.74841672   0.4378957   0.4410623   0.4502777   0.4434564 0.4926132 0.5029289 0.2516357 0.1857526 0.4869276 0.4544187 0.4509994 0.3857618 0.4365687
+## COMMITMENT1 0.15931542 0.18354659 0.2185651 0.12152418  0.15049482 0.4022964 0.3781827 0.13403142 0.3692562 0.19023242 0.47022131 0.42610089 0.45546287   0.7423642   0.7668864   0.7307218   0.7603365 0.2979236 0.3305596 0.1780943 0.2904116 0.4615145 0.4994606 0.4053456 0.3664928 0.4153637
+## COMMITMENT2 0.16776101 0.19285915 0.2290462 0.12819958  0.15768555 0.4295920 0.4052691 0.14855003 0.3961556 0.20764101 0.49801977 0.45074552 0.48180609   0.7668864   0.7922186   0.7548594   0.7854523 0.3070461 0.3407783 0.1834278 0.2899093 0.4641487 0.5036142 0.4019767 0.3628771 0.4124652
+## COMMITMENT3 0.20257989 0.22738790 0.2620260 0.15787839  0.18004512 0.5548416 0.5377676 0.24637669 0.5302037 0.31341781 0.44194859 0.40141042 0.42907042   0.7307218   0.7548594   0.7192620   0.7484122 0.5219442 0.5483015 0.3501460 0.2865984 0.4552027 0.4925341 0.5810591 0.5315545 0.5894048
+## COMMITMENT4 0.20886081 0.23463391 0.2706687 0.16266395  0.18599673 0.5411569 0.5218742 0.23030211 0.5137253 0.29739127 0.48707738 0.44113199 0.47152991   0.7603365   0.7854523   0.7484122   0.7787439 0.4478079 0.4776363 0.2914840 0.2749129 0.4445444 0.4840027 0.5485873 0.5005414 0.5577375
+## ECOSAT1     0.28187999 0.28440544 0.3588182 0.28698657  0.08835674 0.5970525 0.5425247 0.12522560 0.4400072 0.12545559 0.39516674 0.41381454 0.31961035   0.4656801   0.4817814   0.2296840   0.3342823 0.8432008 0.8219380 0.6446602 0.4493041 0.6157154 0.6536167 0.6337994 0.5623612 0.5736117
+## ECOSAT2     0.25932526 0.26146405 0.3339434 0.26683558  0.07535774 0.5662202 0.5124058 0.11070154 0.4123521 0.10976161 0.36051651 0.38210816 0.28881300   0.4137885   0.4281575   0.1843731   0.2847321 0.8219380 0.8012114 0.6284040 0.4287166 0.5886247 0.6258142 0.6046508 0.5358283 0.5460903
+## ECOSAT3     0.07529286 0.07429190 0.1306663 0.10218568 -0.03021993 0.3711293 0.3258619 0.03425573 0.2468264 0.02813445 0.43781273 0.43330298 0.36934121   0.4057109   0.4196619   0.2245034   0.3064548 0.6446602 0.6284040 0.4928682 0.2537091 0.3585606 0.3899038 0.4249245 0.3739959 0.3794050
+## SOCSAT1     0.15829910 0.14252572 0.1944417 0.11706620  0.14108582 0.3223692 0.2966728 0.24166164 0.3464673 0.17923945 0.57722134 0.44065103 0.52091855   0.4340056   0.4584372   0.4264578   0.4670420 0.4849695 0.4819976 0.4605799 0.5525864 0.6902777 0.6757180 0.5766798 0.4393515 0.5785604
+## SOCSAT2     0.24341815 0.22466944 0.2896900 0.18442254  0.20808996 0.3894907 0.3568375 0.29236418 0.4189380 0.21341347 0.44432877 0.31200012 0.39582918   0.4434102   0.4706679   0.4355302   0.4822881 0.5513570 0.5490178 0.5337122 0.6902777 0.8622785 0.8440909 0.6572842 0.4896391 0.6601585
+## SOCSAT3     0.19883562 0.17965754 0.2431612 0.14755199  0.17619360 0.3642944 0.3316178 0.27396345 0.3922778 0.19542502 0.45909987 0.32622328 0.40971844   0.3863770   0.4114848   0.3794110   0.4232805 0.4888391 0.4878326 0.4835487 0.6757180 0.8440909 0.8262869 0.5436640 0.3857249 0.5473079
+## LOY1        0.29558941 0.28477375 0.3147819 0.20790006  0.16177685 0.5455501 0.4861329 0.18302530 0.4559430 0.19913770 0.41742158 0.40618752 0.36414429   0.5432471   0.5779503   0.3526569   0.4229703 0.5256968 0.5256067 0.4615561 0.3670918 0.5216528 0.6104063 0.7926572 0.7436310 0.7860602
+## LOY2        0.26679333 0.25642678 0.2845401 0.18625135  0.14443965 0.5631815 0.5095936 0.20871767 0.4816664 0.22762428 0.43214556 0.41599926 0.37896488   0.5234290   0.5564411   0.3444108   0.4109250 0.5254198 0.5245224 0.4576555 0.4460475 0.6163802 0.6969657 0.7436310 0.6976371 0.7374421
+## LOY4        0.27843233 0.26739938 0.2971036 0.19388238  0.15018224 0.5851902 0.5281202 0.21333207 0.4985216 0.23257036 0.42553937 0.41279561 0.37179092   0.5253342   0.5593063   0.3365403   0.4057343 0.5762346 0.5747605 0.4996978 0.3573566 0.5089668 0.5971576 0.7860602 0.7374421 0.7795182
+## 
+##  Residual-based fit indices
+##                                   Value
+## Communality                   0.7086270
+## Redundancy                    0.2272125
+## SMC                           0.3825785
+## RMS outer residual covariance 0.4112538
+## RMS inner residual covariance 0.4197634
+## SRMR                          0.3957291
+## SRMR (Henseler)               0.3598791
+## 
+##  Absolute goodness of fit: 0.5206779
+## 
+##  Composite Reliability indices
+##        ICT        VCC      TRUST COMMITMENT     ECOSAT     SOCSAT        LOY 
+##  0.9221492  0.8730260  0.9053122  0.9261142  0.8800112  0.8977317  0.9030845 
+## 
+##  Average Variance Extracted indices
+##        ICT        VCC      TRUST COMMITMENT     ECOSAT     SOCSAT        LOY 
+##  0.7073044  0.5842841  0.7618421  0.7581472  0.7124268  0.7470506  0.7566041 
+## 
+##  AVE - largest squared correlation
+##        ICT        VCC      TRUST COMMITMENT     ECOSAT     SOCSAT        LOY 
+##  0.4656312  0.1796299  0.4027291  0.3758535  0.2095491  0.2386708  0.2482244 
+## 
+##  Heterotrait-monotrait matrix
+##                  ICT       VCC     TRUST COMMITMENT    ECOSAT    SOCSAT       LOY
+## ICT        0.0000000 0.0000000 0.0000000  0.0000000 0.0000000 0.0000000 0.0000000
+## VCC        0.5612346 0.0000000 0.0000000  0.0000000 0.0000000 0.0000000 0.0000000
+## TRUST      0.1395340 0.4111759 0.0000000  0.0000000 0.0000000 0.0000000 0.0000000
+## COMMITMENT 0.2901720 0.6306896 0.6921706  0.0000000 0.0000000 0.0000000 0.0000000
+## ECOSAT     0.3319744 0.5924989 0.6253619  0.5636538 0.0000000 0.0000000 0.0000000
+## SOCSAT     0.3126115 0.5630018 0.6143936  0.6343595 0.8324163 0.0000000 0.0000000
+## LOY        0.3822888 0.7075064 0.6302629  0.7061534 0.8712458 0.8284748 0.0000000
+## 
+##  Composite equilevance indices
+## 
+##  CEI individual
+##        ICT        VCC      TRUST COMMITMENT     ECOSAT     SOCSAT        LOY 
+##  0.9978655  0.9869465  0.9997050  0.9996874  0.9997488  0.9942020  0.9997672 
+## 
+##  CEI total: 0.9869465</code></pre>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Blindfolding</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-3"><a href="#cb56-3" aria-hidden="true" tabindex="-1"></a>predictions.blindfold <span class="ot">&lt;-</span> <span class="fu">matrixpls.crossvalidate</span>(<span class="fu">cov</span>(datos), <span class="at">model =</span> modelo.lavaan, <span class="at">blindfold =</span> <span class="cn">TRUE</span>, <span class="at">predictionType =</span> <span class="st">&quot;redundancy&quot;</span>,<span class="at">groups =</span> <span class="dv">7</span>)</span>
+<span id="cb56-4"><a href="#cb56-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb56-5"><a href="#cb56-5" aria-hidden="true" tabindex="-1"></a><span class="fu">q2</span>(<span class="fu">cov</span>(datos), predictions.blindfold, <span class="at">model=</span>modelo.lavaan)</span></code></pre></div>
+<pre><code>## 
+##  Q2 predictive relevance statistics
+## 
+##  Overall Q2
+## 0.3069282
+##  Block Q2
+##        ICT        VCC      TRUST COMMITMENT     ECOSAT     SOCSAT        LOY 
+## 0.08001548 0.18099937 0.46091854 0.20654893 0.50475173 0.32976349 0.66969981 
+## 
+##  Indicator Q2
+##       TRUST1       TRUST2       TRUST3  COMMITMENT1  COMMITMENT2  COMMITMENT3  COMMITMENT4         VCC1         VCC2         VCC3         VCC4         VCC5      ECOSAT1      ECOSAT2      ECOSAT3      SOCSAT1      SOCSAT2      SOCSAT3         LOY1         LOY2         LOY4         ICT1         ICT2         ICT3         ICT4         ICT5 
+##  0.533741319  0.475819558  0.345101552  0.245311686  0.272769575  0.118369496  0.174029352  0.187772805  0.037158957  0.308734287 -0.051574121  0.236653176  0.569422327  0.585406179  0.182446415 -0.164113250  0.402037742  0.660050707  0.698583738  0.590125287  0.732350904  0.015912986 -0.004094769  0.007599855  0.067623730  0.372820002</code></pre>
+</div>
+<div class="footnotes footnotes-end-of-document">
+<hr />
+<ol>
+<li id="fn1"><p>En <a
+href="https://forum.smartpls.com/viewtopic.php?f=5&amp;t=3805"
+class="uri">https://forum.smartpls.com/viewtopic.php?f=5&amp;t=3805</a>
+hay una “discusión en torno al”greater than 0.9” de Primer PLS … de
+Hair; lo solventa un investigador / desarrollador de SmartPLS: <a
+href="https://www.researchgate.net/profile/Jan_Michael_Becker"
+class="uri">https://www.researchgate.net/profile/Jan_Michael_Becker</a><a
+href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>En nuestro caso al proceder con la eliminación de
+aquellas cargas menores de 0.7 no mejoraba significativamente el
+modelo<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+
+<br>
+<hr>
+<div style="text-align: center;">All rights reserved - 2008-2021 (c) - InvestigaOnline.com</div>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

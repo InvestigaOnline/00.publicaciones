@@ -1,0 +1,37 @@
+name: "Publicaciones"
+navbar:
+  title: "||IO||"
+  left:
+    - text: "Inicio"
+      href: index.html
+    - text: "J.Moreno"
+      menu:
+      - text: "1"
+        href: nodata.html
+    - text: "L.Vallejo"
+      menu:
+      - text: "Artículo 1"
+        menu:
+        - text: "Agencias - Modelo x"
+          href: nodata.html
+      - text: "Artículo 2"
+        menu:
+        - text: "Agencias - Modelo 01"
+          href: art2.a.v01.html
+        - text: "Hoteles - Modelo 01"
+          href: art2.h.v01.html
+        - text: "MGA de los dos grupos"
+          href: art2.mga.v01.html
+  right:
+    - text: "Acerca de ..."
+      icon: fa-question-circle
+      href: about.html
+    - text: "InvestigaOnline.com"
+      href: "https://www.investigaonline.com"
+output:
+  html_document:
+    theme: simplex
+    includes:
+      in_header: header.html
+      after_body: footer.html
+

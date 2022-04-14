@@ -1,0 +1,406 @@
+---
+title: "PLS - Hoteles y Agencias"
+author: "Roberto Gil-Saura"
+date: "2/4/2021"
+output:
+  html_document
+---
+
+<style type="text/css">
+.main-container {
+  max-width: 100%;
+  margin-left: 10px;
+  margin-right: 10px;}
+</style>
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+suppressMessages(library(dplyr))
+suppressMessages(library(readxl))
+suppressMessages(library(seminr))
+suppressMessages(library(expss))
+suppressMessages(library(corrplot))
+suppressMessages(library(nortest))
+suppressMessages(library(psych))
+suppressMessages(h.data <- read_excel("~/R/r-data/00.pls-seminr/hoteles.xls"))
+suppressMessages(a.data <- read_spss("~/R/r-data/00.pls-seminr/agencias.sav"))
+options(width=9999)
+```
+
+# modelos PLS
+
+## Hoteles
+
+Recolección de datos a hoteles (dirección / gerencia) mediante entrevista personal y presencial. La muestra, de conveniencia fue recogida en [ciudades] y los datos más relevantes son [descripción mínima de muestra]. El banco de datos a partir de las hipótesis teóricas previamente establecidad permite establecer un modelo 
+de medida y un conjunto de relaciones que confrman un modelo estructural con 6 variables latenteso constructos. La muestra es suficiente pues permite gran margen sobre las reglas de 10 veces más que el mayor número de indicadores sobre constructo y/o también 10 veces mayor que el mayor número de relaciones indicando a una variable latente. El objetivo de la investigación es claramente exploratorio y predictivo.
+
+```{r warning=FALSE, message=FALSE, fig.width=16, fig.height=9}
+#carga de datos
+h.df <-select(h.data,
+              ID=CUESTIONARIO,
+               TRUST1=P6,
+               TRUST2=P7,
+               TRUST3=P8,
+               COMMITMENT1=P9,
+               COMMITMENT2=P10,
+               COMMITMENT3=P11,
+               COMMITMENT4=P12,
+               VcC1=P13,
+               VcC2=P14,
+               VcC3=P15,
+               VcC4=P16,
+               VcC5=P17,
+               VcC6=P18,
+               ECOSAT1=P23,
+               ECOSAT2=P24,
+               ECOSAT3=P25,
+               SOCSAT1=P26,
+               SOCSAT2=P27,
+               SOCSAT3=P28,
+               ICT1=P97,
+               ICT2=P98,
+               ICT3=P99,
+               ICT4=P100
+              )
+h.simple_mm <- constructs(
+     composite("ICT", multi_items("ICT", 1:4)),
+     composite("VcC", multi_items("VcC", 1:5)),
+     composite("TRUST", multi_items("TRUST", 1:3)),
+     composite("COMMITMENT", multi_items("COMMITMENT", 1:4)),
+     composite("ECOSAT", multi_items("ECOSAT", 1:3)),
+     composite("SOCSAT", multi_items("SOCSAT",1:3))
+     )
+# Create structural model ----
+h.simple_sm <- relationships(
+     paths(from = c("ICT"), to = c("VcC")),
+     paths(from = c("VcC"), to = c("TRUST","COMMITMENT")),
+     paths(from = c("TRUST"), to = c("COMMITMENT", "SOCSAT")),
+     paths(from = c("COMMITMENT"), to = c("SOCSAT")),
+     paths(from = c("SOCSAT"), to = c("ECOSAT"))
+     )
+# Estimate the model
+simple_model <- estimate_pls(data = h.df,
+                                      measurement_model = h.simple_mm,
+                                      structural_model  = h.simple_sm,
+                                      inner_weights = path_weighting,
+                                      missing = mean_replacement,
+                                      missing_value = NA)
+```
+
+Realizada la prueba de normalidad a los indicadores, observamos que la gran mayoría presenta problemas de normalidad, al tratarse de una escala ordinal. Utilizado el test Lilliefors (Kolgomorv-Smirnov).
+
+```{r fig.width=8, fig.height=4.5}
+lillie.test(h.df$TRUST1)
+lillie.test(h.df$TRUST2)
+lillie.test(h.df$TRUST3)
+lillie.test(h.df$COMMITMENT1)
+lillie.test(h.df$COMMITMENT2)
+lillie.test(h.df$COMMITMENT3)
+lillie.test(h.df$COMMITMENT4)
+lillie.test(h.df$VcC1)
+lillie.test(h.df$VcC2)
+lillie.test(h.df$VcC3)
+lillie.test(h.df$VcC4)
+lillie.test(h.df$VcC5)
+lillie.test(h.df$VcC6)
+lillie.test(h.df$ECOSAT1)
+lillie.test(h.df$ECOSAT2)
+lillie.test(h.df$ECOSAT3)
+lillie.test(h.df$SOCSAT1)
+lillie.test(h.df$SOCSAT2)
+lillie.test(h.df$SOCSAT3)
+lillie.test(h.df$ICT1)
+lillie.test(h.df$ICT2)
+lillie.test(h.df$ICT3)
+lillie.test(h.df$ICT4)
+par(mfrow=c(2,3))
+pairs.panels(select(h.df,2:4), method="pearson", show.points=TRUE, ellipses=TRUE, smooth=TRUE, density=TRUE, cor=TRUE, stars=TRUE, scale=TRUE, hist.col="  cadetblue")
+pairs.panels(select(h.df,5:8), method="pearson", show.points=TRUE, ellipses=TRUE, smooth=TRUE, density=TRUE, cor=TRUE, stars=TRUE, scale=TRUE, hist.col="  cadetblue")
+pairs.panels(select(h.df,9:14), method="pearson", show.points=TRUE, ellipses=TRUE, smooth=TRUE, density=TRUE, cor=TRUE, stars=TRUE, scale=TRUE, hist.col=" cadetblue")
+pairs.panels(select(h.df,15:17), method="pearson", show.points=TRUE, ellipses=TRUE, smooth=TRUE, density=TRUE, cor=TRUE, stars=TRUE, scale=TRUE, hist.col="cadetblue")
+pairs.panels(select(h.df,18:20), method="pearson", show.points=TRUE, ellipses=TRUE, smooth=TRUE, density=TRUE, cor=TRUE, stars=TRUE, scale=TRUE, hist.col="cadetblue")
+pairs.panels(select(h.df,21:24), method="pearson", show.points=TRUE, ellipses=TRUE, smooth=TRUE, density=TRUE, cor=TRUE, stars=TRUE, scale=TRUE, hist.col="cadetblue")
+par(mfrow=c(1,1))
+```
+
+En los gráficos siguientes mostramos el modelo de medida (outer model) y el modelo estructural (inner model), establecidos a partir de las hipótesis lanzadas.
+
+```{r load,warning=FALSE, message=FALSE, fig.width=16, fig.height=9}
+plot(h.simple_mm)
+plot(h.simple_sm)
+```
+
+### Summary 
+
+Para el modelo de medida se han considerado constructos relfectivos. De este modo, el primer paso debe ser observar el resumen de los indicadores de fiabilidad, consistencia interna y validez. 
+
+El resultado del análisis Nota ^[En https://forum.smartpls.com/viewtopic.php?f=5&t=3805 hay una "discusión en torno al "greater than 0.9" de Primer PLS ... de Hair; lo solventa un desarrollador de SmartPLS que es investigador: https://www.researchgate.net/profile/Jan_Michael_Becker ]
+
+
+```{r fig.cap='Tabla Resumen', fig.width=16, fig.height=9}
+# Summarize the model results
+summary_simple <- summary(simple_model)
+summary_simple$reliability
+```
+
+```{r fig.cap='Gráfico Resumen', fig.width=16, fig.height=9}
+plot(summary_simple$reliability)
+```
+
+
+### HTMT
+
+```{r}
+summary_simple$validity$htmt
+```
+
+### Fornell-Larcker
+
+```{r}
+summary_simple$validity$fl_criteria
+```
+
+### Cross-loadings
+
+```{r}
+summary_simple$validity$cross_loadings
+```
+
+### vif items
+
+```{r}
+summary_simple$validity$vif_items
+```
+
+### vif antecedents
+
+```{r}
+summary_simple$vif_antecedents
+```
+
+### it_criteria
+
+```{r}
+summary_simple$it_criteria
+```
+
+### f<sup>2</sup> - effect sizes
+
+```{r}
+summary_simple$fSquare
+```
+
+### Paths - R<sup>2</sup>
+
+```{r}
+summary_simple$paths
+```
+
+
+### Bootstrapping
+
+```{r fig.width=16, fig.height=9}
+# Bootstrap the model
+boot_model <- bootstrap_model(seminr_model = simple_model,
+                                        nboot = 1000,
+                                        cores = NULL,
+                                        seed = 123)
+summary_boot <- summary(boot_model)
+```
+
+### Inspect the structural paths")
+
+```{r}
+summary_boot$bootstrapped_paths
+```
+### Inspect bootstrapped weights
+
+```{r}
+summary_boot$bootstrapped_weights
+```
+### Inspect bootstrapped loadings
+
+```{r}
+summary_boot$bootstrapped_loadings
+```
+### Inspect bootstrapped HTMT
+
+```{r}
+summary_boot$bootstrapped_HTMT
+```
+
+### Inspect the total effects (paths)
+
+```{r}
+summary_boot$bootstrapped_total_paths
+```
+
+### Plot model
+
+```{r}
+plot(boot_model, theme=seminr_theme_smart())
+```
+
+
+## Agencias
+
+```{r warning=FALSE, message=FALSE, fig.width=16, fig.height=9}
+a.df <-select(a.data,
+              ID=CUESTIONARIO,
+               TRUST1=P8,
+               TRUST2=P9,
+               TRUST3=P10,
+               COMMITMENT1=P11,
+               COMMITMENT2=P12,
+               COMMITMENT3=P13,
+               COMMITMENT4=P14,
+               VcC1=P15,
+               VcC2=P16,
+               VcC3=P17,
+               VcC4=P18,
+               VcC5=P19,
+               VcC6=P20,
+               ECOSAT1=P43,
+               ECOSAT2=P44,
+               ECOSAT3=P45,
+               SOCSAT1=P46,
+               SOCSAT2=P47,
+               SOCSAT3=P48,
+               ICT1=P110,
+               ICT2=P111,
+               ICT3=P112,
+               ICT4=P113,
+               ICT5=P114
+              )
+a.simple_mm <- constructs(
+     composite("ICT", multi_items("ICT", 1:5)),
+     composite("VcC", multi_items("VcC", 1:6)),
+     composite("TRUST", multi_items("TRUST", 1:3)),
+     composite("COMMITMENT", multi_items("COMMITMENT", 1:4)),
+     composite("ECOSAT", multi_items("ECOSAT", 1:3)),
+     composite("SOCSAT", multi_items("SOCSAT",1:3))
+     )
+
+# Create structural model ----
+a.simple_sm <- relationships(
+     paths(from = c("ICT"), to = c("VcC")),
+     paths(from = c("VcC"), to = c("TRUST","COMMITMENT")),
+     paths(from = c("TRUST"), to = c("COMMITMENT", "SOCSAT")),
+     paths(from = c("COMMITMENT"), to = c("SOCSAT")),
+     paths(from = c("SOCSAT"), to = c("ECOSAT"))
+     )
+# Estimate the model
+simple_model <- estimate_pls(data = a.df,
+                                      measurement_model = a.simple_mm,
+                                      structural_model  = a.simple_sm,
+                                      inner_weights = path_weighting,
+                                      missing = mean_replacement,
+                                      missing_value = NA)
+plot(a.simple_mm)
+plot(a.simple_sm)
+```
+
+### Summary
+
+```{r fig.width=16, fig.height=9}
+# Summarize the model results
+summary_simple <- summary(simple_model)
+```
+
+```{r fig.width=16, fig.height=9}
+plot(summary_simple$reliability)
+```
+
+
+### HTMT
+
+```{r}
+summary_simple$validity$htmt
+```
+
+### Fornell-Larcker
+
+```{r}
+summary_simple$validity$fl_criteria
+```
+
+### Cross-loadings
+
+```{r}
+summary_simple$validity$cross_loadings
+```
+
+### vif items
+
+```{r}
+summary_simple$validity$vif_items
+```
+
+### vif antecedents
+
+```{r}
+summary_simple$vif_antecedents
+```
+
+### it_criteria
+
+```{r}
+summary_simple$it_criteria
+```
+
+### f<sup>2</sup> - effect sizes
+
+```{r}
+summary_simple$fSquare
+```
+
+### Paths - R<sup>2</sup>
+
+```{r}
+summary_simple$paths
+```
+
+
+### Bootstrapping
+
+```{r fig.width=16, fig.height=9}
+# Bootstrap the model
+boot_model <- bootstrap_model(seminr_model = simple_model,
+                                        nboot = 1000,
+                                        cores = NULL,
+                                        seed = 123)
+summary_boot <- summary(boot_model)
+```
+
+### Inspect the structural paths")
+
+```{r}
+summary_boot$bootstrapped_paths
+```
+### Inspect bootstrapped weights
+
+```{r}
+summary_boot$bootstrapped_weights
+```
+### Inspect bootstrapped loadings
+
+```{r}
+summary_boot$bootstrapped_loadings
+```
+### Inspect bootstrapped HTMT
+
+```{r}
+summary_boot$bootstrapped_HTMT
+```
+
+### Inspect the total effects (paths)
+
+```{r}
+summary_boot$bootstrapped_total_paths
+```
+
+### Plot model
+
+```{r}
+plot(boot_model, theme=seminr_theme_smart())
+```

@@ -1,0 +1,427 @@
+---
+title: "PLS - Hoteles"
+author: "Roberto Gil-Saura"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    highlight: tango
+    number_sections: yes
+    df_print: paged
+    toc: yes
+  word_document:
+    toc: yes
+    reference_docx: "template.docx"
+  pdf_document:
+    toc: yes
+subtitle: Artículo 1, versión 1 (Doctoranda Moreno)
+---
+
+```{=html}
+<style type="text/css">
+.main-container {
+  max-width: 100%;
+  margin-left: 10px;
+  margin-right: 10px;}
+.p {
+  font-size: 0.8em
+}
+</style>
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, comment=NA, message = FALSE, warning=FALSE)
+suppressMessages(library(tidyverse))
+suppressMessages(library(seminr))
+suppressMessages(library(pwr))
+suppressMessages(library(expss))
+suppressMessages(library(openxlsx))
+suppressMessages(data <- read_delim("~/R/r-data/00.pls-seminr/art1-moreno/data/data.csv","\t", escape_double = FALSE, trim_ws = TRUE))
+suppressMessages(df <- data.frame(sapply(data,function(x) ifelse(is.na(x),mean(x, na.rm = TRUE),x))))
+options(width=999)
+write_delim(df, file = "~/R/r-data/00.pls-seminr/art1-moreno/data/df.csv", delim=",")
+cor <- select(df, COR1:COR9)
+cor$CORTOT <- rowSums(cor)
+cor <- cor %>%  mutate(GRP=case_when(
+     CORTOT <= median(cor$CORTOT) ~ 1, 
+     CORTOT > median(cor$CORTOT) ~ 2))
+df <- cbind(df,GRP=cor$GRP)
+write_delim(df, file = "~/R/r-data/00.pls-seminr/art1-moreno/data/df.csv", delim=",")
+df1 <- filter(df, GRP==1)
+df2 <- filter(df, GRP==2)
+```
+
+### Notas
+
+En este modelo sostenibilidad (SUS) mantiene todos sus ítems, mientras que _brand equity_ (BEQ) solo toma la escala desde 35 a 38 (Yoo et al.).
+
+# Análisis del modelo de medida, multigrupo.
+
+Seguidamente mostramos el modelo de medida (outer model) y el modelo estructural (inner model), establecidos a partir de las hipótesis lanzadas.
+
+```{r include=FALSE, warning=FALSE, message=FALSE}
+#======================================
+# Create mesaurment model
+#======================================
+mm <- constructs(
+     composite("ICT", multi_items("ICT", c(1:4 ))),
+     composite("SUS", multi_items("SUS", c(1:15))),
+     composite("BEQ", multi_items("BEQ", c(7:10))),
+     composite("RVL", multi_items("RVL", c(1:5 ))),
+     composite("SST", multi_items("SST", c(1:3 ))),
+     composite("EST", multi_items("EST", c(1:3 ))))
+#======================================
+# Create structural model
+#======================================
+sm <- relationships(
+     paths(from = c("ICT"), to = c("SUS")),
+     paths(from = c("SUS"), to = c("BEQ")),
+     paths(from = c("BEQ"), to = c("RVL")),
+     paths(from = c("RVL"), to = c("SST")),
+     paths(from = c("SST"), to = c("EST"))
+     )
+```
+
+El modelo estructural es el siguiente:
+
+```{r fig.cap='Modelo estructural', warning=FALSE, message=FALSE, fig.width=8, fig.height=4.5}
+# Dibujamos el modelo estructural
+# Estimate the model
+model <- estimate_pls(data = df,
+                                      measurement_model = mm,
+                                      structural_model  = sm,
+                                      inner_weights = path_weighting,
+                                      missing = mean_replacement,
+                                      missing_value = NA)
+
+model1 <- estimate_pls(data = df1,
+                                      measurement_model = mm,
+                                      structural_model  = sm,
+                                      inner_weights = path_weighting,
+                                      missing = mean_replacement,
+                                      missing_value = NA)
+model2 <- estimate_pls(data = df2,
+                                      measurement_model = mm,
+                                      structural_model  = sm,
+                                      inner_weights = path_weighting,
+                                      missing = mean_replacement,
+                                      missing_value = NA)
+res_model <- summary(model)
+res_model1 <- summary(model1)
+res_model2 <- summary(model2)
+plot(sm)
+```
+
+
+## Fiabilidad del instrumento de medida
+
+Para el modelo de medida se han considerado constructos de tipo composite mode_A (reflectivos). De este modo, el primer paso debe ser observar el resumen de los indicadores de fiabilidad, consistencia interna y validez.
+
+```{r fig.cap='Tabla Resumen', fig.width=16, fig.height=9}
+cat('Modelo')
+print(res_model$reliability)
+cat('Modelo grupo 1\n')
+print(res_model1$reliability)
+cat('\n\nModelo grupo 2\n')
+print(res_model2$reliability)
+```
+
+El resultado del análisis muestra todas las escalas que apoyan las variables latentes tienen un *Cronbach's alpha* mayor que 0.7, completado por una fiabilidad del compuesto *rhoC* también por encima de 0.7. para valores superiores a 0.9[^1].
+
+[^1]: En <https://forum.smartpls.com/viewtopic.php?f=5&t=3805> hay una "discusión en torno al "greater than 0.9" de Primer PLS ... de Hair; lo solventa un investigador / desarrollador de SmartPLS: <https://www.researchgate.net/profile/Jan_Michael_Becker>
+
+## Validez convergente
+
+### AVE (reflectivos)
+
+Del mismo modo, para evaluar la *validez convergente* o grado con el que una medida correlaciona positivamente con medidas alternativas del mismo constructo, usamos el coeficiente *AVE (average variance extracted)* que también cumple con la expectativa de estar por encima de 0.5.
+
+```{r fig.cap='AVE (average variance extracted)'}
+cat('Modelo')
+print(round(res_model$reliability[,3],3))
+cat('Modelo grupo 1\n')
+print(round(res_model1$reliability[,3],3))
+cat('\n\nModelo grupo 2\n')
+print(round(res_model2$reliability[,3],3))
+```
+
+Los indicadores son mostrados de forma conjunta en el siguiente gráfico.
+
+```{r fig.cap='Tabla de fiabilidad', fig.width=16, fig.height=9}
+cat('Modelo')
+plot(res_model$reliability, title(main='Grupo 1'))
+cat('Modelo grupo 1\n')
+plot(res_model1$reliability, title(main='Grupo 1'))
+cat('\n\nModelo grupo 2\n')
+plot(res_model2$reliability, title(main='Grupo 2'))
+```
+
+### Análisis de las cargas (reflectivos) o de los pesos (formativos)
+
+Por otro lado, es importante analizar también las cargas o *loadings*, indicadores de la fiabilidad del indicador en el constructo, y que deberían ser mayores de 0.7 para retener el indicador; para aquellas que están entre 0.4 y 0.7 debe ser analizado el comportamiento del constructo ante una eliminación del indicador con carga baja[^2].
+
+[^2]: En nuestro caso al proceder con la eliminación de aquellas cargas menores de 0.7 no mejoraba significativamente el modelo
+
+```{r fig.cap='Loadings'}
+cat('Modelo')
+print(res_model$loadings)
+cat('Modelo grupo 1\n')
+print(res_model1$loadings)
+cat('\n\nModelo grupo 2\n')
+print(res_model2$loadings)
+```
+
+## Validez discriminante
+
+### Cross-loadings
+
+Para el análisis de la validez discriminante o capacidad de un constructo de ser realmente distinto a otros, utilizamos las denominadas *cross-loadings*, que miden esa capacidad del constructo. En la tabla adjunta se puede observar en cada indicador carga de forma superior en su variable latente, siendo el resto de cargas de menor intensidad.
+
+```{r fig.cap='Cross-loadings'}
+cat('Modelo')
+print(res_model$validity$cross_loadings)
+cat('Modelo grupo 1\n')
+print(res_model1$validity$cross_loadings)
+cat('\n\nModelo grupo 2\n')
+print(res_model2$validity$cross_loadings)
+```
+
+### Fornell-Larcker
+
+El criterio de Fornell-Larcker, compara la raíz cuadrado del *AVE* con la correlación de las variables latentes. La raíz cuadrada del AVE de cada constructo, debería ser más grande que la más alta correlación con cualquier otro constructo. Se puede observar en la tabla siguiente que el valor en la diagonal principal, es mayor que el resto de valores en la parte inferior de la matriz.
+
+```{r fig.cap='criterio de Fornell-Larcker'}
+cat('Modelo')
+print(res_model$validity$fl_criteria)
+cat('Modelo grupo 1\n')
+print(res_model1$validity$fl_criteria)
+cat('\n\nModelo grupo 2\n')
+print(res_model2$validity$fl_criteria)
+```
+
+### HTMT
+
+Por último el HTMT es un ratio que si es mayor que 0.90 indica una pérdida de validez discriminante. 
+
+```{r fig.cap='Hetero trait - mono trait ratio'}
+cat('Modelo')
+print(res_model$validity$htmt)
+cat('Modelo grupo 1\n')
+print(res_model1$validity$htmt)
+cat('\n\nModelo grupo 2\n')
+print(res_model2$validity$htmt)
+```
+
+El ratio HTMT nos indica que los indicadores que pertenecen a una determinada variables latente están correlacionando más como otra variable latente que con la propia. HT/MT\> 0.85 Clark & Watson, \> 0.90 Gold et al. 2001; Teo et al. 2008).
+
+**Atención SST con EST tiene un valor de 0.907!!!**
+
+# Análisis del modelo estructural
+
+Una vez analizados los constructos desde el punto de vista de su composición, debemos analizar el modelo estructural en su conjunto. Partiendo de que el objetivo del PLS es la maximización de la varianza explicada, las medidas más importantes son la fiabilidad, la validez convergente y la validez discriminante del conjunto del modelo.
+
+- Paths o cargas de latentes...
+- R<sup>2</sup>, coeficiente de determinación y/o % de varianza explicada
+- f<sup>2</sup> y q<sup>2</sup> efecto tamaño
+- Q<sup>2</sup>, relevancia predictiva
+
+## Paths y R<sup>2</sup>
+
+```{r fig.cap=''}
+cat('Modelo')
+print(res_model$paths)
+cat('Modelo grupo 1\n')
+print(res_model1$paths)
+cat('\n\nModelo grupo 2\n')
+print(res_model2$paths)
+```
+
+Buscar R<sup>2</sup> mayores de 0.7, aunque valores alrededor de 0.25 sean aceptados según ámbitos; (sustancial mayor que 0.75, moderado alrededor de 0.5 y débil, 0.25). Usar R<sup>2</sup><sub>adj</sub> para comparar modelos con diferente número de constructos y/u observaciones.
+
+## f<sup>2</sup> - effect sizes
+
+El f<sup>2</sup> permite evaluar la contribución de cada constructo exógeno a la R<sup>2</sup> de un constructo endógeno. Los valores de 0.02, 0.15 y 0.35 indican un efecto pequeño, mediano o grande sobre el constructo endógeno.
+
+```{r fig.cap=''}
+cat('Modelo')
+print(res_model$fSquare)
+cat('Modelo grupo 1\n')
+print(res_model1$fSquare)
+cat('\n\nModelo grupo 2\n')
+print(res_model2$fSquare)
+```
+
+## Efectos
+
+### Totales
+
+```{r fig.cap='Efectos totales'}
+cat('Modelo')
+res_model$total_effects
+cat('Modelo grupo 1\n')
+res_model1$total_effects
+cat('\n\nModelo grupo 2\n')
+res_model2$total_effects
+```
+
+### Indirectos
+
+```{r fig.cap='Efectos indirectos'}
+cat('Modelo')
+res_model$total_indirect_effects
+cat('Modelo grupo 1\n')
+res_model1$total_indirect_effects
+cat('\n\nModelo grupo 2\n')
+res_model2$total_indirect_effects
+```
+
+### it_criteria
+
+```{r fig.cap='IT Criteria'}
+cat('Modelo')
+res_model$it_criteria
+cat('Modelo grupo 1\n')
+res_model1$it_criteria
+cat('\n\nModelo grupo 2\n')
+res_model2$it_criteria
+```
+
+# Modelización con bootstrapping
+
+*Bootstrapping* para calcular la significatividad de los paths estimados. Habitualmente se trabaja con un 5% (t \> 1.96) lo que implica significatividad al 95%. Podemos cambiar al 10 o al 1 según ámbito. Usar doble *bootstrapping* si hay menos de 4 constructos.
+
+```{r fig.cap=''}
+# Bootstrap the model
+model_boot <- bootstrap_model(seminr_model = model,nboot = 100,cores = NULL,seed = 123)
+res_boot <- summary(model_boot)
+model_boot1 <- bootstrap_model(seminr_model = model1,nboot = 100,cores = NULL,seed = 123)
+res_boot1 <- summary(model_boot1)
+model_boot2 <- bootstrap_model(seminr_model = model2,nboot = 100,cores = NULL,seed = 123)
+res_boot2 <- summary(model_boot2)
+```
+
+## Structural paths
+
+```{r fig.cap='Paths estructurales'}
+cat('Modelo')
+res_boot$bootstrapped_paths
+cat('Modelo grupo 1\n')
+res_boot1$bootstrapped_paths
+cat('\n\nModelo grupo 2\n')
+res_boot2$bootstrapped_paths
+```
+
+## Bootstrapped loadings
+
+```{r fig.cap='Cargas'}
+cat('Modelo')
+res_boot$bootstrapped_loadings
+cat('Modelo grupo 1\n')
+res_boot1$bootstrapped_loadings
+cat('\n\nModelo grupo 2\n')
+res_boot2$bootstrapped_loadings
+```
+
+## Bootstrapped HTMT
+
+```{r fig.cap='Ratio Hetero Trait - Mono Trait'}
+cat('Modelo')
+res_boot$bootstrapped_HTMT
+cat('Modelo grupo 1\n')
+res_boot1$bootstrapped_HTMT
+cat('\n\nModelo grupo 2\n')
+res_boot2$bootstrapped_HTMT
+```
+
+## Total effects (paths)
+
+```{r fig.cap='Paths totales'}
+cat('Modelo')
+res_boot$bootstrapped_total_paths
+cat('Modelo grupo 1\n')
+res_boot1$bootstrapped_total_paths
+cat('\n\nModelo grupo 2\n')
+res_boot2$bootstrapped_total_paths
+```
+
+# Modelos
+
+## Modelo general
+
+```{r fig.cap='Modelo con bootstrapping', fig.width=16, fig.height=9}
+cat('Modelo')
+plot(model_boot)
+```
+
+## Modelo grupo 1
+
+```{r fig.cap='Modelo con bootstrapping', fig.width=16, fig.height=9}
+cat('Modelo grupo 1\n')
+plot(model_boot1)
+```
+
+## Modelo grupo 2
+
+```{r fig.cap='Modelo con bootstrapping', fig.width=16, fig.height=9}
+cat('\n\nModelo grupo 2\n')
+plot(model_boot2)
+```
+
+# Predicción (seminr)
+
+## Modelo general
+
+```{r fig.cap='Modelo con bootstrapping', fig.width=16, fig.height=9}
+cat('Modelo grupo 1\n')
+predict_simple_model1 <- predict_pls(model = model1,technique = predict_DA,noFolds = 10,reps = 10)
+summary(predict_simple_model1)
+```
+
+## Modelo grupo 1
+
+```{r fig.cap='Modelo con bootstrapping', fig.width=16, fig.height=9}
+cat('Modelo grupo 1\n')
+predict_simple_model1 <- predict_pls(model = model1,technique = predict_DA,noFolds = 10,reps = 10)
+summary(predict_simple_model1)
+```
+
+## Modelo grupo 2
+
+```{r fig.cap='Modelo con bootstrapping', fig.width=16, fig.height=9}
+cat('\n\nModelo grupo 2\n')
+predict_simple_model2 <- predict_pls(model = model2,technique = predict_DA,noFolds = 10,reps = 10)
+summary(predict_simple_model2)
+```
+
+# Bibliografía
+
+-   Clark, L. y Watson, D. (1995). Constructing validity: basic issues in objective scale development. Psychological Assessment, 7(3):309---319.
+
+-   Gold, A. , Malhotra, A. , y Segars, A. (2001). Knowledge management: An organizational capabilities perspective. Journal of Management Information Systems, 18(1):185---214.
+
+-   Hair Jr., Joseph F.; G. Tomas M. Hult; Christian M. Ringle; Marko Sarstedt. (2017) A Primer on Partial Least Squares Structural Equation Modeling (PLS-SEM). SAGE Publications. 2ª edición, Kindle.
+
+-   Aldás Manzano, J., & Uriel Jimenez, E. (2017). Análisis multivariante aplicado con R. Ediciones Paraninfo, SA.
+
+-   Champely, S. (2020). pwr: Basic Functions for Power Analysis. R package version 1.3-0. <https://CRAN.R-project.org/package=pwr>
+
+-   Cohen, J. (1988). Statistical power analysis for the behavioral sciences (2nd ed.). Hillsdale,NJ: Lawrence Erlbaum.
+
+-   Chin, W.W., 1998. The partial least squares approach to structural equation modelling. In G. A. Marcoulides (Ed.), Modern methods for business research, 295-336. Mahwah, NJ: Lawrence Erlbaum Associates.
+
+-   Demin, Gregory. 2020. Expss: Tables, Labels and Some Useful Functions from Spreadsheets and 'SPSS' Statistics. <https://CRAN.R-project.org/package=expss.>
+
+-   Falk, R. F. y Miller, N. B., 1992. A primer for soft modeling. Ohio: University of Akron Press.
+
+-   Gold, A., Malhotra, A., y Segars, A. (2001). Knowledge management: An organizational capabilities perspective. Journal of Management Information Systems, 18(1):185---214.
+
+-   Gil, R., 2021. Tablas y gráficos con R y R Studio. 1st ed. [ebook] València, ISBN: 978-84-09-29382-7; disponible en: <https://tables.investigaonline.com.>
+
+-   Hair, J.F., Hult, G. T.M., Ringle, C.M., & Sarstedt, M., 2017. A primer on partial least squares structural equation modelling (PLS-SEM) (2nd ed.). Thousand Oaks, CA: Sage.
+
+-   Henseler, J., Ringle, C.M., & Sarstedt, M., 2016. Testing measurement invariance of com- posites using partial least squares. International Marketing Review, 33(3), 405-431.
+
+-   Joreskog, K.G., 1978. Structural analysis of covariance and correlation matrices. Psychometrika, 43, 443-477.
+
+-   R Core Team (2021). R: A language and environment for statistical computing. R Foundation for Statistical Computing, Vienna, Austria.URL <https://www.R-project.org/>.
+
+-   Ray, S., Danks, N.P.& Calero, A. (2021). seminr: Domain-Specific Language for Building and Estimating Structural Equation Models. R package version 2.0.1. <https://CRAN.R-project.org/package=seminr.>

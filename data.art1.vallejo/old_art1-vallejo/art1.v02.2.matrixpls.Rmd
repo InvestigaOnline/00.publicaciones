@@ -1,0 +1,113 @@
+---
+title: "PLS - Agencias - Matrix PLS"
+author: "Roberto Gil-Saura"
+date: "2/4/2021"
+output:
+  html_document: 
+    number_sections: yes
+    df_print: kable
+    toc: yes
+    toc_depth: 5
+  word_document:
+    toc: yes
+subtitle: Artículo 1
+---
+
+NOTA: Quitamos LOY3
+
+```{=html}
+<style type="text/css">
+.main-container {
+  max-width: 100%;
+  margin-left: 10px;
+  margin-right: 10px;}
+.p {
+  font-size: 0.8em
+}
+</style>
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, comment=NA)
+suppressMessages(library(readr))
+suppressMessages(library(dplyr))
+suppressMessages(library(seminr))
+suppressMessages(library(expss))
+suppressMessages(library(corrplot))
+suppressMessages(library(nortest))
+suppressMessages(library(psych))
+suppressMessages(library(lavaan))
+suppressMessages(library(matrixpls))
+suppressMessages(library(pwr))
+
+suppressMessages(a.data <- read_delim("~/R/r-data/00.pls-seminr/data/datos.art01.v02bis.csv","\t", escape_double = FALSE, locale = locale(decimal_mark = ",", grouping_mark = ""), trim_ws = TRUE))
+options(width=9999)
+a.df <- a.data
+```
+
+# Modelización
+
+Seguidamente mostramos el modelo de medida (outer model) y el modelo estructural (inner model), establecidos a partir de las hipótesis lanzadas.
+
+```{r warning=FALSE, message=FALSE}
+
+#===================================
+# Modelo Lavaan y uso de matrixpls para la relevancia predictiva
+#===================================
+modelo.lavaan <- '
+  ICT=~ICT1+ICT2+ICT3+ICT4+ICT5
+  VCC=~VCC1+VCC2+VCC3+VCC4+VCC5+VCC6
+  TRUST=~TRUST1+TRUST2+TRUST3
+  COMMITMENT=~COMMITMENT1+COMMITMENT2+COMMITMENT3+COMMITMENT4
+  SOCSAT=~SOCSAT1+SOCSAT2+SOCSAT3
+  ECOSAT=~ECOSAT1+ECOSAT2+ECOSAT3
+  LOY=~LOY1+LOY2+LOY4
+  
+  ICT~VCC
+  VCC~TRUST+COMMITMENT
+  TRUST~COMMITMENT+SOCSAT
+  COMMITMENT~SOCSAT
+  SOCSAT~ECOSAT
+  ECOSAT~LOY
+'
+# Estimate the model
+
+modelo.lavaan.out <- matrixpls(cov(select(a.df, c(-22))),modelo.lavaan)
+summary(modelo.lavaan.out)
+
+#Blindfolding -> no se publica
+predictions.blindfold <- matrixpls.crossvalidate(cov(select(a.df, c(-22))), 
+                                                 model = modelo.lavaan, 
+                                                 blindfold = TRUE, 
+                                                 predictionType = "redundancy", 
+                                                 groups = 7)
+predictions.blindfold
+prediction_relevance <- q2(cov(select(a.df, c(-22))), predictions.blindfold, model=modelo.lavaan)
+prediction_relevance
+```
+
+
+```{r warning=FALSE, message=FALSE, echo=FALSE}
+# En nuestro ejemplo tenemos una muestra 256 empresas, 
+# y la regresión más complicada es la del constructo VCC
+# con 6 regresores por lo que v=256-6-1=249.
+
+#======================================
+# Potencia de las regresiones
+#======================================
+
+# N= (tamaño muestral) 
+# u = número de variables independientes de la mayor regresión
+# v = N -u -1
+# f2 = 0.15 (efecto medio)
+# sig.level es el nivel de significación, normalmente 0.05
+
+pwr.f2.test(u = 6, v = 249 , f2 = 0.15 , sig.level = 0.05, power = NULL)
+
+#Si quisiéramos saber la muestra necesaria para alcanzar una potencia del 80%
+
+pwr.f2.test(u = 6, v = NULL , f2 = 0.15 , sig.level = 0.05, power = 0.80)
+```
+
+El resultado indica que nuestro tamaño muestra posee una potencia del _power_, ya que el tamaño muestral máximo para una potencia del 80% sería de _v_ elementos con los parámetros indicados.
+

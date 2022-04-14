@@ -1,0 +1,233 @@
+---
+title: "PLS Path modelling"
+author: "RGS"
+date: "`r Sys.Date()`"
+output:
+  html_document
+---
+
+## Mi primer PLS pm R
+
+Con la tesis, alimentación y usando sólo TRUST, ENGAGEMENT, ECOSAT, SOCSTA, LOYALTY
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, comment = NA)
+suppressMessages(library(plspm))
+suppressMessages(library(kableExtra))
+suppressMessages(library(expss))
+setwd("~/R/r-data/00.tesis")
+data <- read_spss('tesis.sav')
+data <- where(data, DCP1 == 1)
+
+```
+
+Descripción de las variablES INDICADORES
+
+* CFZP05. Este proveedor es sincero y honrado
+* CFZP06. Este proveedor cumple sus promesas
+* CFZP07. Comunica de forma honesta cualquier problema que pueda afectarme
+* CFZP08. Este proveedor se preocupa por mis intereses
+* CFZP09. La información que proporciona este proveedor es fiable
+* CFZP10. Este proveedor es experto en los productos que le compro
+* CFZP11. En general, tengo absoluta confianza en este proveedor
+* CMPP12. Estoy muy comprometido en esta relación con este proveedor
+* CMPP13. Soy muy fiel a este proveedor
+* CMPP14. Intento mantener a largo plazo esta relación
+* CMPP15. Esta relación merece por mi parte hacer el máximo esfuerzo para mantenerla
+* CMPP16. En general, me siento comprometido con este proveedor
+* SATP43. La relación con este proveedor me ha dado una posición de mercado dominante y rentable en el área de ventas
+* SATP44. Estoy muy contento en mi decisión de vender productos de este proveedor ya que su alta calidad aumenta el tráfico de clientes
+* SATP45. La política de marketing de este proveedor me ayuda a trabajar con eficacia
+* SATP46. Las relaciones con este proveedor se caracterizan por el respeto mutuo
+* SATP47. Estoy satisfecho con la relación de trabajo en general
+* SATP48. Si pudiera hacerlo de nuevo, volvería a escoger la línea de productos de este proveedor en lugar de la línea de otro proveedor de la * competencia
+* LOYP49. He comprado más productos a este proveedor en los últimos años que a otro
+* LOYP50. Considero a este proveedor principal proveedor para mi negocio
+* LOYP51. Este proveedor ha sido mi principal proveedor en los últimos años
+
+Los datos ...
+
+```{r}
+kable(head(data[,c(1,39:42, 5:11, 12:16, 43:45, 46:48, 49:51)], 10)) %>% 
+  kable_material(c('striped'))
+```
+
+
+
+Creación del modelo
+
+
+```{r}
+rel       <- c(0,0,0,0,0,0)
+trust     <- c(1,0,0,0,0,0)
+engagement<- c(1,1,0,0,0,0)
+ecosat    <- c(1,0,1,0,0,0)
+socsat    <- c(0,0,1,1,0,0)
+loyalty   <- c(0,1,1,1,1,0)
+
+# creating the matrix by binding rows
+path = rbind(rel, trust, engagement, ecosat, socsat, loyalty)
+# add column names (optional)
+colnames(path) = rownames(path)
+# let's see it
+path
+```
+
+Indicando que pool de variables pertenece a cada latente
+
+```{r}
+# list indicating what variables are associated with what latent
+# variables
+blocks = list(39:42, 5:11, 12:16, 43:45, 46:48, 49:51)
+blocks
+```
+
+Indicando la forma en que se miden las latentes (reflectivo (A) o formativo (B))
+
+```{r}
+# all latent variables are measured in a reflective way
+modes = rep("A", 6)
+modes
+```
+
+Rodando el modelo
+
+```{r}
+model = plspm(data, path, blocks, modes = modes)
+summary(model)
+```
+
+Algunas informaciones más ...
+
+```{r}
+#inner model
+plot(model, arr.tcol = '#000000', cex=0.9)  
+
+#outer model
+plot(model, what = "loadings", arr.width = 0.1,arr.tcol = '#000000', cex=0.9) 
+
+#scores
+kable(head(model$scores, 25))%>% 
+  kable_material(c('striped'))
+
+#unidimensinality (alpha)
+model$unidim
+```
+
+Extraemos de la tabla anterior:
+
+Alpha de Cronbach, mstb > 0.7
+
+```{r}
+model$unidim[, 3, drop = FALSE]
+```
+
+Dillon Goldstein mstb > 0.7
+
+```{r}
+model$unidim[, 4, drop = FALSE]
+```
+
+Primer y segundo autovalores, mstb gt 1 y mstb lt 1
+
+```{r}
+model$unidim[, 5:6]
+```
+
+
+```{r}
+plot(model, what = "loadings")
+kable(model$outer_model) %>% 
+  kable_material(c('striped'))
+```
+
+
+Sacamos los pesos para verificar
+
+```{r}
+# plotting weights
+plot(model, what = "weights",arr.tcol = '#000000', cex=0.9)
+```
+
+
+Vemos las cargas y las comunalidades
+
+```{r}
+# loadings and communalities
+kable(model$outer_model) %>% 
+  kable_material(c('striped'))
+```
+
+Vemos las cargas cruzadas
+
+```{r}
+# loadings and communalities
+model$outer_model
+```
+
+Representamos las cargas (ggplot)...
+
+```{r fig.width=9}
+library(ggplot2)
+library(reshape)
+# reshape crossloadings data.frame for ggplot
+xloads = melt(model$crossloadings, id.vars = c("name", "block"),variable_name = "LV")
+# bar-charts of crossloadings by block
+ggplot(data = xloads,aes(x = name, y = value, fill = block)) + # add horizontal reference lines
+  geom_hline(yintercept = 0, color = "gray75") + 
+  geom_hline(yintercept = 0.5, color = "gray70", linetype = 2) +
+  geom_bar(stat ='identity', position = 'dodge') + # indicate the use of bar-charts
+  facet_wrap(block ~ LV) + # panel display (i.e. faceting)
+  theme(axis.text.x = element_text(angle = 90),line = element_blank(),plot.title = element_text(size = 12)) +
+  ggtitle("Crossloadings") # add title
+```
+
+
+Vemos el modelo estructural
+
+```{r}
+# inner model
+model$inner_model
+```
+
+El coefiente de determinación
+
+```{r}
+# inner model summary
+model$inner_summary
+```
+
+
+La bondad del ajuste (GoF)
+
+```{r}
+model$gof
+```
+
+Rodamos el modelo ahora con viendo la precisión de la estimacion haciendo bootstrapping (200 submuestras)
+
+```{r}
+# running bootstrap validation
+val = plspm(data, path, blocks, modes = modes, boot.val = TRUE, br = 200)
+
+# bootstrap results
+val$boot
+
+# pesos
+val$boot$weights
+
+# cargas
+val$boot$loadings
+
+# paths
+val$boot$paths
+
+# RSQ
+val$boot$rsq
+
+#total efs
+val$boot$total.efs
+```
+

@@ -1,0 +1,164 @@
+---
+output:
+        html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+** La muestra, distribución geográfica **
+
+```{r echo=FALSE, messages = FALSE, warning=FALSE}
+suppressMessages(library(dplyr))
+suppressMessages(library(expss))
+suppressMessages(library(cluster))
+suppressMessages(library(factoextra))
+suppressMessages(library(NbClust))
+suppressMessages(library(DT))
+suppressMessages(library(leaflet))
+suppressMessages(library(leaflet.extras))
+suppressMessages(library(leaflet.extras2))
+suppressMessages(library(ggmap))
+suppressMessages(library(maptools))
+suppressMessages(library(kableExtra))
+
+
+df <- read_spss('~/R/r-data/00.tesis/tesis.bbdd.sav')
+data1 <- read.csv(file = '~/R/r-data/00.tesis/data1.csv')
+df <- cbind(df, data1)
+dfgeo <- select(df, 1, 126, 127, 128, 130, 131)
+dfgeo$adress <-
+  paste(dfgeo$DIRECCION,
+        ',',
+        dfgeo$CP,
+        ',',
+        dfgeo$MUNICIPIO,
+        ',',
+        dfgeo$PROVINCIA,
+        sep = '')
+data <- cbind(df, dfgeo)
+leaflet(data) %>%
+  addTiles() %>%
+  addMarkers(lng = ~ lon,
+             lat = ~ lat,
+             popup = ~ EMPRESA)
+```
+
+Si el cluster sale bien, se podría marcar con colores en el mapa, con las banderitas, cada grupo un color
+
+
+## Archivo de datos, ejemplo
+
+Para el cluster seleccionamos  algunas variables que mostramos aquí ...
+
+```{r echo=FALSE, messages = FALSE, warning=FALSE}
+data <- suppressMessages(read_spss('~/R/r-data/00.tesis/tesis.sav'))
+data <- filter(data, DCP1 == 1)
+# filtramos los establecimientos de alimentación
+df <- select(data, c(5:16, 58:61, 74:77, 52:56, 66:69, 62:65))
+kable(head(df, 10)) %>% 
+  kable_material(c('striped'))
+```
+
+
+El óptimo de clusters  (2) lo tomamos de aquí.
+
+```{r echo=FALSE, messages = FALSE, warning=FALSE}
+NbClust(
+  data = df,
+  diss = NULL,
+  distance = "euclidean",
+  min.nc = 2,
+  max.nc = 5,
+  method = "centroid",
+  index = 'all'
+)
+set.seed(311265)
+```
+
+
+## Cluster por algoritmo Kmeans
+
+
+```{r echo=FALSE, messages = FALSE, warning=FALSE}
+#******************************************
+#kMeans
+#******************************************
+fviz_nbclust(df, kmeans, method = "silhouette")
+km.res <- kmeans(df, 2, nstart = 50)
+dd <- cbind(data, cluster.km = km.res$cluster)
+fviz_cluster(
+  km.res,
+  data = df,
+  palette = c("red", "green", "blue", "#FC4E07", "#b2b2b2"),
+  ellipse.type = "t",
+  # Concentration ellipse
+  star.plot = FALSE,
+  # Add segments from centroids to items
+  repel = FALSE,
+  # Avoid label overplotting (slow)
+  max.overlaps = 300,
+  pointsize = 1,
+  ggtheme = theme_minimal()
+)
+kable(head(dd,10)) %>% 
+  kable_material(c('striped'))
+```
+
+**PAM Method**
+
+```{r echo=FALSE}
+
+
+#******************************************
+#PAM
+#******************************************
+fviz_nbclust(df, pam, method = "silhouette")
+set.seed(311265)
+pam.res <- pam(df, 2)
+dd <- cbind(data, cluster.pam = pam.res$cluster)
+fviz_cluster(
+        pam.res,
+        palette = c("red", "green"),
+        # color palette
+        ellipse.type = "t",
+        # Concentration ellipse
+        star.plot = FALSE,
+        # Add segments from centroids to items
+        repel = FALSE,
+        # Avoid label overplotting (slow)
+        max.overlaps = 300,
+        pointsize = 1,
+        ggtheme = theme_classic()
+)
+kable(head(dd,10)) %>% 
+  kable_material(c('striped'))
+```
+
+
+**CLARA Method**
+
+```{r echo=FALSE}
+#******************************************
+#CLARA
+#******************************************
+fviz_nbclust(df, clara, method = "silhouette")
+set.seed(311265)
+clara.res <- clara(df,2,metric = "euclidean",stand = FALSE,samples = 5,pamLike = FALSE)
+dd <- cbind(data, cluster.clr = clara.res$cluster)
+fviz_cluster(
+        clara.res,
+        palette = c("red", "blue"),
+        # color palette
+        ellipse.type = "t",
+        geom = "point",
+        star.plot = FALSE,
+        # Add segments from centroids to items
+        repel = FALSE,
+        # Avoid label overplotting (slow)
+        max.overlaps = 300,
+        pointsize = 1,
+        ggtheme = theme_classic()
+)
+kable(head(dd,10)) %>% 
+  kable_material(c('striped'))
+```

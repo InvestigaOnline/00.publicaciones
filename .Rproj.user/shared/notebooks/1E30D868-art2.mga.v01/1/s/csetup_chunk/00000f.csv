@@ -1,0 +1,24 @@
+"0","knitr::opts_chunk$set(echo = FALSE, comment=NA, warning=FALSE, message=FALSE)"
+"0","suppressMessages(library(readr))"
+"0","suppressMessages(library(dplyr))"
+"0","suppressMessages(library(seminr))"
+"0","suppressMessages(library(matrixpls))"
+"0","suppressMessages(library(semPLS))"
+"0","suppressMessages(library(pwr))"
+"0","suppressMessages(library(expss))"
+"0","suppressMessages(library(openxlsx))"
+"0","suppressMessages(library(lavaan))"
+"0",""
+"0","#suppressMessages(agencias <- read_spss(""~/R/r-data/00.pls-seminr/data/agencias_dc.sav""))"
+"0","data <- read_csv(""~/R/r-projects/00.publicaciones/data.art2vallejo/data.h.a.csv"")"
+"1","[1mRows: [22m[34m524[39m [1mColumns: [22m[34m20[39m
+"
+"1","[36m--[39m [1mColumn specification[22m [36m-------------------------------------------------------------------------------------------------------[39m
+[1mDelimiter:[22m "",""
+[32mdbl[39m (20): TIPO, TRUST1, TRUST2, TRUST3, COMMIT1, COMMIT2, COMMIT3, COMMIT4, VCC1, VCC2, VCC3, VCC4, VCC5, VCC6, ECOSAT1, EC...
+"
+"1","
+[36mi[39m Use `spec()` to retrieve the full column specification for this data.
+[36mi[39m Specify the column types or set `show_col_types = FALSE` to quiet this message.
+"
+"0","options(width=9999)"

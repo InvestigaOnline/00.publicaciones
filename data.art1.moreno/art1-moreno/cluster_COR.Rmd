@@ -1,0 +1,111 @@
+---
+output:
+        html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r echo=FALSE, messages = FALSE, warning=FALSE}
+options(width=999)
+suppressMessages(library(tidyverse))
+suppressMessages(library(expss))
+suppressMessages(library(cluster))
+suppressMessages(library(factoextra))
+suppressMessages(library(NbClust))
+suppressMessages(library(DT))
+suppressMessages(library(kableExtra))
+suppressMessages(data <- read_delim("~/R/r-data/00.pls-seminr/art1-moreno/data/data.csv","\t", escape_double = FALSE, trim_ws = TRUE))
+suppressMessages(cor <- data.frame(sapply(data,function(x) ifelse(is.na(x),mean(x, na.rm = TRUE),x))))
+```
+
+## NBCLUST optimizacion de número de grupos
+
+```{r echo=FALSE, messages = FALSE, warning=FALSE}
+set.seed(311265)
+cor <- select(cor, COR1:COR9)
+cor$CORTOT <- rowSums(cor)
+cor <- cor %>%  mutate(GRP=case_when(CORTOT <= median(cor$CORTOT) ~ 1, CORTOT > median(cor$CORTOT) ~ 2))
+cluster.optim <- NbClust(data = cor[,1:9],diss = NULL,distance = "euclidean",min.nc = 2,max.nc = 5,method = "ward.D2",index = 'all')
+print(cluster.optim)
+cor <- cbind(cor, grpclus=cluster.optim$`Best.partition`)
+```
+
+## Cluster por algoritmo Kmeans
+
+```{r echo=FALSE, messages = FALSE, warning=FALSE}
+#******************************************
+#kMeans
+#******************************************
+fviz_nbclust(cor[,1:9], kmeans, method = "silhouette")
+km.res <- kmeans(cor[,1:9], 2, nstart = 50)
+cor <- cbind(cor, cluster.km = km.res$cluster)
+fviz_cluster(
+  km.res,
+  data = cor[,1:9],
+  palette = c("darksalmon", "paleturquoise", "cadetblue", "#FC4E07", "#b2b2b2"),
+  ellipse.type = "t",
+  # Concentration ellipse
+  star.plot = FALSE,
+  # Add segments from centroids to items
+  repel = TRUE,
+  # Avoid label overplotting (slow)
+  max.overlaps = 300,
+  pointsize = 1,
+  ggtheme = theme_minimal()
+)
+```
+
+## PAM Method
+
+```{r echo=FALSE}
+#******************************************
+#PAM
+#******************************************
+fviz_nbclust(cor[,1:9], pam, method = "silhouette")
+set.seed(311265)
+pam.res <- pam(cor[,1:9], 2)
+cor <- cbind(cor, cluster.pam = pam.res$cluster)
+fviz_cluster(
+        pam.res,
+        palette = c("darksalmon", "blue"),
+        # color palette
+        ellipse.type = "t",
+        # Concentration ellipse
+        star.plot = FALSE,
+        # Add segments from centroids to items
+        repel = TRUE,
+        # Avoid label overplotting (slow)
+        max.overlaps = 300,
+        pointsize = 1,
+        ggtheme = theme_classic()
+)
+```
+
+
+## CLARA Method
+
+```{r echo=FALSE}
+#******************************************
+#CLARA
+#******************************************
+fviz_nbclust(cor[,1:9], clara, method = "silhouette")
+set.seed(311265)
+clara.res <- clara(cor[,1:9],2,metric = "euclidean",stand = FALSE,samples = 5,pamLike = FALSE)
+cor <- cbind(cor, cluster.clr = clara.res$cluster)
+fviz_cluster(
+        clara.res,
+        palette = c("darksalmon", "blue"),
+        # color palette
+        ellipse.type = "t",
+        geom = "point",
+        star.plot = FALSE,
+        # Add segments from centroids to items
+        repel = FALSE,
+        # Avoid label overplotting (slow)
+        max.overlaps = 300,
+        pointsize = 1,
+        ggtheme = theme_classic()
+)
+kable(head(cor,10)) %>% 
+  kable_material(c('striped'))
+```

@@ -1,0 +1,127 @@
+---
+title: "PLS - Agencias"
+subtitle: 'Artículo 1'
+author: "Roberto Gil-Saura"
+date: "2/4/2021"
+output:
+  html_document: 
+    highlight: tango
+    number_sections: yes
+    df_print: paged
+    toc: true
+---
+
+<style type="text/css">
+.main-container {
+    max-width: 100%;
+    margin-left: 10px;
+    margin-right: 10px;}
+.p {
+  font-size: 0.8em
+}
+</style>
+
+```{r}
+knitr::opts_chunk$set(echo = FALSE, comment=NA)
+options(width=9999)
+library(readr)
+
+suppressMessages(a.df <- read_delim("~/R/r-data/00.pls-seminr/data/datos.art01.v02bis.csv","\t", escape_double = FALSE, locale = locale(decimal_mark = ",", grouping_mark = ""), trim_ws = TRUE))
+
+a.df <- a.df[,c(1:3,4:7,8:9,11,14:15,18:19,20:21,23,24:26)]
+#===================================
+# Modelo Lavaan y uso de matrixpls para la relevancia predictiva
+#===================================
+modelo.lavaan <- 
+'
+#definición variables latentes
+  ICT=~ICT1+ICT2+ICT3
+  VCC=~VCC1+VCC2+VCC4
+  TRUST=~TRUST1+TRUST2+TRUST3
+  COMMITMENT=~COMMITMENT1+COMMITMENT2+COMMITMENT3+COMMITMENT4
+  ECOSAT=~ECOSAT1+ECOSAT2
+  SOCSAT=~SOCSAT2+SOCSAT3
+  LOY=~LOY1+LOY2+LOY4
+
+#varianzas de los factores  
+  ICT~~ICT
+  VCC~~VCC
+  TRUST~~TRUST
+  COMMITMENT~~COMMITMENT
+  ECOSAT~~ECOSAT
+  SOCSAT~~SOCSAT
+  LOY~~LOY
+
+#varianza de los errores
+  ICT1~~ICT1
+  ICT2~~ICT2
+  ICT3~~ICT3
+#  ICT4~~ICT4
+#  ICT5~~ICT5
+  VCC1~~VCC1
+  VCC2~~VCC2
+#  VCC3~~VCC3
+  VCC4~~VCC4
+#  VCC5~~VCC5
+#  VCC6~~VCC6
+  TRUST1~~TRUST1
+  TRUST2~~TRUST2
+  TRUST3~~TRUST3
+  COMMITMENT1~~COMMITMENT1
+  COMMITMENT2~~COMMITMENT2
+  COMMITMENT3~~COMMITMENT3
+  COMMITMENT4~~COMMITMENT4
+  ECOSAT1~~ECOSAT1
+  ECOSAT2~~ECOSAT2
+#  ECOSAT3~~ECOSAT3
+#  SOCSAT1~~SOCSAT1
+  SOCSAT2~~SOCSAT2
+  SOCSAT3~~SOCSAT3
+  LOY1~~LOY1
+  LOY2~~LOY2
+  LOY4~~LOY4
+
+#covarianzas
+  ICT~~VCC
+  ICT~~TRUST
+  ICT~~COMMITMENT
+  ICT~~ECOSAT
+  ICT~~SOCSAT
+  ICT~~LOY
+  VCC~~TRUST
+  VCC~~COMMITMENT
+  VCC~~ECOSAT
+  VCC~~SOCSAT
+  VCC~~LOY
+  TRUST~~COMMITMENT
+  TRUST~~ECOSAT
+  TRUST~~SOCSAT
+  TRUST~~LOY
+  COMMITMENT~~ECOSAT
+  COMMITMENT~~SOCSAT
+  COMMITMENT~~LOY
+  ECOSAT~~SOCSAT
+  ECOSAT~~LOY
+  SOCSAT~~LOY
+'
+
+#modelización
+
+library(lavaan)
+fit <-
+  lavaan(
+    modelo.lavaan,
+    data = a.df,
+    std.lv = TRUE,
+    estimator = 'ML',
+  )
+summary(
+  fit,
+  fit.measures = TRUE,
+  standardized = TRUE,
+  rsquare = TRUE
+)
+modindices(fit, sort. = TRUE, minimum.value = 2.58)
+fitted(fit)
+resid(fit, type = "standardized")
+```

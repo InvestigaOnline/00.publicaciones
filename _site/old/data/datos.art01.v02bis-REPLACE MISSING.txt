@@ -1,0 +1,148 @@
+REEMPLAZAR
+
+EXPRESIONES
+TRUST1
+	Numérica métrica
+	5,968627451
+	NO TRUST1=(1_7)
+	#
+TRUST2
+	Numérica métrica
+	5,37109375
+	NO TRUST2=(1_7)
+	#
+TRUST3
+	Numérica métrica
+	6,2109375
+	NO TRUST3=(1_7)
+	#
+COMMITMENT1
+	Numérica métrica
+	5,07480315
+	NO COMMITMENT1=(1_7)
+	#
+COMMITMENT2
+	Numérica métrica
+	5,217391304
+	NO COMMITMENT2=(1_7)
+	#
+COMMITMENT3
+	Numérica métrica
+	5,854330709
+	NO COMMITMENT3=(1_7)
+	#
+COMMITMENT4
+	Numérica métrica
+	5,77254902
+	NO COMMITMENT4=(1_7)
+	#
+VCC1
+	Numérica métrica
+	3,537254902
+	NO VCC1=(1_7)
+	#
+VCC2
+	Numérica métrica
+	3,968627451
+	NO VCC2=(1_7)
+	#
+VCC3
+	Numérica métrica
+	5,380392157
+	NO VCC3=(1_7)
+	#
+VCC4
+	Numérica métrica
+	4,401574803
+	NO VCC4=(1_7)
+	#
+VCC5
+	Numérica métrica
+	5,207843137
+	NO VCC5=(1_7)
+	#
+VCC6
+	Numérica métrica
+	5,682352941
+	NO VCC6=(1_7)
+	#
+ECOSAT1
+	Numérica métrica
+	4,90234375
+	NO ECOSAT1=(1_7)
+	#
+ECOSAT2
+	Numérica métrica
+	5,015686275
+	NO ECOSAT2=(1_7)
+	#
+ECOSAT3
+	Numérica métrica
+	5,57421875
+	NO ECOSAT3=(1_7)
+	#
+SOCSAT1
+	Numérica métrica
+	6,309803922
+	NO SOCSAT1=(1_7)
+	#
+SOCSAT2
+	Numérica métrica
+	5,93359375
+	NO SOCSAT2=(1_7)
+	#
+SOCSAT3
+	Numérica métrica
+	5,596078431
+	NO SOCSAT3=(1_7)
+	#
+LOY1
+	Numérica métrica
+	5,3984375
+	NO LOY1=(1_7)
+	#
+LOY2
+	Numérica métrica
+	4,421259843
+	NO LOY2=(1_7)
+	#
+LOY3
+	Numérica métrica
+	2,98046875
+	NO LOY3=(1_7)
+	#
+LOY4
+	Numérica métrica
+	5,35546875
+	NO LOY4=(1_7)
+	#
+ICT1
+	Numérica métrica
+	4,02734375
+	NO ICT1=(1_7)
+	#
+ICT2
+	Numérica métrica
+	4,08203125
+	NO ICT2=(1_7)
+	#
+ICT3
+	Numérica métrica
+	4,152941176
+	NO ICT3=(1_7)
+	#
+ICT4
+	Numérica métrica
+	4,267716535
+	NO ICT4=(1_7)
+	#
+ICT5
+	Numérica métrica
+	5,117647059
+	NO ICT5=(1_7)
+	#
+#
+	#
+	#
+	#
+	#
