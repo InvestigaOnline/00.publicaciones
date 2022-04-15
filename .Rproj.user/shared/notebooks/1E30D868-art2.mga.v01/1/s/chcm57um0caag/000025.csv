@@ -1,5 +1,0 @@
-"0","print.seminr_pls_mga(estimate_pls_mga(simple_model, df$TIPO < 2, nboot=100))
-"
-"2","Error in print.seminr_pls_mga(estimate_pls_mga(simple_model, df$TIPO <  : 
-  could not find function ""print.seminr_pls_mga""
-"
