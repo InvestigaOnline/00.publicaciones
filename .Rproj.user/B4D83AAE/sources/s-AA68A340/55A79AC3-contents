@@ -42,27 +42,27 @@ options(width=9999)
 # Tablas muestra
 
 ```{r}
-suppressMessages(agencias <- read_spss("~/R/r-projects/00.publicaciones/data.art2.vallejo/agencias_dc.sav"))
+suppressMessages(hoteles <- read_spss("~/R/r-projects/00.publicaciones/data.art2.vallejo/hoteles_dc.sav"))
 wb = createWorkbook()
 sh = addWorksheet(wb, "Tablas")
-tab1 <- agencias %>%
-     tab_cells(mrset(P1_1,P1_2), mrset(P2_1,P2_2,P2_3,P2_4),mrset(P3_1,P3_2)) %>% 
+tab1 <- hoteles %>%
+     tab_cells(mrset(P1_1,P1_2), P2, P2A) %>% 
      tab_stat_cases(label='casos') %>%
      tab_stat_cpct(label='% casos') %>% 
      tab_pivot(stat_position='inside_columns')
 as.datatable_widget(tab1)
 xl_write(tab1, wb, sh)
-tab2 <- agencias %>%
+tab2 <- hoteles %>%
     tab_cols(total()) %>% 
-     tab_cells(P5) %>%
+     tab_cells(P3) %>%
      tab_stat_fun(Mean = w_mean, "Sd" = w_sd) %>% 
      tab_weight(1) %>% 
-     tab_cells(P6*10) %>%
+     tab_cells(P5) %>%
      tab_stat_fun(Mean = w_mean, "Sd" = w_sd) %>% 
      tab_pivot()
 as.datatable_widget(tab2)
 xl_write(tab2, wb, sh, col=6)
-saveWorkbook(wb, "~/R/r-projects/00.publicaciones/data.art2.vallejo/agencias-art2-vallejo-tablas.xlsx", overwrite = TRUE)
+saveWorkbook(wb, "~/R/r-projects/00.publicaciones/data.art2.vallejo/hoteles-art2-vallejo-tablas.xlsx", overwrite = TRUE)
 ```
 
 # Modelización
@@ -258,6 +258,8 @@ summary_boot$bootstrapped_total_paths
 ```{r fig.cap='Modelo con bootstrapping', fig.width=8, fig.height=4.5}
 plot(boot_model, theme=seminr_theme_smart())
 ```
+
+# Predicción
 
 ```{r}
 #planteamos el modelo sin el hco

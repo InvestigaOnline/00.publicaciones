@@ -41,7 +41,7 @@ suppressMessages(agencias <- read_spss("~/R/r-projects/00.publicaciones/data.art
 wb = createWorkbook()
 sh = addWorksheet(wb, "Tablas")
 tab1 <- agencias %>%
-	tab_cells(mrset(P1_1,P1_2), mrset(P2_1,P2_2,P2_3,P2_4),mrset(P3_1, P3_2)) %>% 
+	tab_cells(mrset(P1_1,P1_2), mrset_f(P2_),mrset_f(P3_)) %>% 
 	tab_stat_cases(label='casos') %>%
 	tab_stat_cpct(label='% casos') %>% 
 	tab_pivot(stat_position='inside_columns')

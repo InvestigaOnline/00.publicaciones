@@ -34,6 +34,13 @@
 <link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
 <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 <script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet" />
+<script src="site_libs/datatables-binding-0.22/datatables.js"></script>
+<link href="site_libs/dt-core-1.11.3/css/jquery.dataTables.min.css" rel="stylesheet" />
+<link href="site_libs/dt-core-1.11.3/css/jquery.dataTables.extra.css" rel="stylesheet" />
+<script src="site_libs/dt-core-1.11.3/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/crosstalk-1.2.0/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.0/js/crosstalk.min.js"></script>
 <script src="site_libs/viz-1.8.2/viz.js"></script>
 <link href="site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
 <script src="site_libs/grViz-binding-1.0.9/grViz.js"></script>
@@ -313,67 +320,69 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">PLS - AGENCIAS</h1>
 <h4 class="author">Roberto Gil-Saura</h4>
-<h4 class="date">2022-04-24 13:31:05</h4>
+<h4 class="date">2022-04-24 20:07:28</h4>
 
 </div>
 
 <div id="TOC">
 <ul>
-<li><a href="#modelización"><span class="toc-section-number">1</span>
+<li><a href="#tablas-muestra"><span class="toc-section-number">1</span>
+Tablas muestra</a></li>
+<li><a href="#modelización"><span class="toc-section-number">2</span>
 Modelización</a>
 <ul>
 <li><a href="#análisis-de-la-fiabilidad"><span
-class="toc-section-number">1.1</span> Análisis de la fiabilidad</a></li>
+class="toc-section-number">2.1</span> Análisis de la fiabilidad</a></li>
 <li><a href="#validez-convergente"><span
-class="toc-section-number">1.2</span> Validez convergente</a>
+class="toc-section-number">2.2</span> Validez convergente</a>
 <ul>
-<li><a href="#ave"><span class="toc-section-number">1.2.1</span>
+<li><a href="#ave"><span class="toc-section-number">2.2.1</span>
 AVE</a></li>
 <li><a href="#análisis-de-las-cargas"><span
-class="toc-section-number">1.2.2</span> Análisis de las cargas</a></li>
+class="toc-section-number">2.2.2</span> Análisis de las cargas</a></li>
 </ul></li>
 <li><a href="#validez-discriminante"><span
-class="toc-section-number">1.3</span> Validez discriminante</a>
+class="toc-section-number">2.3</span> Validez discriminante</a>
 <ul>
 <li><a href="#cross-loadings"><span
-class="toc-section-number">1.3.1</span> Cross-loadings</a></li>
+class="toc-section-number">2.3.1</span> Cross-loadings</a></li>
 <li><a href="#fornell-larcker"><span
-class="toc-section-number">1.3.2</span> Fornell-Larcker</a></li>
-<li><a href="#htmt"><span class="toc-section-number">1.3.3</span>
+class="toc-section-number">2.3.2</span> Fornell-Larcker</a></li>
+<li><a href="#htmt"><span class="toc-section-number">2.3.3</span>
 HTMT</a></li>
 </ul></li>
 <li><a href="#análisis-del-modelo-estructural"><span
-class="toc-section-number">1.4</span> Análisis del modelo
+class="toc-section-number">2.4</span> Análisis del modelo
 estructural</a>
 <ul>
-<li><a href="#paths"><span class="toc-section-number">1.4.1</span>
+<li><a href="#paths"><span class="toc-section-number">2.4.1</span>
 Paths</a></li>
-<li><a href="#r2"><span class="toc-section-number">1.4.2</span>
+<li><a href="#r2"><span class="toc-section-number">2.4.2</span>
 R<sup>2</sup></a></li>
 <li><a href="#f2---effect-sizes"><span
-class="toc-section-number">1.4.3</span> f<sup>2</sup> - effect
+class="toc-section-number">2.4.3</span> f<sup>2</sup> - effect
 sizes</a></li>
-<li><a href="#efectos"><span class="toc-section-number">1.4.4</span>
+<li><a href="#efectos"><span class="toc-section-number">2.4.4</span>
 Efectos</a></li>
 </ul></li>
 </ul></li>
 <li><a href="#modelización-con-bootstrapping"><span
-class="toc-section-number">2</span> Modelización con bootstrapping</a>
+class="toc-section-number">3</span> Modelización con bootstrapping</a>
 <ul>
 <li><a href="#structural-paths"><span
-class="toc-section-number">2.1</span> Structural paths</a></li>
+class="toc-section-number">3.1</span> Structural paths</a></li>
 <li><a href="#bootstrapped-loadings"><span
-class="toc-section-number">2.2</span> Bootstrapped loadings</a></li>
+class="toc-section-number">3.2</span> Bootstrapped loadings</a></li>
 <li><a href="#bootstrapped-htmt"><span
-class="toc-section-number">2.3</span> Bootstrapped HTMT</a></li>
+class="toc-section-number">3.3</span> Bootstrapped HTMT</a></li>
 <li><a href="#total-effects-paths"><span
-class="toc-section-number">2.4</span> Total effects (paths)</a></li>
-<li><a href="#plot-model"><span class="toc-section-number">2.5</span>
+class="toc-section-number">3.4</span> Total effects (paths)</a></li>
+<li><a href="#plot-model"><span class="toc-section-number">3.5</span>
 Plot model</a></li>
 </ul></li>
-<li><a href="#section"><span class="toc-section-number">3</span>
-</a></li>
-<li><a href="#potencia-pwr"><span class="toc-section-number">4</span>
+<li><a href="#predicción"><span class="toc-section-number">4</span>
+Predicción</a></li>
+<li><a href="#potencia-pwr"><span class="toc-section-number">5</span>
 Potencia (pwr)</a></li>
 </ul>
 </div>
@@ -391,26 +400,33 @@ Potencia (pwr)</a></li>
     font-size: 0.8em
     }
 </style>
-<div id="modelización" class="section level1" number="1">
-<h1><span class="header-section-number">1</span> Modelización</h1>
+<div id="tablas-muestra" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Tablas muestra</h1>
+<div id="htmlwidget-ae05442f2fcd817fb472" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ae05442f2fcd817fb472">{"x":{"filter":"none","vertical":false,"class":"stripe hover cell-border row-border order-column compact","data":[["ACTIVIDAD","","","RELACIÓN CON PROVEEDOR","","","","","","","GRUPO PROVEEDOR PRINCIPAL","","","","","",""],["Minorista","Mayorista / Tour operador","#Total cases","Agencias mayoristas / Tour operadores","Central de reservas on-line mayoristas","Proveedores de transporte","Hoteles","Otros proveedores de alojamiento","Proveedores de otros servicios","#Total cases","Hotel integrado en cadena","Hotel en franquicia","Banco de hoteles-bedbank","Agencia de viajes mayorista - T.O.","Central de reservas on-line","Otros","#Total cases"],[231,90,256,178,177,151,184,21,42,256,68,9,36,46,94,8,256],[90.2,35.2,256,69.5,69.1,59,71.9,8.2,16.4,256,26.6,3.5,14.1,18,36.7,3.1,256]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th rowspan=\"2\" colspan=\"2\">\n        <style type=\"text/css\">th { text-align: center; } <\/style>\n        <style type=\"text/css\">th {border: 1px solid #DDD}<\/style>\n        \n      <\/th>\n      <th rowspan=\"1\" colspan=\"2\">\n        <style type=\"text/css\">th { text-align: center; } <\/style>\n        <style type=\"text/css\">th {border: 1px solid #DDD}<\/style>\n        #Total\n      <\/th>\n    <\/tr>\n    <tr>\n      <th rowspan=\"1\" colspan=\"1\">\n        <style type=\"text/css\">th { text-align: center; } <\/style>\n        <style type=\"text/css\">th {border: 1px solid #DDD}<\/style>\n        casos\n      <\/th>\n      <th rowspan=\"1\" colspan=\"1\">\n        <style type=\"text/css\">th { text-align: center; } <\/style>\n        <style type=\"text/css\">th {border: 1px solid #DDD}<\/style>\n        % casos\n      <\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"paging":false,"searching":false,"sorting":false,"ordering":false,"bFilter":false,"bInfo":false,"columnDefs":[{"className":"dt-head-left","targets":[0,1,2,3]}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'text-align':'right'});\nvar value=data[3]; $(this.api().cell(row, 3).node()).css({'text-align':'right'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+<div id="htmlwidget-86aebb03c694fdeab5ca" style="width:100%;height:auto;" class="datatables html-widget"></div>
+<script type="application/json" data-for="htmlwidget-86aebb03c694fdeab5ca">{"x":{"filter":"none","vertical":false,"class":"stripe hover cell-border row-border order-column compact","data":[["ANTIGÜEDAD RELACIÓN","","% ACTIVIDAD CON PROVEEDOR PRINCIPAL",""],["Mean","Sd","Mean","Sd"],[11.8,6.9,44.6,21.7]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th rowspan=\"1\" colspan=\"2\">\n        <style type=\"text/css\">th { text-align: center; } <\/style>\n        <style type=\"text/css\">th {border: 1px solid #DDD}<\/style>\n        \n      <\/th>\n      <th rowspan=\"1\" colspan=\"1\">\n        <style type=\"text/css\">th { text-align: center; } <\/style>\n        <style type=\"text/css\">th {border: 1px solid #DDD}<\/style>\n        #Total\n      <\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"paging":false,"searching":false,"sorting":false,"ordering":false,"bFilter":false,"bInfo":false,"columnDefs":[{"className":"dt-head-left","targets":[0,1,2]}],"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'text-align':'right'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+</div>
+<div id="modelización" class="section level1" number="2">
+<h1><span class="header-section-number">2</span> Modelización</h1>
 <p>El modelo de medida es el siguiente:</p>
 <div class="figure">
-<div id="htmlwidget-ed6a48b7a5217cc2b717" style="width:768px;height:432px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-ed6a48b7a5217cc2b717">{"x":{"diagram":"digraph G {\n\n// ----------------------\n// General graph settings\n// ----------------------\ngraph [\ncharset = \"UTF-8\",\nlayout = dot,\nlabel = \"\",\nfontsize = 24,\nfontcolor = black,\nfontname = helvetica,\nrankdir = LR,\nlabelloc = t,\nsplines = TRUE\nbgcolor = transparent\n]\n\n// --------------------\n// The structural model\n// --------------------\nsubgraph sm {\nrankdir = LR;\nnode [\nshape = ellipse,\ncolor = black,\nfillcolor = white,\nstyle = filled,\nfontsize = 12,\nfontcolor = black,\nheight = 1.00833333333333,\nwidth = 0.99375,\nfontname = helvetica,\nfixedsize = true\n]\n\"VCC\" [label=<<B>VCC <\/B>>, shape = hexagon]\n\"TRUST\" [label=<<B>TRUST <\/B>>, shape = hexagon]\n\"COMMIT\" [label=<<B>COMMIT <\/B>>, shape = hexagon]\n\"SOCSAT\" [label=<<B>SOCSAT <\/B>>, shape = hexagon]\n\"RQ\" [label=<<B>RQ <\/B>>, shape = hexagon]\n\"ECOSAT\" [label=<<B>ECOSAT <\/B>>, shape = hexagon]\n\"TRUST\" [label=<<B>TRUST <\/B>>, shape = hexagon]\n\"COMMIT\" [label=<<B>COMMIT <\/B>>, shape = hexagon]\n\"SOCSAT\" [label=<<B>SOCSAT <\/B>>, shape = hexagon]\n}\n// ---------------------\n// The measurement model\n// ---------------------\n\nsubgraph construct_1 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = white,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.744791666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"VCC1\" [label = \"VCC1\", shape = box]\n\"VCC2\" [label = \"VCC2\", shape = box]\n\"VCC3\" [label = \"VCC3\", shape = box]\n\"VCC4\" [label = \"VCC4\", shape = box]\n\"VCC5\" [label = \"VCC5\", shape = box]\n\"VCC6\" [label = \"VCC6\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = normal\narrowtail = none\n]\n\"VCC\" -> {\"VCC1\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"VCC\" -> {\"VCC2\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"VCC\" -> {\"VCC3\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"VCC\" -> {\"VCC4\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"VCC\" -> {\"VCC5\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"VCC\" -> {\"VCC6\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\n}\nsubgraph construct_2 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = white,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.744791666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"TRUST1\" [label = \"TRUST1\", shape = box]\n\"TRUST2\" [label = \"TRUST2\", shape = box]\n\"TRUST3\" [label = \"TRUST3\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"TRUST1\" -> {\"TRUST\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"TRUST2\" -> {\"TRUST\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"TRUST3\" -> {\"TRUST\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\n}\nsubgraph construct_3 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = white,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.744791666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"COMMIT1\" [label = \"COMMIT1\", shape = box]\n\"COMMIT2\" [label = \"COMMIT2\", shape = box]\n\"COMMIT3\" [label = \"COMMIT3\", shape = box]\n\"COMMIT4\" [label = \"COMMIT4\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"COMMIT1\" -> {\"COMMIT\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"COMMIT2\" -> {\"COMMIT\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"COMMIT3\" -> {\"COMMIT\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"COMMIT4\" -> {\"COMMIT\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\n}\nsubgraph construct_4 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = white,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.744791666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"SOCSAT1\" [label = \"SOCSAT1\", shape = box]\n\"SOCSAT2\" [label = \"SOCSAT2\", shape = box]\n\"SOCSAT3\" [label = \"SOCSAT3\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"SOCSAT1\" -> {\"SOCSAT\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"SOCSAT2\" -> {\"SOCSAT\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"SOCSAT3\" -> {\"SOCSAT\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\n}\nsubgraph construct_5 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = white,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.744791666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"TRUST\" [label = \"TRUST\", shape = box]\n\"COMMIT\" [label = \"COMMIT\", shape = box]\n\"SOCSAT\" [label = \"SOCSAT\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = normal\narrowtail = none\n]\n\"RQ\" -> {\"TRUST\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"RQ\" -> {\"COMMIT\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"RQ\" -> {\"SOCSAT\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\n}\nsubgraph construct_6 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = white,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.744791666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"ECOSAT1\" [label = \"ECOSAT1\", shape = box]\n\"ECOSAT2\" [label = \"ECOSAT2\", shape = box]\n\"ECOSAT3\" [label = \"ECOSAT3\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = normal\narrowtail = none\n]\n\"ECOSAT\" -> {\"ECOSAT1\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"ECOSAT\" -> {\"ECOSAT2\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"ECOSAT\" -> {\"ECOSAT3\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\n}\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-92541da4e37398340973" style="width:768px;height:432px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-92541da4e37398340973">{"x":{"diagram":"digraph G {\n\n// ----------------------\n// General graph settings\n// ----------------------\ngraph [\ncharset = \"UTF-8\",\nlayout = dot,\nlabel = \"\",\nfontsize = 24,\nfontcolor = black,\nfontname = helvetica,\nrankdir = LR,\nlabelloc = t,\nsplines = TRUE\nbgcolor = transparent\n]\n\n// --------------------\n// The structural model\n// --------------------\nsubgraph sm {\nrankdir = LR;\nnode [\nshape = ellipse,\ncolor = black,\nfillcolor = white,\nstyle = filled,\nfontsize = 12,\nfontcolor = black,\nheight = 1.00833333333333,\nwidth = 0.99375,\nfontname = helvetica,\nfixedsize = true\n]\n\"VCC\" [label=<<B>VCC <\/B>>, shape = hexagon]\n\"TRUST\" [label=<<B>TRUST <\/B>>, shape = hexagon]\n\"COMMIT\" [label=<<B>COMMIT <\/B>>, shape = hexagon]\n\"SOCSAT\" [label=<<B>SOCSAT <\/B>>, shape = hexagon]\n\"RQ\" [label=<<B>RQ <\/B>>, shape = hexagon]\n\"ECOSAT\" [label=<<B>ECOSAT <\/B>>, shape = hexagon]\n\"TRUST\" [label=<<B>TRUST <\/B>>, shape = hexagon]\n\"COMMIT\" [label=<<B>COMMIT <\/B>>, shape = hexagon]\n\"SOCSAT\" [label=<<B>SOCSAT <\/B>>, shape = hexagon]\n}\n// ---------------------\n// The measurement model\n// ---------------------\n\nsubgraph construct_1 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = white,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.744791666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"VCC1\" [label = \"VCC1\", shape = box]\n\"VCC2\" [label = \"VCC2\", shape = box]\n\"VCC3\" [label = \"VCC3\", shape = box]\n\"VCC4\" [label = \"VCC4\", shape = box]\n\"VCC5\" [label = \"VCC5\", shape = box]\n\"VCC6\" [label = \"VCC6\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = normal\narrowtail = none\n]\n\"VCC\" -> {\"VCC1\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"VCC\" -> {\"VCC2\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"VCC\" -> {\"VCC3\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"VCC\" -> {\"VCC4\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"VCC\" -> {\"VCC5\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"VCC\" -> {\"VCC6\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\n}\nsubgraph construct_2 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = white,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.744791666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"TRUST1\" [label = \"TRUST1\", shape = box]\n\"TRUST2\" [label = \"TRUST2\", shape = box]\n\"TRUST3\" [label = \"TRUST3\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"TRUST1\" -> {\"TRUST\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"TRUST2\" -> {\"TRUST\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"TRUST3\" -> {\"TRUST\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\n}\nsubgraph construct_3 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = white,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.744791666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"COMMIT1\" [label = \"COMMIT1\", shape = box]\n\"COMMIT2\" [label = \"COMMIT2\", shape = box]\n\"COMMIT3\" [label = \"COMMIT3\", shape = box]\n\"COMMIT4\" [label = \"COMMIT4\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"COMMIT1\" -> {\"COMMIT\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"COMMIT2\" -> {\"COMMIT\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"COMMIT3\" -> {\"COMMIT\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"COMMIT4\" -> {\"COMMIT\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\n}\nsubgraph construct_4 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = white,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.744791666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"SOCSAT1\" [label = \"SOCSAT1\", shape = box]\n\"SOCSAT2\" [label = \"SOCSAT2\", shape = box]\n\"SOCSAT3\" [label = \"SOCSAT3\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"SOCSAT1\" -> {\"SOCSAT\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"SOCSAT2\" -> {\"SOCSAT\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"SOCSAT3\" -> {\"SOCSAT\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\n}\nsubgraph construct_5 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = white,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.744791666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"TRUST\" [label = \"TRUST\", shape = box]\n\"COMMIT\" [label = \"COMMIT\", shape = box]\n\"SOCSAT\" [label = \"SOCSAT\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = normal\narrowtail = none\n]\n\"RQ\" -> {\"TRUST\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"RQ\" -> {\"COMMIT\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"RQ\" -> {\"SOCSAT\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\n}\nsubgraph construct_6 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = white,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.744791666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"ECOSAT1\" [label = \"ECOSAT1\", shape = box]\n\"ECOSAT2\" [label = \"ECOSAT2\", shape = box]\n\"ECOSAT3\" [label = \"ECOSAT3\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = normal\narrowtail = none\n]\n\"ECOSAT\" -> {\"ECOSAT1\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"ECOSAT\" -> {\"ECOSAT2\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"ECOSAT\" -> {\"ECOSAT3\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\n}\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 <p class="caption">
 Modelo de medida
 </p>
 </div>
 <p>El modelo estructural es el siguiente:</p>
 <div class="figure">
-<div id="htmlwidget-05ab4a60ba85a5b453e3" style="width:768px;height:432px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-05ab4a60ba85a5b453e3">{"x":{"diagram":"digraph G {\n\n// ----------------------\n// General graph settings\n// ----------------------\ngraph [\ncharset = \"UTF-8\",\nlayout = dot,\nlabel = \"\",\nfontsize = 24,\nfontcolor = black,\nfontname = helvetica,\nrankdir = LR,\nlabelloc = t,\nsplines = TRUE\nbgcolor = transparent\n]\n\n// --------------------\n// The structural model\n// --------------------\nsubgraph sm {\nrankdir = LR;\nnode [\nshape = ellipse,\ncolor = black,\nfillcolor = white,\nstyle = filled,\nfontsize = 12,\nfontcolor = black,\nheight = 1.00833333333333,\nwidth = 0.99375,\nfontname = helvetica,\nfixedsize = true\n]\n\"VCC\" [label=<<B>VCC <\/B>>, shape = ellipse]\n\"RQ\" [label=<<B>RQ <\/B>>, shape = ellipse]\n\"ECOSAT\" [label=<<B>ECOSAT <\/B>>, shape = ellipse]\nedge [\ncolor = black,\nfontsize = 9,\nfontcolor = black,\nfontname = helvetica,\ndir = both,\narrowhead = normal,\narrowtail = none\n]\n\"VCC\" -> {\"RQ\"}[weight = 1, penwidth = 1.5, style = solid, color = black]\n\"RQ\" -> {\"ECOSAT\"}[weight = 1, penwidth = 1.5, style = solid, color = black]\n}\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-2fb19f9b445e40fb7130" style="width:768px;height:432px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2fb19f9b445e40fb7130">{"x":{"diagram":"digraph G {\n\n// ----------------------\n// General graph settings\n// ----------------------\ngraph [\ncharset = \"UTF-8\",\nlayout = dot,\nlabel = \"\",\nfontsize = 24,\nfontcolor = black,\nfontname = helvetica,\nrankdir = LR,\nlabelloc = t,\nsplines = TRUE\nbgcolor = transparent\n]\n\n// --------------------\n// The structural model\n// --------------------\nsubgraph sm {\nrankdir = LR;\nnode [\nshape = ellipse,\ncolor = black,\nfillcolor = white,\nstyle = filled,\nfontsize = 12,\nfontcolor = black,\nheight = 1.00833333333333,\nwidth = 0.99375,\nfontname = helvetica,\nfixedsize = true\n]\n\"VCC\" [label=<<B>VCC <\/B>>, shape = ellipse]\n\"RQ\" [label=<<B>RQ <\/B>>, shape = ellipse]\n\"ECOSAT\" [label=<<B>ECOSAT <\/B>>, shape = ellipse]\nedge [\ncolor = black,\nfontsize = 9,\nfontcolor = black,\nfontname = helvetica,\ndir = both,\narrowhead = normal,\narrowtail = none\n]\n\"VCC\" -> {\"RQ\"}[weight = 1, penwidth = 1.5, style = solid, color = black]\n\"RQ\" -> {\"ECOSAT\"}[weight = 1, penwidth = 1.5, style = solid, color = black]\n}\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 <p class="caption">
 Modelo estructural
 </p>
 </div>
-<div id="análisis-de-la-fiabilidad" class="section level2" number="1.1">
-<h2><span class="header-section-number">1.1</span> Análisis de la
+<div id="análisis-de-la-fiabilidad" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Análisis de la
 fiabilidad</h2>
 <p>Para el modelo de medida se han considerado composites, mode A
 (reflectivos???). De este modo, el primer paso debe ser observar el
@@ -428,11 +444,11 @@ ECOSAT 0.789 0.880 0.714 0.830
 
 Alpha, rhoC, and rhoA should exceed 0.7 while AVE should exceed 0.5</code></pre>
 </div>
-<div id="validez-convergente" class="section level2" number="1.2">
-<h2><span class="header-section-number">1.2</span> Validez
+<div id="validez-convergente" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Validez
 convergente</h2>
-<div id="ave" class="section level3" number="1.2.1">
-<h3><span class="header-section-number">1.2.1</span> AVE</h3>
+<div id="ave" class="section level3" number="2.2.1">
+<h3><span class="header-section-number">2.2.1</span> AVE</h3>
 <p>Del mismo modo, para evaluar la <em>validez convergente</em> o grado
 con el que una medida correlaciona positivamente con medidas
 alternativas del mismo constructo, usamos el coeficiente <em>AVE
@@ -453,8 +469,8 @@ Tabla de fiabilidad
 </p>
 </div>
 </div>
-<div id="análisis-de-las-cargas" class="section level3" number="1.2.2">
-<h3><span class="header-section-number">1.2.2</span> Análisis de las
+<div id="análisis-de-las-cargas" class="section level3" number="2.2.2">
+<h3><span class="header-section-number">2.2.2</span> Análisis de las
 cargas</h3>
 <p>Por otro lado, es importante analizar también las cargas o
 <em>loadings</em>, indicadores de la fiabilidad del indicador en el
@@ -488,11 +504,11 @@ SOCSAT2 0.000 0.000  0.000 0.000  0.000  0.922
 SOCSAT3 0.000 0.000  0.000 0.000  0.000  0.900</code></pre>
 </div>
 </div>
-<div id="validez-discriminante" class="section level2" number="1.3">
-<h2><span class="header-section-number">1.3</span> Validez
+<div id="validez-discriminante" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> Validez
 discriminante</h2>
-<div id="cross-loadings" class="section level3" number="1.3.1">
-<h3><span class="header-section-number">1.3.1</span> Cross-loadings</h3>
+<div id="cross-loadings" class="section level3" number="2.3.1">
+<h3><span class="header-section-number">2.3.1</span> Cross-loadings</h3>
 <p>Para el análisis de la validez discriminante o capacidad de un
 constructo de ser realmente distinto a otros, utilizamos las denominadas
 <em>cross-loadings</em>, que miden esa capacidad del constructo. En la
@@ -513,8 +529,8 @@ ECOSAT1 0.422 0.617  0.934
 ECOSAT2 0.432 0.635  0.916
 ECOSAT3 0.451 0.452  0.657</code></pre>
 </div>
-<div id="fornell-larcker" class="section level3" number="1.3.2">
-<h3><span class="header-section-number">1.3.2</span>
+<div id="fornell-larcker" class="section level3" number="2.3.2">
+<h3><span class="header-section-number">2.3.2</span>
 Fornell-Larcker</h3>
 <p>El criterio de <em>Fornell-Larcker</em>, compara la raíz cuadrado del
 <em>AVE</em> con la correlación de las variables latentes. La raíz
@@ -529,8 +545,8 @@ ECOSAT 0.507 0.679  0.845
 
 FL Criteria table reports square root of AVE on the diagonal and construct correlations on the lower triangle.</code></pre>
 </div>
-<div id="htmt" class="section level3" number="1.3.3">
-<h3><span class="header-section-number">1.3.3</span> HTMT</h3>
+<div id="htmt" class="section level3" number="2.3.3">
+<h3><span class="header-section-number">2.3.3</span> HTMT</h3>
 <p>Por último el <em>HTMT</em> es un ratio que si es mayor que 0.90
 indica una pérdida de validez discriminante.</p>
 <pre><code>         VCC    RQ ECOSAT
@@ -540,8 +556,8 @@ ECOSAT 0.584 0.847      .</code></pre>
 </div>
 </div>
 <div id="análisis-del-modelo-estructural" class="section level2"
-number="1.4">
-<h2><span class="header-section-number">1.4</span> Análisis del modelo
+number="2.4">
+<h2><span class="header-section-number">2.4</span> Análisis del modelo
 estructural</h2>
 <p>Una vez analizados los constructos desde el punto de vista de su
 composición, debemos analizar el modelo estructural en su conjunto.
@@ -554,16 +570,16 @@ explicada</li>
 <li>f<sup>2</sup> y q<sup>2</sup> efecto tamaño</li>
 <li>Q<sup>2</sup>, relevancia predictiva</li>
 </ul>
-<div id="paths" class="section level3" number="1.4.1">
-<h3><span class="header-section-number">1.4.1</span> Paths</h3>
+<div id="paths" class="section level3" number="2.4.1">
+<h3><span class="header-section-number">2.4.1</span> Paths</h3>
 <pre><code>          RQ ECOSAT
 R^2    0.338  0.461
 AdjR^2 0.335  0.459
 VCC    0.581      .
 RQ         .  0.679</code></pre>
 </div>
-<div id="r2" class="section level3" number="1.4.2">
-<h3><span class="header-section-number">1.4.2</span> R<sup>2</sup></h3>
+<div id="r2" class="section level3" number="2.4.2">
+<h3><span class="header-section-number">2.4.2</span> R<sup>2</sup></h3>
 <p>Buscar <em>R</em><sup>2</sup> mayores de 0.7, aunque valores
 alrededor de 0.25 sean aceptados según ámbitos; (sustancial mayor que
 0.75, moderado alrededor de 0.5 y débil, 0.25). Usar
@@ -573,8 +589,8 @@ de constructos y/u observaciones.</p>
 Rsq    0.3377728 0.4611090
 AdjRsq 0.3351657 0.4589873</code></pre>
 </div>
-<div id="f2---effect-sizes" class="section level3" number="1.4.3">
-<h3><span class="header-section-number">1.4.3</span> f<sup>2</sup> -
+<div id="f2---effect-sizes" class="section level3" number="2.4.3">
+<h3><span class="header-section-number">2.4.3</span> f<sup>2</sup> -
 effect sizes</h3>
 <p>El <em>f</em><sup>2</sup> permite evaluar la contribución de cada
 constructo exógeno a la R<sup>2</sup> de un constructo endógeno. Los
@@ -585,17 +601,17 @@ VCC    0.000 0.510  0.000
 RQ     0.000 0.000  0.856
 ECOSAT 0.000 0.000  0.000</code></pre>
 </div>
-<div id="efectos" class="section level3" number="1.4.4">
-<h3><span class="header-section-number">1.4.4</span> Efectos</h3>
-<div id="totales" class="section level4" number="1.4.4.1">
-<h4><span class="header-section-number">1.4.4.1</span> Totales</h4>
+<div id="efectos" class="section level3" number="2.4.4">
+<h3><span class="header-section-number">2.4.4</span> Efectos</h3>
+<div id="totales" class="section level4" number="2.4.4.1">
+<h4><span class="header-section-number">2.4.4.1</span> Totales</h4>
 <pre><code>         VCC    RQ ECOSAT
 VCC    0.000 0.581  0.395
 RQ     0.000 0.000  0.679
 ECOSAT 0.000 0.000  0.000</code></pre>
 </div>
-<div id="indirectos" class="section level4" number="1.4.4.2">
-<h4><span class="header-section-number">1.4.4.2</span> Indirectos</h4>
+<div id="indirectos" class="section level4" number="2.4.4.2">
+<h4><span class="header-section-number">2.4.4.2</span> Indirectos</h4>
 <pre><code>         VCC    RQ ECOSAT
 VCC    0.000 0.000  0.395
 RQ     0.000 0.000  0.000
@@ -605,21 +621,21 @@ ECOSAT 0.000 0.000  0.000</code></pre>
 </div>
 </div>
 <div id="modelización-con-bootstrapping" class="section level1"
-number="2">
-<h1><span class="header-section-number">2</span> Modelización con
+number="3">
+<h1><span class="header-section-number">3</span> Modelización con
 bootstrapping</h1>
 <p><em>Bootstrapping</em> para calcular la significatividad de los paths
 estimados. Habitualmente se trabaja con un 5% (t &gt; 1.96) lo que
 implica significatividad al 95%. Podemos cambiar al 10 o al 1 según
 ámbito. Usar doble bootstrapping si hay menos de 4 constructos.</p>
-<div id="structural-paths" class="section level2" number="2.1">
-<h2><span class="header-section-number">2.1</span> Structural paths</h2>
+<div id="structural-paths" class="section level2" number="3.1">
+<h2><span class="header-section-number">3.1</span> Structural paths</h2>
 <pre><code>               Original Est. Bootstrap Mean Bootstrap SD T Stat. 2.5% CI 97.5% CI
 VCC  -&gt;  RQ            0.581          0.587        0.037  15.537   0.506    0.656
 RQ  -&gt;  ECOSAT         0.679          0.682        0.042  16.041   0.600    0.758</code></pre>
 </div>
-<div id="bootstrapped-loadings" class="section level2" number="2.2">
-<h2><span class="header-section-number">2.2</span> Bootstrapped
+<div id="bootstrapped-loadings" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Bootstrapped
 loadings</h2>
 <pre><code>                    Original Est. Bootstrap Mean Bootstrap SD T Stat. 2.5% CI 97.5% CI
 VCC1  -&gt;  VCC               0.794          0.794        0.033  23.972   0.725    0.856
@@ -645,58 +661,58 @@ SOCSAT1  -&gt;  SOCSAT         0.769          0.765        0.035  21.709   0.685
 SOCSAT2  -&gt;  SOCSAT         0.922          0.922        0.011  86.869   0.901    0.942
 SOCSAT3  -&gt;  SOCSAT         0.900          0.899        0.016  57.033   0.863    0.925</code></pre>
 </div>
-<div id="bootstrapped-htmt" class="section level2" number="2.3">
-<h2><span class="header-section-number">2.3</span> Bootstrapped
+<div id="bootstrapped-htmt" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> Bootstrapped
 HTMT</h2>
 <pre><code>                Original Est. Bootstrap Mean Bootstrap SD T Stat. 2.5% CI 97.5% CI
 VCC  -&gt;  RQ             0.632          0.633        0.048  13.299   0.536    0.720
 VCC  -&gt;  ECOSAT         0.584          0.599        0.042  13.796   0.517    0.682
 RQ  -&gt;  ECOSAT          0.847          0.851        0.057  14.729   0.733    0.952</code></pre>
 </div>
-<div id="total-effects-paths" class="section level2" number="2.4">
-<h2><span class="header-section-number">2.4</span> Total effects
+<div id="total-effects-paths" class="section level2" number="3.4">
+<h2><span class="header-section-number">3.4</span> Total effects
 (paths)</h2>
 <pre><code>                Original Est. Bootstrap Mean Bootstrap SD T Stat. 2.5% CI 97.5% CI
 VCC  -&gt;  RQ             0.581          0.587        0.037  15.537   0.506    0.656
 VCC  -&gt;  ECOSAT         0.395          0.401        0.042   9.326   0.319    0.482
 RQ  -&gt;  ECOSAT          0.679          0.682        0.042  16.041   0.600    0.758</code></pre>
 </div>
-<div id="plot-model" class="section level2" number="2.5">
-<h2><span class="header-section-number">2.5</span> Plot model</h2>
+<div id="plot-model" class="section level2" number="3.5">
+<h2><span class="header-section-number">3.5</span> Plot model</h2>
 <div class="figure">
-<div id="htmlwidget-24a04bdb17c25cd3e8c7" style="width:768px;height:432px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-24a04bdb17c25cd3e8c7">{"x":{"diagram":"digraph G {\n\n// ----------------------\n// General graph settings\n// ----------------------\ngraph [\ncharset = \"UTF-8\",\nlayout = dot,\nlabel = \"\",\nfontsize = 24,\nfontcolor = black,\nfontname = helvetica,\nrankdir = LR,\nlabelloc = t,\nsplines = TRUE\nbgcolor = transparent\n]\n\n// --------------------\n// The structural model\n// --------------------\nsubgraph sm {\nrankdir = LR;\nnode [\nshape = ellipse,\ncolor = black,\nfillcolor = lightcyan,\nstyle = filled,\nfontsize = 12,\nfontcolor = black,\nheight = 1.00833333333333,\nwidth = 0.99375,\nfontname = helvetica,\nfixedsize = true\n]\n\"VCC\" [label=<<B>VCC <\/B>>, shape = hexagon]\n\"RQ\" [label=<<B>RQ <\/B><BR /><FONT POINT-SIZE=\"10\">r² = 0.338<\/FONT>>, shape = hexagon]\n\"ECOSAT\" [label=<<B>ECOSAT <\/B><BR /><FONT POINT-SIZE=\"10\">r² = 0.461<\/FONT>>, shape = hexagon]\n\"TRUST\" [label=<<B>TRUST <\/B>>, shape = hexagon]\n\"COMMIT\" [label=<<B>COMMIT <\/B>>, shape = hexagon]\n\"SOCSAT\" [label=<<B>SOCSAT <\/B>>, shape = hexagon]\nedge [\ncolor = black,\nfontsize = 9,\nfontcolor = black,\nfontname = helvetica,\ndir = both,\narrowhead = normal,\narrowtail = none\n]\n\"VCC\" -> {\"RQ\"}[weight = 1, label = < 𝛽 = 0.581***<BR /><FONT POINT-SIZE=\"7\">95% CI [0.506, 0.656]   <\/FONT> >, penwidth = 3.405, style = solid, color = black]\n\"RQ\" -> {\"ECOSAT\"}[weight = 1, label = < 𝛽 = 0.679***<BR /><FONT POINT-SIZE=\"7\">95% CI [0.6, 0.758]   <\/FONT> >, penwidth = 3.895, style = solid, color = black]\n}\n// ---------------------\n// The measurement model\n// ---------------------\n\nsubgraph construct_1 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = lightgoldenrodyellow,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.697916666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"VCC1\" [label = \"VCC1\", shape = box]\n\"VCC2\" [label = \"VCC2\", shape = box]\n\"VCC3\" [label = \"VCC3\", shape = box]\n\"VCC4\" [label = \"VCC4\", shape = box]\n\"VCC5\" [label = \"VCC5\", shape = box]\n\"VCC6\" [label = \"VCC6\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"VCC1\" -> {\"VCC\"}[weight = 1000, label = < 𝜆 = 0.794*** >, penwidth = 2.882, style = solid, color = dimgrey]\n\"VCC2\" -> {\"VCC\"}[weight = 1000, label = < 𝜆 = 0.831*** >, penwidth = 2.993, style = solid, color = dimgrey]\n\"VCC3\" -> {\"VCC\"}[weight = 1000, label = < 𝜆 = 0.635*** >, penwidth = 2.405, style = solid, color = dimgrey]\n\"VCC4\" -> {\"VCC\"}[weight = 1000, label = < 𝜆 = 0.865*** >, penwidth = 3.095, style = solid, color = dimgrey]\n\"VCC5\" -> {\"VCC\"}[weight = 1000, label = < 𝜆 = 0.674*** >, penwidth = 2.522, style = solid, color = dimgrey]\n\"VCC6\" -> {\"VCC\"}[weight = 1000, label = < 𝜆 = 0.462*** >, penwidth = 1.886, style = solid, color = dimgrey]\n\n}\nsubgraph construct_2 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = lightgoldenrodyellow,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.697916666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"TRUST1\" [label = \"TRUST1\", shape = box]\n\"TRUST2\" [label = \"TRUST2\", shape = box]\n\"TRUST3\" [label = \"TRUST3\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"TRUST1\" -> {\"TRUST\"}[weight = 1000, label = < 𝜆 = 0.935*** >, penwidth = 3.305, style = solid, color = dimgrey]\n\"TRUST2\" -> {\"TRUST\"}[weight = 1000, label = < 𝜆 = 0.832*** >, penwidth = 2.996, style = solid, color = dimgrey]\n\"TRUST3\" -> {\"TRUST\"}[weight = 1000, label = < 𝜆 = 0.846*** >, penwidth = 3.038, style = solid, color = dimgrey]\n\n}\nsubgraph construct_3 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = lightgoldenrodyellow,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.697916666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"COMMIT1\" [label = \"COMMIT1\", shape = box]\n\"COMMIT2\" [label = \"COMMIT2\", shape = box]\n\"COMMIT3\" [label = \"COMMIT3\", shape = box]\n\"COMMIT4\" [label = \"COMMIT4\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"COMMIT1\" -> {\"COMMIT\"}[weight = 1000, label = < 𝜆 = 0.885*** >, penwidth = 3.155, style = solid, color = dimgrey]\n\"COMMIT2\" -> {\"COMMIT\"}[weight = 1000, label = < 𝜆 = 0.909*** >, penwidth = 3.227, style = solid, color = dimgrey]\n\"COMMIT3\" -> {\"COMMIT\"}[weight = 1000, label = < 𝜆 = 0.816*** >, penwidth = 2.948, style = solid, color = dimgrey]\n\"COMMIT4\" -> {\"COMMIT\"}[weight = 1000, label = < 𝜆 = 0.859*** >, penwidth = 3.077, style = solid, color = dimgrey]\n\n}\nsubgraph construct_4 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = lightgoldenrodyellow,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.697916666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"SOCSAT1\" [label = \"SOCSAT1\", shape = box]\n\"SOCSAT2\" [label = \"SOCSAT2\", shape = box]\n\"SOCSAT3\" [label = \"SOCSAT3\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"SOCSAT1\" -> {\"SOCSAT\"}[weight = 1000, label = < 𝜆 = 0.769*** >, penwidth = 2.807, style = solid, color = dimgrey]\n\"SOCSAT2\" -> {\"SOCSAT\"}[weight = 1000, label = < 𝜆 = 0.922*** >, penwidth = 3.266, style = solid, color = dimgrey]\n\"SOCSAT3\" -> {\"SOCSAT\"}[weight = 1000, label = < 𝜆 = 0.9*** >, penwidth = 3.2, style = solid, color = dimgrey]\n\n}\nsubgraph construct_5 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = lightgoldenrodyellow,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.697916666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"TRUST\" [label = \"TRUST\", shape = box]\n\"COMMIT\" [label = \"COMMIT\", shape = box]\n\"SOCSAT\" [label = \"SOCSAT\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"TRUST\" -> {\"RQ\"}[weight = 1000, label = < 𝜆 = 0.82*** >, penwidth = 2.96, style = solid, color = dimgrey]\n\"COMMIT\" -> {\"RQ\"}[weight = 1000, label = < 𝜆 = 0.855*** >, penwidth = 3.065, style = solid, color = dimgrey]\n\"SOCSAT\" -> {\"RQ\"}[weight = 1000, label = < 𝜆 = 0.848*** >, penwidth = 3.044, style = solid, color = dimgrey]\n\n}\nsubgraph construct_6 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = lightgoldenrodyellow,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.697916666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"ECOSAT1\" [label = \"ECOSAT1\", shape = box]\n\"ECOSAT2\" [label = \"ECOSAT2\", shape = box]\n\"ECOSAT3\" [label = \"ECOSAT3\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = normal\narrowtail = none\n]\n\"ECOSAT\" -> {\"ECOSAT1\"}[weight = 1000, label = < 𝜆 = 0.934*** >, penwidth = 3.302, style = solid, color = dimgrey]\n\"ECOSAT\" -> {\"ECOSAT2\"}[weight = 1000, label = < 𝜆 = 0.916*** >, penwidth = 3.248, style = solid, color = dimgrey]\n\"ECOSAT\" -> {\"ECOSAT3\"}[weight = 1000, label = < 𝜆 = 0.657*** >, penwidth = 2.471, style = solid, color = dimgrey]\n\n}\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-80b3058da514bb44473f" style="width:768px;height:432px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-80b3058da514bb44473f">{"x":{"diagram":"digraph G {\n\n// ----------------------\n// General graph settings\n// ----------------------\ngraph [\ncharset = \"UTF-8\",\nlayout = dot,\nlabel = \"\",\nfontsize = 24,\nfontcolor = black,\nfontname = helvetica,\nrankdir = LR,\nlabelloc = t,\nsplines = TRUE\nbgcolor = transparent\n]\n\n// --------------------\n// The structural model\n// --------------------\nsubgraph sm {\nrankdir = LR;\nnode [\nshape = ellipse,\ncolor = black,\nfillcolor = lightcyan,\nstyle = filled,\nfontsize = 12,\nfontcolor = black,\nheight = 1.00833333333333,\nwidth = 0.99375,\nfontname = helvetica,\nfixedsize = true\n]\n\"VCC\" [label=<<B>VCC <\/B>>, shape = hexagon]\n\"RQ\" [label=<<B>RQ <\/B><BR /><FONT POINT-SIZE=\"10\">r² = 0.338<\/FONT>>, shape = hexagon]\n\"ECOSAT\" [label=<<B>ECOSAT <\/B><BR /><FONT POINT-SIZE=\"10\">r² = 0.461<\/FONT>>, shape = hexagon]\n\"TRUST\" [label=<<B>TRUST <\/B>>, shape = hexagon]\n\"COMMIT\" [label=<<B>COMMIT <\/B>>, shape = hexagon]\n\"SOCSAT\" [label=<<B>SOCSAT <\/B>>, shape = hexagon]\nedge [\ncolor = black,\nfontsize = 9,\nfontcolor = black,\nfontname = helvetica,\ndir = both,\narrowhead = normal,\narrowtail = none\n]\n\"VCC\" -> {\"RQ\"}[weight = 1, label = < 𝛽 = 0.581***<BR /><FONT POINT-SIZE=\"7\">95% CI [0.506, 0.656]   <\/FONT> >, penwidth = 3.405, style = solid, color = black]\n\"RQ\" -> {\"ECOSAT\"}[weight = 1, label = < 𝛽 = 0.679***<BR /><FONT POINT-SIZE=\"7\">95% CI [0.6, 0.758]   <\/FONT> >, penwidth = 3.895, style = solid, color = black]\n}\n// ---------------------\n// The measurement model\n// ---------------------\n\nsubgraph construct_1 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = lightgoldenrodyellow,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.697916666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"VCC1\" [label = \"VCC1\", shape = box]\n\"VCC2\" [label = \"VCC2\", shape = box]\n\"VCC3\" [label = \"VCC3\", shape = box]\n\"VCC4\" [label = \"VCC4\", shape = box]\n\"VCC5\" [label = \"VCC5\", shape = box]\n\"VCC6\" [label = \"VCC6\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"VCC1\" -> {\"VCC\"}[weight = 1000, label = < 𝜆 = 0.794*** >, penwidth = 2.882, style = solid, color = dimgrey]\n\"VCC2\" -> {\"VCC\"}[weight = 1000, label = < 𝜆 = 0.831*** >, penwidth = 2.993, style = solid, color = dimgrey]\n\"VCC3\" -> {\"VCC\"}[weight = 1000, label = < 𝜆 = 0.635*** >, penwidth = 2.405, style = solid, color = dimgrey]\n\"VCC4\" -> {\"VCC\"}[weight = 1000, label = < 𝜆 = 0.865*** >, penwidth = 3.095, style = solid, color = dimgrey]\n\"VCC5\" -> {\"VCC\"}[weight = 1000, label = < 𝜆 = 0.674*** >, penwidth = 2.522, style = solid, color = dimgrey]\n\"VCC6\" -> {\"VCC\"}[weight = 1000, label = < 𝜆 = 0.462*** >, penwidth = 1.886, style = solid, color = dimgrey]\n\n}\nsubgraph construct_2 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = lightgoldenrodyellow,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.697916666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"TRUST1\" [label = \"TRUST1\", shape = box]\n\"TRUST2\" [label = \"TRUST2\", shape = box]\n\"TRUST3\" [label = \"TRUST3\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"TRUST1\" -> {\"TRUST\"}[weight = 1000, label = < 𝜆 = 0.935*** >, penwidth = 3.305, style = solid, color = dimgrey]\n\"TRUST2\" -> {\"TRUST\"}[weight = 1000, label = < 𝜆 = 0.832*** >, penwidth = 2.996, style = solid, color = dimgrey]\n\"TRUST3\" -> {\"TRUST\"}[weight = 1000, label = < 𝜆 = 0.846*** >, penwidth = 3.038, style = solid, color = dimgrey]\n\n}\nsubgraph construct_3 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = lightgoldenrodyellow,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.697916666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"COMMIT1\" [label = \"COMMIT1\", shape = box]\n\"COMMIT2\" [label = \"COMMIT2\", shape = box]\n\"COMMIT3\" [label = \"COMMIT3\", shape = box]\n\"COMMIT4\" [label = \"COMMIT4\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"COMMIT1\" -> {\"COMMIT\"}[weight = 1000, label = < 𝜆 = 0.885*** >, penwidth = 3.155, style = solid, color = dimgrey]\n\"COMMIT2\" -> {\"COMMIT\"}[weight = 1000, label = < 𝜆 = 0.909*** >, penwidth = 3.227, style = solid, color = dimgrey]\n\"COMMIT3\" -> {\"COMMIT\"}[weight = 1000, label = < 𝜆 = 0.816*** >, penwidth = 2.948, style = solid, color = dimgrey]\n\"COMMIT4\" -> {\"COMMIT\"}[weight = 1000, label = < 𝜆 = 0.859*** >, penwidth = 3.077, style = solid, color = dimgrey]\n\n}\nsubgraph construct_4 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = lightgoldenrodyellow,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.697916666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"SOCSAT1\" [label = \"SOCSAT1\", shape = box]\n\"SOCSAT2\" [label = \"SOCSAT2\", shape = box]\n\"SOCSAT3\" [label = \"SOCSAT3\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"SOCSAT1\" -> {\"SOCSAT\"}[weight = 1000, label = < 𝜆 = 0.769*** >, penwidth = 2.807, style = solid, color = dimgrey]\n\"SOCSAT2\" -> {\"SOCSAT\"}[weight = 1000, label = < 𝜆 = 0.922*** >, penwidth = 3.266, style = solid, color = dimgrey]\n\"SOCSAT3\" -> {\"SOCSAT\"}[weight = 1000, label = < 𝜆 = 0.9*** >, penwidth = 3.2, style = solid, color = dimgrey]\n\n}\nsubgraph construct_5 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = lightgoldenrodyellow,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.697916666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"TRUST\" [label = \"TRUST\", shape = box]\n\"COMMIT\" [label = \"COMMIT\", shape = box]\n\"SOCSAT\" [label = \"SOCSAT\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"TRUST\" -> {\"RQ\"}[weight = 1000, label = < 𝜆 = 0.82*** >, penwidth = 2.96, style = solid, color = dimgrey]\n\"COMMIT\" -> {\"RQ\"}[weight = 1000, label = < 𝜆 = 0.855*** >, penwidth = 3.065, style = solid, color = dimgrey]\n\"SOCSAT\" -> {\"RQ\"}[weight = 1000, label = < 𝜆 = 0.848*** >, penwidth = 3.044, style = solid, color = dimgrey]\n\n}\nsubgraph construct_6 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = lightgoldenrodyellow,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.697916666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"ECOSAT1\" [label = \"ECOSAT1\", shape = box]\n\"ECOSAT2\" [label = \"ECOSAT2\", shape = box]\n\"ECOSAT3\" [label = \"ECOSAT3\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = normal\narrowtail = none\n]\n\"ECOSAT\" -> {\"ECOSAT1\"}[weight = 1000, label = < 𝜆 = 0.934*** >, penwidth = 3.302, style = solid, color = dimgrey]\n\"ECOSAT\" -> {\"ECOSAT2\"}[weight = 1000, label = < 𝜆 = 0.916*** >, penwidth = 3.248, style = solid, color = dimgrey]\n\"ECOSAT\" -> {\"ECOSAT3\"}[weight = 1000, label = < 𝜆 = 0.657*** >, penwidth = 2.471, style = solid, color = dimgrey]\n\n}\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 <p class="caption">
 Modelo con bootstrapping
 </p>
 </div>
 </div>
 </div>
-<div id="section" class="section level1" number="3">
-<h1><span class="header-section-number">3</span> </h1>
+<div id="predicción" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Predicción</h1>
 <pre><code>
 PLS in-sample metrics:
      TRUST COMMIT SOCSAT ECOSAT1 ECOSAT2 ECOSAT3
-RMSE 0.924  0.814  0.872   1.196   1.166   1.236
-MAE  0.707  0.631  0.648   0.948   0.923   0.896
+RMSE 0.925  0.814  0.872   1.197   1.166   1.237
+MAE  0.707  0.632  0.648   0.949   0.924   0.897
 
 PLS out-of-sample metrics:
      TRUST COMMIT SOCSAT ECOSAT1 ECOSAT2 ECOSAT3
-RMSE 0.937  0.822  0.888   1.211   1.179   1.251
-MAE  0.714  0.636  0.658   0.962   0.935   0.909
+RMSE 0.932  0.821  0.885   1.207   1.177   1.246
+MAE  0.712  0.635  0.658   0.956   0.931   0.903
 
 LM in-sample metrics:
      TRUST COMMIT SOCSAT ECOSAT1 ECOSAT2 ECOSAT3
-RMSE 0.778  0.751  0.655   0.977   0.952   1.051
-MAE  0.611  0.568  0.493   0.776   0.744   0.726
+RMSE 0.777  0.750  0.654   0.976   0.952   1.053
+MAE  0.611  0.568  0.493   0.776   0.744   0.727
 
 LM out-of-sample metrics:
      TRUST COMMIT SOCSAT ECOSAT1 ECOSAT2 ECOSAT3
-RMSE 0.840  0.793  0.710   1.038   1.014   1.136
-MAE  0.652  0.599  0.529   0.817   0.787   0.775</code></pre>
+RMSE 0.848  0.802  0.717   1.049   1.015   1.121
+MAE  0.652  0.601  0.526   0.822   0.787   0.767</code></pre>
 </div>
-<div id="potencia-pwr" class="section level1" number="4">
-<h1><span class="header-section-number">4</span> Potencia (pwr)</h1>
+<div id="potencia-pwr" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Potencia (pwr)</h1>
 <p>En nuestro ejemplo tenemos una muestra 256 empresas, y la regresión
 más complicada es la del constructo con 3 regresores por lo que
 v=256-3-1=252.</p>
