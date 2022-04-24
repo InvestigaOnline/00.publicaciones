@@ -26,7 +26,7 @@ NOTA: Incluye constructo de segundo orden
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, comment=NA, warning=FALSE, message=FALSE)
-data <- read_csv("~/R/r-projects/00.publicaciones/data.art2vallejo/data.h.a.csv")
+data <- read_csv("~/R/r-projects/00.publicaciones/data.art2.vallejo/data.h.a.csv")
 options(width=9999)
 ```
 
@@ -85,8 +85,6 @@ mga <- estimate_pls_mga(simple_model, df$TIPO < 2, nboot=1000)
 print(mga)
 ```
 
-Hair, J. F., Sarstedt, M., Ringle, C. M., & Gudergan, S. P. (2018). Advanced Issues in Partial Least Squares Structural Equation Modeling (PLS-SEM), Thousand Oaks, CA: Sage.
-
-Henseler, J., Ringle, C. M. y Sinkovics, R. R. (2009). The Use of Partial Least Squares Path Modeling in International Marketing, Advances in International Marketing, 20: 277-320.
-
-Sarstedt, M., Henseler, J., y Ringle, C. M. (2011). Multi-Group Analysis in Partial Least Squares (PLS) Path Modeling: Alternative Methods and Empirical Results, Advances in International Marketing, 22: 195-218.
+- Hair, J. F., Sarstedt, M., Ringle, C. M., & Gudergan, S. P. (2018). Advanced Issues in Partial Least Squares Structural Equation Modeling (PLS-SEM), Thousand Oaks, CA: Sage.
+- Henseler, J., Ringle, C. M. y Sinkovics, R. R. (2009). The Use of Partial Least Squares Path Modeling in International Marketing, Advances in International Marketing, 20: 277-320.
+- Sarstedt, M., Henseler, J., y Ringle, C. M. (2011). Multi-Group Analysis in Partial Least Squares (PLS) Path Modeling: Alternative Methods and Empirical Results, Advances in International Marketing, 22: 195-218.

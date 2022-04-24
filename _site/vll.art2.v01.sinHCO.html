@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Roberto Gil-Saura" />
+
+
+<title>PLS - AGENCIAS</title>
+
+<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="site_libs/viz-1.8.2/viz.js"></script>
+<link href="site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+<script src="site_libs/grViz-binding-1.0.9/grViz.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<!DOCTYPE html>
+<head><link rel="shortcut icon" href="https://drive.google.com/uc?export=view&id=1JbeH3BFMq-xjBIroa3lcnqhOJS4Ap-RB">&nbsp;</head>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">||IO||</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Inicio</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    J.Moreno
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="mr.art1.vfinal.html">Artículo 1</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    L.Vallejo
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Artículo 1</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="vll.art1.a.v02.html">Agencias - Modelo 02</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Artículo 2</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="vll.art2.a.v01.html">Agencias - Modelo 01</a>
+        </li>
+        <li>
+          <a href="vll.art2.h.v01.html">Hoteles - Modelo 01</a>
+        </li>
+        <li>
+          <a href="vll.art2.mga.v01.html">MGA de los dos grupos</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="about.html">
+    <span class="fa fa-question-circle"></span>
+     
+    Acerca de ...
+  </a>
+</li>
+<li>
+  <a href="https://www.investigaonline.com">InvestigaOnline.com</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">PLS - AGENCIAS</h1>
+<h4 class="author">Roberto Gil-Saura</h4>
+<h4 class="date">2022-04-24 13:32:29</h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#modelización"><span class="toc-section-number">1</span>
+Modelización</a>
+<ul>
+<li><a href="#análisis-de-la-fiabilidad"><span
+class="toc-section-number">1.1</span> Análisis de la fiabilidad</a></li>
+<li><a href="#validez-convergente"><span
+class="toc-section-number">1.2</span> Validez convergente</a>
+<ul>
+<li><a href="#ave"><span class="toc-section-number">1.2.1</span>
+AVE</a></li>
+<li><a href="#análisis-de-las-cargas"><span
+class="toc-section-number">1.2.2</span> Análisis de las cargas</a></li>
+</ul></li>
+<li><a href="#validez-discriminante"><span
+class="toc-section-number">1.3</span> Validez discriminante</a>
+<ul>
+<li><a href="#cross-loadings"><span
+class="toc-section-number">1.3.1</span> Cross-loadings</a></li>
+<li><a href="#fornell-larcker"><span
+class="toc-section-number">1.3.2</span> Fornell-Larcker</a></li>
+<li><a href="#htmt"><span class="toc-section-number">1.3.3</span>
+HTMT</a></li>
+</ul></li>
+<li><a href="#análisis-del-modelo-estructural"><span
+class="toc-section-number">1.4</span> Análisis del modelo
+estructural</a>
+<ul>
+<li><a href="#paths"><span class="toc-section-number">1.4.1</span>
+Paths</a></li>
+<li><a href="#r2"><span class="toc-section-number">1.4.2</span>
+R<sup>2</sup></a></li>
+<li><a href="#f2---effect-sizes"><span
+class="toc-section-number">1.4.3</span> f<sup>2</sup> - effect
+sizes</a></li>
+<li><a href="#efectos"><span class="toc-section-number">1.4.4</span>
+Efectos</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#modelización-con-bootstrapping"><span
+class="toc-section-number">2</span> Modelización con bootstrapping</a>
+<ul>
+<li><a href="#structural-paths"><span
+class="toc-section-number">2.1</span> Structural paths</a></li>
+<li><a href="#bootstrapped-loadings"><span
+class="toc-section-number">2.2</span> Bootstrapped loadings</a></li>
+<li><a href="#bootstrapped-htmt"><span
+class="toc-section-number">2.3</span> Bootstrapped HTMT</a></li>
+<li><a href="#total-effects-paths"><span
+class="toc-section-number">2.4</span> Total effects (paths)</a></li>
+<li><a href="#plot-model"><span class="toc-section-number">2.5</span>
+Plot model</a></li>
+</ul></li>
+<li><a href="#section"><span class="toc-section-number">3</span>
+</a></li>
+<li><a href="#potencia-pwr"><span class="toc-section-number">4</span>
+Potencia (pwr)</a></li>
+</ul>
+</div>
+
+<p>NOTA: Incluye constructo de segundo orden</p>
+<style type="text/css">
+.main-container 
+    {
+    max-width: 100%;
+    margin-left: 10px;
+    margin-right: 10px;
+    }
+.p 
+    {
+    font-size: 0.8em
+    }
+</style>
+<div id="modelización" class="section level1" number="1">
+<h1><span class="header-section-number">1</span> Modelización</h1>
+<p>El modelo de medida es el siguiente:</p>
+<div class="figure">
+<div id="htmlwidget-3515ea16409ed381c84d" style="width:768px;height:432px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3515ea16409ed381c84d">{"x":{"diagram":"digraph G {\n\n// ----------------------\n// General graph settings\n// ----------------------\ngraph [\ncharset = \"UTF-8\",\nlayout = dot,\nlabel = \"\",\nfontsize = 24,\nfontcolor = black,\nfontname = helvetica,\nrankdir = LR,\nlabelloc = t,\nsplines = TRUE\nbgcolor = transparent\n]\n\n// --------------------\n// The structural model\n// --------------------\nsubgraph sm {\nrankdir = LR;\nnode [\nshape = ellipse,\ncolor = black,\nfillcolor = white,\nstyle = filled,\nfontsize = 12,\nfontcolor = black,\nheight = 1.00833333333333,\nwidth = 0.99375,\nfontname = helvetica,\nfixedsize = true\n]\n\"VCC\" [label=<<B>VCC <\/B>>, shape = hexagon]\n\"RQ\" [label=<<B>RQ <\/B>>, shape = hexagon]\n\"ECOSAT\" [label=<<B>ECOSAT <\/B>>, shape = hexagon]\n}\n// ---------------------\n// The measurement model\n// ---------------------\n\nsubgraph construct_1 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = white,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.697916666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"VCC1\" [label = \"VCC1\", shape = box]\n\"VCC2\" [label = \"VCC2\", shape = box]\n\"VCC3\" [label = \"VCC3\", shape = box]\n\"VCC4\" [label = \"VCC4\", shape = box]\n\"VCC5\" [label = \"VCC5\", shape = box]\n\"VCC6\" [label = \"VCC6\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = normal\narrowtail = none\n]\n\"VCC\" -> {\"VCC1\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"VCC\" -> {\"VCC2\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"VCC\" -> {\"VCC3\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"VCC\" -> {\"VCC4\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"VCC\" -> {\"VCC5\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"VCC\" -> {\"VCC6\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\n}\nsubgraph construct_2 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = white,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.697916666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"TRUST\" [label = \"TRUST\", shape = box]\n\"COMMIT\" [label = \"COMMIT\", shape = box]\n\"SOCSAT\" [label = \"SOCSAT\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = normal\narrowtail = none\n]\n\"RQ\" -> {\"TRUST\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"RQ\" -> {\"COMMIT\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"RQ\" -> {\"SOCSAT\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\n}\nsubgraph construct_3 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = white,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.697916666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"ECOSAT1\" [label = \"ECOSAT1\", shape = box]\n\"ECOSAT2\" [label = \"ECOSAT2\", shape = box]\n\"ECOSAT3\" [label = \"ECOSAT3\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = normal\narrowtail = none\n]\n\"ECOSAT\" -> {\"ECOSAT1\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"ECOSAT\" -> {\"ECOSAT2\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\"ECOSAT\" -> {\"ECOSAT3\"}[weight = 1000, penwidth = 1.5, style = solid, color = dimgrey]\n\n}\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<p class="caption">
+Modelo de medida
+</p>
+</div>
+<p>El modelo estructural es el siguiente:</p>
+<div class="figure">
+<div id="htmlwidget-bd611e601a5a51f295ca" style="width:768px;height:432px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-bd611e601a5a51f295ca">{"x":{"diagram":"digraph G {\n\n// ----------------------\n// General graph settings\n// ----------------------\ngraph [\ncharset = \"UTF-8\",\nlayout = dot,\nlabel = \"\",\nfontsize = 24,\nfontcolor = black,\nfontname = helvetica,\nrankdir = LR,\nlabelloc = t,\nsplines = TRUE\nbgcolor = transparent\n]\n\n// --------------------\n// The structural model\n// --------------------\nsubgraph sm {\nrankdir = LR;\nnode [\nshape = ellipse,\ncolor = black,\nfillcolor = white,\nstyle = filled,\nfontsize = 12,\nfontcolor = black,\nheight = 1.00833333333333,\nwidth = 0.99375,\nfontname = helvetica,\nfixedsize = true\n]\n\"VCC\" [label=<<B>VCC <\/B>>, shape = ellipse]\n\"RQ\" [label=<<B>RQ <\/B>>, shape = ellipse]\n\"ECOSAT\" [label=<<B>ECOSAT <\/B>>, shape = ellipse]\nedge [\ncolor = black,\nfontsize = 9,\nfontcolor = black,\nfontname = helvetica,\ndir = both,\narrowhead = normal,\narrowtail = none\n]\n\"VCC\" -> {\"RQ\"}[weight = 1, penwidth = 1.5, style = solid, color = black]\n\"RQ\" -> {\"ECOSAT\"}[weight = 1, penwidth = 1.5, style = solid, color = black]\n}\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<p class="caption">
+Modelo estructural
+</p>
+</div>
+<div id="análisis-de-la-fiabilidad" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Análisis de la
+fiabilidad</h2>
+<p>Para el modelo de medida se han considerado composites, mode A
+(reflectivos???). De este modo, el primer paso debe ser observar el
+resumen de los indicadores de fiabilidad, consistencia interna y
+validez.</p>
+<p>El resultado del análisis muestra todas las escalas que apoyan las
+variables latentes tienen un <em>Cronbach’s alpha</em> mayor que 0.7,
+completado por una fiabilidad del compuesto <em>rhoC</em> también por
+encima de 0.7. para valores superiores a 0.9<a href="#fn1"
+class="footnote-ref" id="fnref1"><sup>1</sup></a>.</p>
+<pre><code>       alpha  rhoC   AVE  rhoA
+VCC    0.848 0.887 0.568 0.852
+RQ     0.800 0.882 0.713 0.805
+ECOSAT 0.791 0.880 0.713 0.809
+
+Alpha, rhoC, and rhoA should exceed 0.7 while AVE should exceed 0.5</code></pre>
+</div>
+<div id="validez-convergente" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> Validez
+convergente</h2>
+<div id="ave" class="section level3" number="1.2.1">
+<h3><span class="header-section-number">1.2.1</span> AVE</h3>
+<p>Del mismo modo, para evaluar la <em>validez convergente</em> o grado
+con el que una medida correlaciona positivamente con medidas
+alternativas del mismo constructo, usamos el coeficiente <em>AVE
+(average variance extracted)</em> que también cumple con la expectativa
+de estar por encima de 0.5.</p>
+<pre><code>       alpha  rhoC   AVE  rhoA
+VCC    0.848 0.887 0.568 0.852
+RQ     0.800 0.882 0.713 0.805
+ECOSAT 0.791 0.880 0.713 0.809
+
+Alpha, rhoC, and rhoA should exceed 0.7 while AVE should exceed 0.5</code></pre>
+<p>Los indicadores son mostrados de forma conjunta en el siguiente
+gráfico.</p>
+<div class="figure">
+<img src="vll.art2.v01.sinHCO_files/figure-html/unnamed-chunk-6-1.png" alt="Tabla de fiabilidad" width="1536" />
+<p class="caption">
+Tabla de fiabilidad
+</p>
+</div>
+</div>
+<div id="análisis-de-las-cargas" class="section level3" number="1.2.2">
+<h3><span class="header-section-number">1.2.2</span> Análisis de las
+cargas</h3>
+<p>Por otro lado, es importante analizar también las cargas o
+<em>loadings</em>, indicadores de la fiabilidad del indicador en el
+constructo, y que deberían ser mayores de 0.7 para retener el indicador;
+para aquellas que están entre 0.4 y 0.7 debe ser analizado el
+comportamiento del constructo ante una eliminación del indicador con
+carga baja<a href="#fn2" class="footnote-ref"
+id="fnref2"><sup>2</sup></a>.</p>
+<pre><code>          VCC    RQ ECOSAT
+VCC1    0.719 0.000  0.000
+VCC2    0.767 0.000  0.000
+VCC3    0.760 0.000  0.000
+VCC4    0.829 0.000  0.000
+VCC5    0.771 0.000  0.000
+VCC6    0.666 0.000  0.000
+TRUST   0.000 0.847  0.000
+COMMIT  0.000 0.854  0.000
+SOCSAT  0.000 0.832  0.000
+ECOSAT1 0.000 0.000  0.903
+ECOSAT2 0.000 0.000  0.907
+ECOSAT3 0.000 0.000  0.708</code></pre>
+</div>
+</div>
+<div id="validez-discriminante" class="section level2" number="1.3">
+<h2><span class="header-section-number">1.3</span> Validez
+discriminante</h2>
+<div id="cross-loadings" class="section level3" number="1.3.1">
+<h3><span class="header-section-number">1.3.1</span> Cross-loadings</h3>
+<p>Para el análisis de la validez discriminante o capacidad de un
+constructo de ser realmente distinto a otros, utilizamos las denominadas
+<em>cross-loadings</em>, que miden esa capacidad del constructo. En la
+tabla adjunta se puede observar en cada indicador carga de forma
+superior en su variable latente, siendo el resto de cargas de menor
+intensidad.</p>
+<pre><code>          VCC    RQ ECOSAT
+VCC1    0.719 0.459  0.464
+VCC2    0.767 0.476  0.513
+VCC3    0.760 0.336  0.160
+VCC4    0.829 0.471  0.377
+VCC5    0.771 0.406  0.196
+VCC6    0.666 0.399  0.144
+TRUST   0.434 0.847  0.511
+COMMIT  0.517 0.854  0.554
+SOCSAT  0.489 0.832  0.676
+ECOSAT1 0.298 0.594  0.903
+ECOSAT2 0.362 0.640  0.907
+ECOSAT3 0.442 0.517  0.708</code></pre>
+</div>
+<div id="fornell-larcker" class="section level3" number="1.3.2">
+<h3><span class="header-section-number">1.3.2</span>
+Fornell-Larcker</h3>
+<p>El criterio de <em>Fornell-Larcker</em>, compara la raíz cuadrado del
+<em>AVE</em> con la correlación de las variables latentes. La raíz
+cuadrada del AVE de cada constructo, debería ser más grande que la más
+alta correlación con cualquier otro constructo. Se puede observar en la
+tabla siguiente que el valor en la diagonal principal, es mayor que el
+resto de valores en la parte inferior de la matriz.</p>
+<pre><code>         VCC    RQ ECOSAT
+VCC    0.754     .      .
+RQ     0.571 0.845      .
+ECOSAT 0.430 0.695  0.844
+
+FL Criteria table reports square root of AVE on the diagonal and construct correlations on the lower triangle.</code></pre>
+</div>
+<div id="htmt" class="section level3" number="1.3.3">
+<h3><span class="header-section-number">1.3.3</span> HTMT</h3>
+<p>Por último el <em>HTMT</em> es un ratio que si es mayor que 0.90
+indica una pérdida de validez discriminante.</p>
+<pre><code>         VCC    RQ ECOSAT
+VCC        .     .      .
+RQ     0.680     .      .
+ECOSAT 0.511 0.863      .</code></pre>
+</div>
+</div>
+<div id="análisis-del-modelo-estructural" class="section level2"
+number="1.4">
+<h2><span class="header-section-number">1.4</span> Análisis del modelo
+estructural</h2>
+<p>Una vez analizados los constructos desde el punto de vista de su
+composición, debemos analizar el modelo estructural en su conjunto.
+Partiendo de que el objetivo del PLS es la maximización de la varianza
+explicada, las medidas más importantes son la fiabilidad, la validez
+convergente y la validez discriminante del conjunto del modelo.</p>
+<ul>
+<li>R<sup>2</sup>, coeficiente de determinación y/o % de varianza
+explicada</li>
+<li>f<sup>2</sup> y q<sup>2</sup> efecto tamaño</li>
+<li>Q<sup>2</sup>, relevancia predictiva</li>
+</ul>
+<div id="paths" class="section level3" number="1.4.1">
+<h3><span class="header-section-number">1.4.1</span> Paths</h3>
+<pre><code>          RQ ECOSAT
+R^2    0.326  0.483
+AdjR^2 0.325  0.482
+VCC    0.571      .
+RQ         .  0.695</code></pre>
+</div>
+<div id="r2" class="section level3" number="1.4.2">
+<h3><span class="header-section-number">1.4.2</span> R<sup>2</sup></h3>
+<p>Buscar <em>R</em><sup>2</sup> mayores de 0.7, aunque valores
+alrededor de 0.25 sean aceptados según ámbitos; (sustancial mayor que
+0.75, moderado alrededor de 0.5 y débil, 0.25). Usar
+R<sup>2</sup><sub>adj</sub> para comparar modelos con diferente número
+de constructos y/u observaciones.</p>
+<pre><code>              RQ    ECOSAT
+Rsq    0.3262531 0.4826341
+AdjRsq 0.3249624 0.4816430</code></pre>
+</div>
+<div id="f2---effect-sizes" class="section level3" number="1.4.3">
+<h3><span class="header-section-number">1.4.3</span> f<sup>2</sup> -
+effect sizes</h3>
+<p>El <em>f</em><sup>2</sup> permite evaluar la contribución de cada
+constructo exógeno a la R<sup>2</sup> de un constructo endógeno. Los
+valores de 0.02, 0.15 y 0.35 indican un efecto pequeño, mediano o grande
+sobre el constructo endógeno.</p>
+<pre><code>         VCC    RQ ECOSAT
+VCC    0.000 0.484  0.000
+RQ     0.000 0.000  0.933
+ECOSAT 0.000 0.000  0.000</code></pre>
+</div>
+<div id="efectos" class="section level3" number="1.4.4">
+<h3><span class="header-section-number">1.4.4</span> Efectos</h3>
+<div id="totales" class="section level4" number="1.4.4.1">
+<h4><span class="header-section-number">1.4.4.1</span> Totales</h4>
+<pre><code>         VCC    RQ ECOSAT
+VCC    0.000 0.571  0.397
+RQ     0.000 0.000  0.695
+ECOSAT 0.000 0.000  0.000</code></pre>
+</div>
+<div id="indirectos" class="section level4" number="1.4.4.2">
+<h4><span class="header-section-number">1.4.4.2</span> Indirectos</h4>
+<pre><code>         VCC    RQ ECOSAT
+VCC    0.000 0.000  0.397
+RQ     0.000 0.000  0.000
+ECOSAT 0.000 0.000  0.000</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div id="modelización-con-bootstrapping" class="section level1"
+number="2">
+<h1><span class="header-section-number">2</span> Modelización con
+bootstrapping</h1>
+<p><em>Bootstrapping</em> para calcular la significatividad de los paths
+estimados. Habitualmente se trabaja con un 5% (t &gt; 1.96) lo que
+implica significatividad al 95%. Podemos cambiar al 10 o al 1 según
+ámbito. Usar doble bootstrapping si hay menos de 4 constructos.</p>
+<div id="structural-paths" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Structural paths</h2>
+<pre><code>               Original Est. Bootstrap Mean Bootstrap SD T Stat. 2.5% CI 97.5% CI
+VCC  -&gt;  RQ            0.571          0.572        0.028  20.346   0.515    0.629
+RQ  -&gt;  ECOSAT         0.695          0.695        0.031  22.287   0.630    0.750</code></pre>
+</div>
+<div id="bootstrapped-loadings" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Bootstrapped
+loadings</h2>
+<pre><code>                    Original Est. Bootstrap Mean Bootstrap SD T Stat. 2.5% CI 97.5% CI
+VCC1  -&gt;  VCC               0.719          0.717        0.027  26.859   0.659    0.766
+VCC2  -&gt;  VCC               0.767          0.766        0.027  28.739   0.711    0.812
+VCC3  -&gt;  VCC               0.760          0.757        0.025  30.965   0.708    0.804
+VCC4  -&gt;  VCC               0.829          0.828        0.017  50.158   0.794    0.858
+VCC5  -&gt;  VCC               0.771          0.772        0.027  28.771   0.715    0.819
+VCC6  -&gt;  VCC               0.666          0.665        0.031  21.501   0.603    0.722
+TRUST  -&gt;  RQ               0.847          0.847        0.019  43.688   0.805    0.880
+COMMIT  -&gt;  RQ              0.854          0.853        0.016  54.477   0.820    0.883
+SOCSAT  -&gt;  RQ              0.832          0.830        0.018  45.986   0.792    0.863
+ECOSAT1  -&gt;  ECOSAT         0.903          0.903        0.013  68.574   0.873    0.925
+ECOSAT2  -&gt;  ECOSAT         0.907          0.907        0.012  74.863   0.881    0.928
+ECOSAT3  -&gt;  ECOSAT         0.708          0.705        0.033  21.588   0.639    0.763</code></pre>
+</div>
+<div id="bootstrapped-htmt" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> Bootstrapped
+HTMT</h2>
+<pre><code>                Original Est. Bootstrap Mean Bootstrap SD T Stat. 2.5% CI 97.5% CI
+VCC  -&gt;  RQ             0.680          0.679        0.033  20.918   0.614    0.744
+VCC  -&gt;  ECOSAT         0.511          0.516        0.038  13.588   0.442    0.590
+RQ  -&gt;  ECOSAT          0.863          0.864        0.039  22.019   0.784    0.932</code></pre>
+</div>
+<div id="total-effects-paths" class="section level2" number="2.4">
+<h2><span class="header-section-number">2.4</span> Total effects
+(paths)</h2>
+<pre><code>                Original Est. Bootstrap Mean Bootstrap SD T Stat. 2.5% CI 97.5% CI
+VCC  -&gt;  RQ             0.571          0.572        0.028  20.346   0.515    0.629
+VCC  -&gt;  ECOSAT         0.397          0.398        0.029  13.702   0.342    0.452
+RQ  -&gt;  ECOSAT          0.695          0.695        0.031  22.287   0.630    0.750</code></pre>
+</div>
+<div id="plot-model" class="section level2" number="2.5">
+<h2><span class="header-section-number">2.5</span> Plot model</h2>
+<div class="figure">
+<div id="htmlwidget-c13ffd88598a31a3e330" style="width:768px;height:432px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c13ffd88598a31a3e330">{"x":{"diagram":"digraph G {\n\n// ----------------------\n// General graph settings\n// ----------------------\ngraph [\ncharset = \"UTF-8\",\nlayout = dot,\nlabel = \"\",\nfontsize = 24,\nfontcolor = black,\nfontname = helvetica,\nrankdir = LR,\nlabelloc = t,\nsplines = TRUE\nbgcolor = transparent\n]\n\n// --------------------\n// The structural model\n// --------------------\nsubgraph sm {\nrankdir = LR;\nnode [\nshape = ellipse,\ncolor = black,\nfillcolor = lightcyan,\nstyle = filled,\nfontsize = 12,\nfontcolor = black,\nheight = 1.00833333333333,\nwidth = 0.99375,\nfontname = helvetica,\nfixedsize = true\n]\n\"VCC\" [label=<<B>VCC <\/B>>, shape = hexagon]\n\"RQ\" [label=<<B>RQ <\/B><BR /><FONT POINT-SIZE=\"10\">r² = 0.326<\/FONT>>, shape = hexagon]\n\"ECOSAT\" [label=<<B>ECOSAT <\/B><BR /><FONT POINT-SIZE=\"10\">r² = 0.483<\/FONT>>, shape = hexagon]\nedge [\ncolor = black,\nfontsize = 9,\nfontcolor = black,\nfontname = helvetica,\ndir = both,\narrowhead = normal,\narrowtail = none\n]\n\"VCC\" -> {\"RQ\"}[weight = 1, label = < 𝛽 = 0.571***<BR /><FONT POINT-SIZE=\"7\">95% CI [0.515, 0.629]   <\/FONT> >, penwidth = 3.355, style = solid, color = black]\n\"RQ\" -> {\"ECOSAT\"}[weight = 1, label = < 𝛽 = 0.695***<BR /><FONT POINT-SIZE=\"7\">95% CI [0.63, 0.75]   <\/FONT> >, penwidth = 3.975, style = solid, color = black]\n}\n// ---------------------\n// The measurement model\n// ---------------------\n\nsubgraph construct_1 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = lightgoldenrodyellow,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.697916666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"VCC1\" [label = \"VCC1\", shape = box]\n\"VCC2\" [label = \"VCC2\", shape = box]\n\"VCC3\" [label = \"VCC3\", shape = box]\n\"VCC4\" [label = \"VCC4\", shape = box]\n\"VCC5\" [label = \"VCC5\", shape = box]\n\"VCC6\" [label = \"VCC6\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"VCC1\" -> {\"VCC\"}[weight = 1000, label = < 𝜆 = 0.719*** >, penwidth = 2.657, style = solid, color = dimgrey]\n\"VCC2\" -> {\"VCC\"}[weight = 1000, label = < 𝜆 = 0.767*** >, penwidth = 2.801, style = solid, color = dimgrey]\n\"VCC3\" -> {\"VCC\"}[weight = 1000, label = < 𝜆 = 0.76*** >, penwidth = 2.78, style = solid, color = dimgrey]\n\"VCC4\" -> {\"VCC\"}[weight = 1000, label = < 𝜆 = 0.829*** >, penwidth = 2.987, style = solid, color = dimgrey]\n\"VCC5\" -> {\"VCC\"}[weight = 1000, label = < 𝜆 = 0.771*** >, penwidth = 2.813, style = solid, color = dimgrey]\n\"VCC6\" -> {\"VCC\"}[weight = 1000, label = < 𝜆 = 0.666*** >, penwidth = 2.498, style = solid, color = dimgrey]\n\n}\nsubgraph construct_2 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = lightgoldenrodyellow,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.697916666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"TRUST\" [label = \"TRUST\", shape = box]\n\"COMMIT\" [label = \"COMMIT\", shape = box]\n\"SOCSAT\" [label = \"SOCSAT\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"TRUST\" -> {\"RQ\"}[weight = 1000, label = < 𝜆 = 0.847*** >, penwidth = 3.041, style = solid, color = dimgrey]\n\"COMMIT\" -> {\"RQ\"}[weight = 1000, label = < 𝜆 = 0.854*** >, penwidth = 3.062, style = solid, color = dimgrey]\n\"SOCSAT\" -> {\"RQ\"}[weight = 1000, label = < 𝜆 = 0.832*** >, penwidth = 2.996, style = solid, color = dimgrey]\n\n}\nsubgraph construct_3 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = lightgoldenrodyellow,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.697916666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"ECOSAT1\" [label = \"ECOSAT1\", shape = box]\n\"ECOSAT2\" [label = \"ECOSAT2\", shape = box]\n\"ECOSAT3\" [label = \"ECOSAT3\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = normal\narrowtail = none\n]\n\"ECOSAT\" -> {\"ECOSAT1\"}[weight = 1000, label = < 𝜆 = 0.903*** >, penwidth = 3.209, style = solid, color = dimgrey]\n\"ECOSAT\" -> {\"ECOSAT2\"}[weight = 1000, label = < 𝜆 = 0.907*** >, penwidth = 3.221, style = solid, color = dimgrey]\n\"ECOSAT\" -> {\"ECOSAT3\"}[weight = 1000, label = < 𝜆 = 0.708*** >, penwidth = 2.624, style = solid, color = dimgrey]\n\n}\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<p class="caption">
+Modelo con bootstrapping
+</p>
+</div>
+</div>
+</div>
+<div id="section" class="section level1" number="3">
+<h1><span class="header-section-number">3</span> </h1>
+<pre><code>
+PLS in-sample metrics:
+     TRUST COMMIT SOCSAT ECOSAT1 ECOSAT2 ECOSAT3
+RMSE 0.901  0.855  0.871   1.093   1.022   1.175
+MAE  0.692  0.665  0.647   0.827   0.769   0.870
+
+PLS out-of-sample metrics:
+     TRUST COMMIT SOCSAT ECOSAT1 ECOSAT2 ECOSAT3
+RMSE 0.906  0.861  0.876   1.097   1.024   1.179
+MAE  0.695  0.670  0.650   0.828   0.769   0.873
+
+LM in-sample metrics:
+     TRUST COMMIT SOCSAT ECOSAT1 ECOSAT2 ECOSAT3
+RMSE 0.796  0.751  0.652   0.956   0.920   1.046
+MAE  0.612  0.569  0.471   0.728   0.698   0.732
+
+LM out-of-sample metrics:
+     TRUST COMMIT SOCSAT ECOSAT1 ECOSAT2 ECOSAT3
+RMSE 0.820  0.774  0.674   0.982   0.945   1.089
+MAE  0.625  0.585  0.481   0.744   0.716   0.754</code></pre>
+<pre><code>
+PLS in-sample metrics:
+     TRUST COMMIT SOCSAT ECOSAT1 ECOSAT2 ECOSAT3
+RMSE 0.901  0.855  0.871   1.093   1.022   1.175
+MAE  0.692  0.665  0.647   0.827   0.769   0.870
+
+PLS out-of-sample metrics:
+     TRUST COMMIT SOCSAT ECOSAT1 ECOSAT2 ECOSAT3
+RMSE 0.906  0.861  0.876   1.097   1.024   1.179
+MAE  0.695  0.670  0.650   0.828   0.769   0.873
+
+LM in-sample metrics:
+     TRUST COMMIT SOCSAT ECOSAT1 ECOSAT2 ECOSAT3
+RMSE 0.796  0.751  0.652   0.956   0.920   1.046
+MAE  0.612  0.569  0.471   0.728   0.698   0.732
+
+LM out-of-sample metrics:
+     TRUST COMMIT SOCSAT ECOSAT1 ECOSAT2 ECOSAT3
+RMSE 0.820  0.774  0.674   0.982   0.945   1.089
+MAE  0.625  0.585  0.481   0.744   0.716   0.754</code></pre>
+</div>
+<div id="potencia-pwr" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Potencia (pwr)</h1>
+<p>En nuestro ejemplo tenemos una muestra 256 empresas, y la regresión
+más complicada es la del constructo con 3 regresores por lo que
+v=256-3-1=252.</p>
+<pre><code>
+     Multiple regression power calculation 
+
+              u = 3
+              v = 252
+             f2 = 0.15
+      sig.level = 0.05
+          power = 0.9998353</code></pre>
+<pre><code>
+     Multiple regression power calculation 
+
+              u = 3
+              v = 72.70583
+             f2 = 0.15
+      sig.level = 0.05
+          power = 0.8</code></pre>
+<p>El resultado indica que nuestro tamaño muestra posee una potencia
+igual al valor del resultado de <em>power</em>, ya que el tamaño
+muestral máximo para una potencia del 80% sería del valor del resultado
+del valor de <em>v</em> elementos con los parámetros indicados.</p>
+</div>
+<div class="footnotes footnotes-end-of-document">
+<hr />
+<ol>
+<li id="fn1"><p>En <a
+href="https://forum.smartpls.com/viewtopic.php?f=5&amp;t=3805"
+class="uri">https://forum.smartpls.com/viewtopic.php?f=5&amp;t=3805</a>
+hay una “discusión en torno al”greater than 0.9” de Primer PLS … de
+Hair; lo solventa un investigador / desarrollador de SmartPLS: <a
+href="https://www.researchgate.net/profile/Jan_Michael_Becker"
+class="uri">https://www.researchgate.net/profile/Jan_Michael_Becker</a><a
+href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>En nuestro caso al proceder con la eliminación de
+aquellas cargas menores de 0.7 no mejoraba significativamente el
+modelo<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+
+<br>
+<hr>
+<div style="text-align: center;">All rights reserved - 2008-2021 (c) - InvestigaOnline.com</div>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

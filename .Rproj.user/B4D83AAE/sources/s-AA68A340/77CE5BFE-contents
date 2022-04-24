@@ -1,0 +1,514 @@
+---
+title: "PLS - Hoteles"
+author: "Roberto Gil-Saura"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    highlight: tango
+    number_sections: yes
+    df_print: paged
+    toc: yes
+subtitle: Artículo 1, versión FINAL (Doctoranda Moreno)
+---
+
+
+```{=html}
+#yaml output:
+#  word_document:
+#    toc: yes
+#    reference_docx: "template.docx"
+#  pdf_document:
+#    toc: yes
+
+<style type="text/css">
+.main-container {
+  max-width: 100%;
+  margin-left: 10px;
+  margin-right: 10px;}
+.p {
+  font-size: 0.8em
+}
+</style>
+```
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, comment=NA, message = FALSE, warning=FALSE)
+options(width=999)
+suppressMessages(library(tidyverse))
+suppressMessages(library(seminr))
+suppressMessages(library(pwr))
+suppressMessages(library(expss))
+suppressMessages(library(openxlsx))
+suppressMessages(perfil <- read_spss("~/R/r-projects/00.publicaciones/data.art1.moreno/hoteles-art1-moreno.sav"))
+suppressMessages(data <- read_delim("~/R/r-projects/00.publicaciones/data.art1.moreno/hoteles-art1-moreno-data.csv","\t", escape_double = FALSE, trim_ws = TRUE))
+suppressMessages(df <- data.frame(sapply(data,function(x) ifelse(is.na(x),mean(x, na.rm = TRUE),x))))
+dflvs <- select(perfil,c(SUSA, SUSB, SUSC, QK))
+df <- cbind(df, dflvs)
+write_delim(df, file = "~/R/r-projects/00.publicaciones/data.art1.moreno/hoteles-art1-moreno-df.csv", delim=",")
+df1 <- filter(df, QK==1)
+df2 <- filter(df, QK==2)
+```
+
+# Análisis del modelo de medida.
+
+Seguidamente mostramos el modelo estructural (*inner model*), establecidos a partir de las hipótesis lanzadas. El modelo estructural es el siguiente:
+
+```{r include=FALSE, warning=FALSE, message=FALSE}
+#======================================
+# Create mesaurment model
+#======================================
+mm <- constructs(
+  composite("ICT", multi_items("ICT", c(1:4 ))),
+  composite("SA" , multi_items("SUS", c(1:8 ))),
+  composite("SB" , multi_items("SUS", c(10:12))),
+  composite("SC" , multi_items("SUS", c(13:15))),
+  higher_composite("SUS", dimensions = c("SA","SB","SC"), method = two_stage),
+  composite("COR", multi_items("COR", c(1:9 ))),
+  composite("BEQ", multi_items("BEQ", c(2:10))),
+  composite("SST", multi_items("SST", c(1:3 ))),
+  composite("EST", multi_items("EST", c(1:3 ))))
+#======================================
+# Create structural model
+#======================================
+sm <- relationships(
+  paths(from = c("ICT" ), to = c("SUS")),
+  paths(from = c("ICT" ), to = c("COR")),
+  paths(from = c("COR" ), to = c("BEQ")),
+  paths(from = c("SUS" ), to = c("BEQ")),
+  paths(from = c("SUS" ), to = c("SST")),
+  paths(from = c("BEQ" ), to = c("SST")),
+  paths(from = c("SST" ), to = c("EST"))
+)
+```
+
+## Constructos
+
+```{r fig.cap='Modelo estructural', warning=FALSE, message=FALSE, fig.width=8, fig.height=4.5}
+# Dibujamos el modelo estructural
+# Estimate the model
+model <- estimate_pls(data = df,
+                                      measurement_model = mm,
+                                      structural_model  = sm,
+                                      inner_weights = path_weighting,
+                                      missing = mean_replacement,
+                                      missing_value = NA)
+
+res_model <- summary(model)
+plot(sm, title = 'Modelo de medida')
+```
+
+## Fiabilidad del instrumento de medida
+
+Para el modelo de medida se han considerado constructos de tipo composite mode_A (reflectivos). De este modo, el primer paso debe ser observar el
+resumen de los indicadores de fiabilidad, consistencia interna y validez.
+
+Comenzamos viendo el *Cronbach's alpha*, y el resultado del análisis muestra todas las escalas que apoyan las variables latentes tienen un mayor que
+0.7, completado por una fiabilidad del compuesto *rhoC* también por encima de 0.7. para valores superiores a 0.9[^1].
+
+[^1]: En <https://forum.smartpls.com/viewtopic.php?f=5&t=3805> hay una "discusión en torno al "greater than 0.9" de Primer PLS ... de Hair; lo
+    solventa un investigador / desarrollador de SmartPLS: <https://www.researchgate.net/profile/Jan_Michael_Becker>
+
+```{r fig.cap='Tabla Resumen', fig.width=16, fig.height=9}
+cat('Modelo\n')
+print(res_model$reliability)
+```
+
+## Validez convergente
+
+### AVE (constructos reflectivos)
+
+Del mismo modo, para evaluar la *validez convergente* o grado con el que una medida correlaciona positivamente con medidas alternativas del mismo
+constructo, usamos el coeficiente *AVE (average variance extracted)* que también cumple con la expectativa de estar por encima de 0.5.
+
+El AVE (*average variance extracted*) se define como la cantidad de varianza que un constructo obtiene de sus indicadores con relación a la cantidad
+de varianza debida al error de medida, recomendándose que su valor sea superior a 0,50 lo que implica que más del 50% de la varianza del constructo es
+debida a sus indicadores (Fornell y Larcker, 1981).
+
+```{r fig.cap='AVE (average variance extracted)'}
+cat('Modelo\n')
+print(round(res_model$reliability[,3],3))
+```
+
+Los indicadores son mostrados de forma conjunta en el siguiente gráfico.
+
+```{r fig.cap='Tabla de fiabilidad', fig.width=16, fig.height=9}
+cat('Modelo\n')
+plot(res_model$reliability)
+```
+
+### Análisis de las cargas (reflectivos) o de los pesos (formativos)
+
+Para la valoración de la validez convergente se analiza también el tamaño de las cargas de los indicadores. El tamaño de las cargas también es
+considerado un indicador de fiabilidad; es por ello que todas las cargas de todos los indicadores deberían ser estadísticamente significativas y
+además su tamaño ser igual o superior[^2] al valor 0,708. Las cargas elevadas sobre un constructo, señalan que los indicadores asociados con el mismo tienen mucho en común y, por lo tanto, capturan correctamente la variable latente. Para aquellas cargas que están entre 0.4 y 0.7 debe ser analizado el comportamiento del constructo ante una eliminación del indicador con carga baja[^3].
+
+[^2]: El cuadrado de una carga estandarizada de un indicador representa cuanto de la variación en un ítem se explica por el constructo, y se describe como la varianza extraída del ítem. Una regla de oro que se establece es que una variable latente explicaría una parte sustancial de la varianza de cada indicador, usualmente al menos el 50%. Esto implica que la varianza compartida entre el constructo y sus indicadores, es mayor que la varianza del error de medida. Esto significa que la carga de un indicador debería ser mayor de 0,708 puesto que ese número al cuadrado (0,7082) es igual a 0,50. (Hair *et al.,* 2017: 113).
+
+[^3]: En nuestro caso al proceder con la eliminación de aquellas cargas menores de 0.7 no mejoraba significativamente el modelo
+
+```{r fig.cap='Loadings'}
+cat('Modelo\n')
+print(res_model$loadings)
+```
+
+## Validez discriminante
+
+### Cross-loadings
+
+Para el análisis de la validez discriminante o capacidad de un constructo de ser realmente distinto a otros, utilizamos las denominadas
+*cross-loadings*, que miden esa capacidad del constructo. En la tabla adjunta se puede observar en cada indicador carga de forma superior en su
+variable latente, siendo el resto de cargas de menor intensidad.
+
+```{r fig.cap='Cross-loadings'}
+cat('Modelo\n')
+print(res_model$validity$cross_loadings)
+```
+
+### Fornell-Larcker
+
+El criterio de Fornell-Larcker, compara la raíz cuadrado del *AVE* con la correlación de las variables latentes. La raíz cuadrada del *AVE* de cada
+constructo, debería ser más grande que la más alta correlación con cualquier otro constructo. Se puede observar en la tabla siguiente que el valor en
+la diagonal principal, es mayor que el resto de valores en la parte inferior de la matriz.
+
+```{r fig.cap='criterio de Fornell-Larcker'}
+cat('Modelo\n')
+print(res_model$validity$fl_criteria)
+```
+
+### HTMT
+
+Por último el HTMT es un ratio que si es mayor que 0.90 indica una pérdida de validez discriminante. El ratio HTMT nos indica que los indicadores que
+pertenecen a una determinada variables latente están correlacionando más como otra variable latente que con la propia. HT/MT\> 0.85 Clark & Watson, \>
+0.90 Gold et al. 2001; Teo et al. 2008).
+
+```{r fig.cap='Hetero trait - mono trait ratio'}
+cat('Modelo\n')
+print(res_model$validity$htmt)
+```
+
+**Atención SST con EST tiene un valor de 0.907!!!**
+
+# Análisis del modelo estructural
+
+Una vez analizados los constructos desde el punto de vista de su composición, debemos analizar el modelo estructural en su conjunto. Partiendo de que el objetivo del PLS es la maximización de la varianza explicada, las medidas más importantes son la fiabilidad, la validez convergente y la validez discriminante del conjunto del modelo.
+
+-   Paths o cargas de latentes...
+-   R², coeficiente de determinación y/o % de varianza explicada
+-   f² y q² efecto tamaño
+-   Q², relevancia predictiva
+
+## Paths y R²
+
+```{r fig.cap=''}
+cat('Modelo\n')
+print(res_model$paths)
+```
+
+Buscar R² mayores de 0.7, aunque valores alrededor de 0.25 sean aceptados según ámbitos; (sustancial mayor que 0.75, moderado alrededor de 0.5 y débil, 0.25). Usar R²<sub>adj</sub> para comparar modelos con diferente número de constructos y/u observaciones. En nuestro ámbito, podemos observar que todos los constructos independientes del modelo estructural observen valores para R² por encima de 0,1, umbral mínimo establecido por Falk y Miller (1992).
+
+## f² - Tamaño del efecto
+
+El f² permite evaluar la contribución de cada constructo exógeno a la R² de un constructo endógeno. Los valores de 0.02, 0.15 y 0.35 indican un efecto pequeño, mediano o grande sobre el constructo endógeno.
+
+```{r fig.cap=''}
+cat('Modelo\n')
+print(res_model$fSquare)
+```
+
+En este caso específico, la eliminación de BEQ del modelo, tiene un efecto medio sobre la satisfacción social como refleja el f² de BEQ sobre SST en 0.215.
+
+## Efectos
+
+### Totales
+
+```{r fig.cap='Efectos totales'}
+cat('Modelo\n')
+res_model$total_effects
+```
+
+### Indirectos
+
+```{r fig.cap='Efectos indirectos'}
+cat('Modelo\n')
+res_model$total_indirect_effects
+```
+
+### it_criteria
+
+```{r fig.cap='IT Criteria'}
+cat('Modelo\n')
+res_model$it_criteria
+```
+
+# Modelización con bootstrapping
+
+*Bootstrapping* para calcular la significatividad de los paths estimados y del resto de elementos que usamos para la validación. Habitualmente se trabaja con un 5% (t \> 1.96) lo que implica significatividad al 95%. Podemos cambiar al 10 o al 1 según ámbito. Usar doble *bootstrapping* si hay menos de 4 constructos.
+
+```{r fig.cap=''}
+# Bootstrap the model
+model_boot <- bootstrap_model(seminr_model = model,nboot = 5000,cores = 4, seed = 123)
+res_boot <- summary(model_boot)
+```
+
+## Bootstrapped Structural paths
+
+Conjunto de coeficiente path con intervalo de confianza. Los intervalos de confianza no deben contener el 0 para ser significativos.
+
+```{r fig.cap='Paths estructurales'}
+cat('Modelo\n')
+res_boot$bootstrapped_paths
+```
+
+## Bootstrapped loadings
+
+Cargas (modelo con constructos reflectivos) con intervalo de confianza. Las cargas deberían ser significativas y mayores a 0.708 dado que este número al cuadrado es 0.50 (Hair et al. 2017).
+
+```{r fig.cap='Cargas'}
+cat('Modelo\n')
+res_boot$bootstrapped_loadings
+```
+
+## Bootstrapped HTMT
+
+```{r fig.cap='Ratio Hetero Trait - Mono Trait'}
+cat('Modelo\n')
+res_boot$bootstrapped_HTMT
+```
+
+## Bootstrapped total effects
+
+Para la comprobación de los coeficientes b del modelo y conocer que son significativos.
+
+```{r fig.cap='Paths totales'}
+cat('Modelo\n')
+res_boot$bootstrapped_total_paths
+```
+
+
+## Bootstrapped indirect effects
+
+```{r fig.cap='Indirect effects'}
+cat('Modelo\n')
+res_boot$bootstrapped_indirect_effects
+
+# Inspect indirect effects
+
+"COR -> BEQ" <- specific_effect_significance(model_boot, from = "COR", to = "BEQ", alpha = 0.05)
+"SUS -> BEQ" <- specific_effect_significance(model_boot, from = "SUS", to = "BEQ", alpha = 0.05)
+"COR -> SST" <- specific_effect_significance(model_boot, from = "COR", through = "BEQ", to = "SST", alpha = 0.05)
+"SUS -> SST" <- specific_effect_significance(model_boot, from = "SUS", through = "BEQ", to = "SST", alpha = 0.05)
+"COR -> EST" <- specific_effect_significance(model_boot, from = "COR", through = c("BEQ", "SST"), to = "EST", alpha = 0.05)
+"SUS -> EST" <- specific_effect_significance(model_boot, from = "SUS", through = c("BEQ", "SST"), to = "EST", alpha = 0.05)
+
+bootstrapped_specific_indirect_effects <- rbind(`COR -> BEQ`, `SUS -> BEQ`, `COR -> SST`,`SUS -> SST`, `COR -> EST`, `SUS -> EST` )
+bootstrapped_specific_indirect_effects
+```
+
+# Modelos
+
+Representamos los modelos con su valores de trabajo obtenidos.
+
+## Modelo general
+
+```{r fig.cap='Modelo con bootstrapping', fig.width=16, fig.height=9}
+cat('Modelo\n')
+plot(model_boot, title = 'Modelo total')
+```
+
+# Predicción (seminr)
+
+## Modelo
+
+```{r include=FALSE, warning=FALSE, message=FALSE}
+options(width=9999)
+#======================================
+# Create mesaurment model
+#======================================
+mm <- constructs(
+  composite("ICT", multi_items("ICT", c(1:4 ))),
+  composite("SUS" , multi_items("SUS", c("A","B","C" ))),
+  composite("COR", multi_items("COR", c(1:9 ))),
+  composite("BEQ", multi_items("BEQ", c(1:10))),
+  composite("SST", multi_items("SST", c(1:3 ))),
+  composite("EST", multi_items("EST", c(1:3 ))))
+#======================================
+# Create structural model
+#======================================
+sm <- relationships(
+  paths(from = c("ICT" ), to = c("SUS")),
+  paths(from = c("ICT" ), to = c("COR")),
+  paths(from = c("ICT" ), to = c("BEQ")),
+  paths(from = c("COR" ), to = c("BEQ")),
+  paths(from = c("SUS" ), to = c("BEQ")),
+  paths(from = c("SUS" ), to = c("SST")),
+  paths(from = c("BEQ" ), to = c("SST")),
+  paths(from = c("SST" ), to = c("EST"))
+)
+model <- estimate_pls(data = df,
+                                      measurement_model = mm,
+                                      structural_model  = sm,
+                                      inner_weights = path_weighting,
+                                      missing = mean_replacement,
+                                      missing_value = NA)
+predict_simple_model <- predict_pls(model = model,technique = predict_EA, noFolds = 10,reps = 10)
+sum_predict_corp_rep_ext <- summary(predict_simple_model)
+
+# Analyze the distribution of prediction error
+par(mfrow=c(1,3))
+plot(predict_simple_model, indicator = "")
+plot(predict_simple_model, indicator = "")
+plot(predict_simple_model, indicator = "")
+plot(predict_simple_model, indicator = "")
+plot(predict_simple_model, indicator = "")
+plot(predict_simple_model, indicator = "")
+
+par(mfrow=c(1,1))
+
+# Inspect the results of PLSpredict
+sum_predict_corp_rep_ext
+```
+
+# Descriptivo
+
+Para justificar la ausencia de un multigrupo, se realiza las prueba de Wilcoxon o Mann - Wihitney que nos permite determinar si existen diferencias significativas en los rangos de las variables utilizadas. Nótese la utilización de la prueba no paramétrica ante la asunción de la no normalidad de las distribuciones de las variables utilizadas en el análisis exploratorio.
+
+```{r}
+df1 <- select(df1, c(1:16,22:34,50:52))
+df2 <- select(df2, c(1:16,22:34,50:52))
+wb = createWorkbook()
+sh = addWorksheet(wb, "Tablas")
+tab1 <- perfil %>%tab_cells(mrset_f(P1_), P2, QK) %>% tab_stat_cases(label='casos') %>%tab_stat_cpct(label='% casos') %>% tab_pivot(stat_position='inside_columns')
+xl_write(tab1, wb, sh)
+tab2 <- perfil %>%tab_cols(total()) %>% tab_cells(P3, P4, P5) %>%tab_stat_mean(label='Media') %>% tab_pivot()
+xl_write(tab2, wb, sh, row=21)
+sh = addWorksheet(wb, "Wilcoxon")
+wilcox.test.EST1  <- wilcox.test(df1$EST1 , df2$EST1 , paired = FALSE, alternative = "two.sided", mu = 0, conf.int = 0.95)
+wilcox.test.EST2  <- wilcox.test(df1$EST2 , df2$EST2 , paired = FALSE, alternative = "two.sided", mu = 0, conf.int = 0.95)
+wilcox.test.EST3  <- wilcox.test(df1$EST3 , df2$EST3 , paired = FALSE, alternative = "two.sided", mu = 0, conf.int = 0.95)
+wilcox.test.SST1  <- wilcox.test(df1$SST1 , df2$SST1 , paired = FALSE, alternative = "two.sided", mu = 0, conf.int = 0.95)
+wilcox.test.SST2  <- wilcox.test(df1$SST2 , df2$SST2 , paired = FALSE, alternative = "two.sided", mu = 0, conf.int = 0.95)
+wilcox.test.SST3  <- wilcox.test(df1$SST3 , df2$SST3 , paired = FALSE, alternative = "two.sided", mu = 0, conf.int = 0.95)
+wilcox.test.ICT1  <- wilcox.test(df1$ICT1 , df2$ICT1 , paired = FALSE, alternative = "two.sided", mu = 0, conf.int = 0.95)
+wilcox.test.ICT2  <- wilcox.test(df1$ICT2 , df2$ICT2 , paired = FALSE, alternative = "two.sided", mu = 0, conf.int = 0.95)
+wilcox.test.ICT3  <- wilcox.test(df1$ICT3 , df2$ICT3 , paired = FALSE, alternative = "two.sided", mu = 0, conf.int = 0.95)
+wilcox.test.ICT4  <- wilcox.test(df1$ICT4 , df2$ICT4 , paired = FALSE, alternative = "two.sided", mu = 0, conf.int = 0.95)
+wilcox.test.COR1  <- wilcox.test(df1$COR1 , df2$COR1 , paired = FALSE, alternative = "two.sided", mu = 0, conf.int = 0.95)
+wilcox.test.COR2  <- wilcox.test(df1$COR2 , df2$COR2 , paired = FALSE, alternative = "two.sided", mu = 0, conf.int = 0.95)
+wilcox.test.COR3  <- wilcox.test(df1$COR3 , df2$COR3 , paired = FALSE, alternative = "two.sided", mu = 0, conf.int = 0.95)
+wilcox.test.COR4  <- wilcox.test(df1$COR4 , df2$COR4 , paired = FALSE, alternative = "two.sided", mu = 0, conf.int = 0.95)
+wilcox.test.COR5  <- wilcox.test(df1$COR5 , df2$COR5 , paired = FALSE, alternative = "two.sided", mu = 0, conf.int = 0.95)
+wilcox.test.COR6  <- wilcox.test(df1$COR6 , df2$COR6 , paired = FALSE, alternative = "two.sided", mu = 0, conf.int = 0.95)
+wilcox.test.COR7  <- wilcox.test(df1$COR7 , df2$COR7 , paired = FALSE, alternative = "two.sided", mu = 0, conf.int = 0.95)
+wilcox.test.COR8  <- wilcox.test(df1$COR8 , df2$COR8 , paired = FALSE, alternative = "two.sided", mu = 0, conf.int = 0.95)
+wilcox.test.COR9  <- wilcox.test(df1$COR9 , df2$COR9 , paired = FALSE, alternative = "two.sided", mu = 0, conf.int = 0.95)
+wilcox.test.SUSA  <- wilcox.test(df1$SUSA , df2$SUSA , paired = FALSE, alternative = "two.sided", mu = 0, conf.int = 0.95)
+wilcox.test.SUSB  <- wilcox.test(df1$SUSB , df2$SUSB , paired = FALSE, alternative = "two.sided", mu = 0, conf.int = 0.95)
+wilcox.test.SUSC  <- wilcox.test(df1$SUSC , df2$SUSC , paired = FALSE, alternative = "two.sided", mu = 0, conf.int = 0.95)
+wilcox.test.BEQ1  <- wilcox.test(df1$BEQ1 , df2$BEQ1 , paired = FALSE, alternative = "two.sided", mu = 0, conf.int = 0.95)
+wilcox.test.BEQ2  <- wilcox.test(df1$BEQ2 , df2$BEQ2 , paired = FALSE, alternative = "two.sided", mu = 0, conf.int = 0.95)
+wilcox.test.BEQ3  <- wilcox.test(df1$BEQ3 , df2$BEQ3 , paired = FALSE, alternative = "two.sided", mu = 0, conf.int = 0.95)
+wilcox.test.BEQ4  <- wilcox.test(df1$BEQ4 , df2$BEQ4 , paired = FALSE, alternative = "two.sided", mu = 0, conf.int = 0.95)
+wilcox.test.BEQ5  <- wilcox.test(df1$BEQ5 , df2$BEQ5 , paired = FALSE, alternative = "two.sided", mu = 0, conf.int = 0.95)
+wilcox.test.BEQ6  <- wilcox.test(df1$BEQ6 , df2$BEQ6 , paired = FALSE, alternative = "two.sided", mu = 0, conf.int = 0.95)
+wilcox.test.BEQ7  <- wilcox.test(df1$BEQ7 , df2$BEQ7 , paired = FALSE, alternative = "two.sided", mu = 0, conf.int = 0.95)
+wilcox.test.BEQ8  <- wilcox.test(df1$BEQ8 , df2$BEQ8 , paired = FALSE, alternative = "two.sided", mu = 0, conf.int = 0.95)
+wilcox.test.BEQ9  <- wilcox.test(df1$BEQ9 , df2$BEQ9 , paired = FALSE, alternative = "two.sided", mu = 0, conf.int = 0.95)
+wilcox.test.BEQ10 <- wilcox.test(df1$BEQ10, df2$BEQ10, paired = FALSE, alternative = "two.sided", mu = 0, conf.int = 0.95)
+data.wilcox.EST1  <- data.frame(statistic=wilcox.test.EST1$statistic,pvalue=wilcox.test.EST1$`p.value`)
+data.wilcox.EST2  <- data.frame(statistic=wilcox.test.EST2$statistic,pvalue=wilcox.test.EST2$`p.value`)
+data.wilcox.EST3  <- data.frame(statistic=wilcox.test.EST3$statistic,pvalue=wilcox.test.EST3$`p.value`)
+data.wilcox.SST1  <- data.frame(statistic=wilcox.test.SST1$statistic,pvalue=wilcox.test.SST1$`p.value`)
+data.wilcox.SST2  <- data.frame(statistic=wilcox.test.SST2$statistic,pvalue=wilcox.test.SST2$`p.value`)
+data.wilcox.SST3  <- data.frame(statistic=wilcox.test.SST3$statistic,pvalue=wilcox.test.SST3$`p.value`)
+data.wilcox.ICT1  <- data.frame(statistic=wilcox.test.ICT1$statistic,pvalue=wilcox.test.ICT1$`p.value`)
+data.wilcox.ICT2  <- data.frame(statistic=wilcox.test.ICT2$statistic,pvalue=wilcox.test.ICT2$`p.value`)
+data.wilcox.ICT3  <- data.frame(statistic=wilcox.test.ICT3$statistic,pvalue=wilcox.test.ICT3$`p.value`)
+data.wilcox.ICT4  <- data.frame(statistic=wilcox.test.ICT4$statistic,pvalue=wilcox.test.ICT4$`p.value`)
+data.wilcox.COR1  <- data.frame(statistic=wilcox.test.COR1$statistic,pvalue=wilcox.test.COR1$`p.value`)
+data.wilcox.COR2  <- data.frame(statistic=wilcox.test.COR2$statistic,pvalue=wilcox.test.COR2$`p.value`)
+data.wilcox.COR3  <- data.frame(statistic=wilcox.test.COR3$statistic,pvalue=wilcox.test.COR3$`p.value`)
+data.wilcox.COR4  <- data.frame(statistic=wilcox.test.COR4$statistic,pvalue=wilcox.test.COR4$`p.value`)
+data.wilcox.COR5  <- data.frame(statistic=wilcox.test.COR5$statistic,pvalue=wilcox.test.COR5$`p.value`)
+data.wilcox.COR6  <- data.frame(statistic=wilcox.test.COR6$statistic,pvalue=wilcox.test.COR6$`p.value`)
+data.wilcox.COR7  <- data.frame(statistic=wilcox.test.COR7$statistic,pvalue=wilcox.test.COR7$`p.value`)
+data.wilcox.COR8  <- data.frame(statistic=wilcox.test.COR8$statistic,pvalue=wilcox.test.COR8$`p.value`)
+data.wilcox.COR9  <- data.frame(statistic=wilcox.test.COR9$statistic,pvalue=wilcox.test.COR9$`p.value`)
+data.wilcox.SUSA  <- data.frame(statistic=wilcox.test.SUSA$statistic,pvalue=wilcox.test.SUSA$`p.value`)
+data.wilcox.SUSB  <- data.frame(statistic=wilcox.test.SUSB$statistic,pvalue=wilcox.test.SUSB$`p.value`)
+data.wilcox.SUSC  <- data.frame(statistic=wilcox.test.SUSC$statistic,pvalue=wilcox.test.SUSC$`p.value`)
+data.wilcox.BEQ1  <- data.frame(statistic=wilcox.test.BEQ1$statistic,pvalue=wilcox.test.BEQ1$`p.value`)
+data.wilcox.BEQ2  <- data.frame(statistic=wilcox.test.BEQ2$statistic,pvalue=wilcox.test.BEQ2$`p.value`)
+data.wilcox.BEQ3  <- data.frame(statistic=wilcox.test.BEQ3$statistic,pvalue=wilcox.test.BEQ3$`p.value`)
+data.wilcox.BEQ4  <- data.frame(statistic=wilcox.test.BEQ4$statistic,pvalue=wilcox.test.BEQ4$`p.value`)
+data.wilcox.BEQ5  <- data.frame(statistic=wilcox.test.BEQ5$statistic,pvalue=wilcox.test.BEQ5$`p.value`)
+data.wilcox.BEQ6  <- data.frame(statistic=wilcox.test.BEQ6$statistic,pvalue=wilcox.test.BEQ6$`p.value`)
+data.wilcox.BEQ7  <- data.frame(statistic=wilcox.test.BEQ7$statistic,pvalue=wilcox.test.BEQ7$`p.value`)
+data.wilcox.BEQ8  <- data.frame(statistic=wilcox.test.BEQ8$statistic,pvalue=wilcox.test.BEQ8$`p.value`)
+data.wilcox.BEQ9  <- data.frame(statistic=wilcox.test.BEQ9$statistic,pvalue=wilcox.test.BEQ9$`p.value`)
+data.wilcox.BEQ10 <- data.frame(statistic=wilcox.test.BEQ10$statistic,pvalue=wilcox.test.BEQ10$`p.value`)
+
+data.wilcox <- rbind(
+     EST1=data.wilcox.EST1,
+     EST2=data.wilcox.EST2,
+     EST3=data.wilcox.EST3,
+     SST1=data.wilcox.SST1,
+     SST2=data.wilcox.SST2,
+     SST3=data.wilcox.SST3,
+     ICT1=data.wilcox.ICT1,
+     ICT2=data.wilcox.ICT2,
+     ICT3=data.wilcox.ICT3,
+     ICT4=data.wilcox.ICT4,
+     COR1=data.wilcox.COR1,
+     COR2=data.wilcox.COR2,
+     COR3=data.wilcox.COR3,
+     COR4=data.wilcox.COR4,
+     COR5=data.wilcox.COR5,
+     COR6=data.wilcox.COR6,
+     COR7=data.wilcox.COR7,
+     COR8=data.wilcox.COR8,
+     COR9=data.wilcox.COR9,
+     SUSA=data.wilcox.SUSA,
+     SUSB=data.wilcox.SUSB,
+     SUSC=data.wilcox.SUSC,
+     BEQ1=data.wilcox.BEQ1,
+     BEQ2=data.wilcox.BEQ2,
+     BEQ3=data.wilcox.BEQ3,
+     BEQ4=data.wilcox.BEQ4,
+     BEQ5=data.wilcox.BEQ5,
+     BEQ6=data.wilcox.BEQ6,
+     BEQ7=data.wilcox.BEQ7,
+     BEQ8=data.wilcox.BEQ8,
+     BEQ9=data.wilcox.BEQ9,
+     BEQ10=data.wilcox.BEQ10
+) 
+data.wilcox$var <- rownames(data.wilcox)
+xl_write(data.wilcox, wb, sh, row=1)
+saveWorkbook(wb, "~/R/r-data/pls.data.art1.moreno/data.art1.moreno/hoteles-art1-moreno-tablas.xlsx", overwrite = TRUE)
+```
+
+# Bibliografía
+
+* Aldás Manzano, J., & Uriel Jimenez, E. (2017). Análisis multivariante aplicado con R. Ediciones Paraninfo, SA.
+* Anderson. (1990). A model of distributor firm and manufacturer firm working partnerships. Journal of Marketing, 54(1). https://doi.org/10.1177/002224299005400103
+* Champely, S. (2020). pwr: Basic Functions for Power Analysis. R package version 1.3-0. https://CRAN.R-project.org/package=pwr
+* Chin, W.W., 1998. The partial least squares approach to structural equation modelling. In G. A. Marcoulides (Ed.), Modern methods for business research, 295-336. Mahwah, NJ: Lawrence Erlbaum Associates.
+* Chung, J. E., Huang, Y., Jin, B., & Sternquist, B. (2011). The impact of market orientation on Chinese retailers' channel relationships. Journal of Business & Industrial Marketing.
+* Clark, L. y Watson, D. (1995). Constructing validity: basic issues in objective scale development. Psychological Assessment, 7(3):309---319.
+* Cohen, J. (1988). Statistical power analysis for the behavioral sciences (2nd ed.). Hillsdale,NJ: Lawrence Erlbaum.
+* Demin, Gregory. 2020. Expss: Tables, Labels and Some Useful Functions from Spreadsheets and ’SPSS’ Statistics. https://CRAN.R-project.org/package=expss.
+* Deshpandé, R., Farley, J. U., & Webster Jr, F. E. (1993). Corporate culture, customer orientation, and innovativeness in Japanese firms: a quadrad analysis. Journal of marketing, 57(1), 23-37.
+* Falk, R. F. y Miller, N. B., 1992. A primer for soft modeling. Ohio: University of Akron Press.
+* Geyskens, I., & Steenkamp, J. B. E. (2000). Economic and social satisfaction: measurement and relevance to marketing channel relationships. Journal of retailing, 76(1), 11-32.
+* Gil, R., 2021. Tablas y gráficos con R y R Studio. 1st ed. [ebook] València, ISBN: 978-84-09-29382-7; disponible en: https://tables.investigaonline.com.
+* Gold, A., Malhotra, A., y Segars, A. (2001). Knowledge management: An organizational capabilities perspective. Journal of Management Information Systems, 18(1):185—214.
+* Hair Jr., Joseph F.; G. Tomas M. Hult; Christian M. Ringle; Marko Sarstedt. (2017) A Primer on Partial Least Squares Structural Equation Modeling (PLS-SEM). SAGE Publications. 2ª edición, Kindle.
+* Henseler, J., Ringle, C.M., & Sarstedt, M., 2016. Testing measurement invariance of com- posites using partial least squares. International Marketing Review, 33(3), 405-431.
+* Hernández‐Espallardo, M., & Navarro‐Bailón, M. Á. (2009). Accessing retailer equity through integration in retailers' buying groups. International Journal of Retail & Distribution Management.
+* Joreskog, K.G., 1978. Structural analysis of covariance and correlation matrices. Psychometrika, 43, 443-477.
+* R Core Team (2021). R: A language and environment for statistical computing. R Foundation for Statistical Computing, Vienna, Austria.URL https://www.R-project.org/.
+* Ray, S., Danks, N.P.& Calero, A. (2021). seminr: Domain-Specific Language for Building and Estimating Structural Equation Models. R package version 2.0.1. https://CRAN.R-project.org/package=seminr.
+* Rönkkö, M. (2016). matrixpls: Matrix-based Partial Least Squares Estimation. R package version 1.0.12.
+* Shen, P. (2010, August). A study on the multi-dimensional relationship between consumer shopping value and retailer brand equity. In Marketing Sciencie Innovations and Economic Development–Proceedings of 2010 Summit Inernational Marketing Sciencie and Management Technology Conference (pp. 128-132).
+* Wu, F., Yeniyurt, S., Kim, D., & Cavusgil, S. T. (2006). The impact of information technology on supply chain capabilities and firm performance: A resource-based view. Industrial Marketing Management, 35(4), 493-504.
+* Xu, X., & Gursoy, D. (2015). Influence of sustainable hospitality supply chain management on customers’ attitudes and behaviors. International journal of hospitality management, 49, 105-116.
+* Yoo, B., & Donthu, N. (2001). Developing and validating a multidimensional consumer-based brand equity scale. Journal of business research, 52(1), 1-14.
+* Yoo, B., Donthu, N., & Lee, S. (2000). An examination of selected marketing mix elements and brand equity. Journal of the academy of marketing science, 28(2), 195-211.

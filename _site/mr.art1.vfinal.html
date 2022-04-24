@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Roberto Gil-Saura" />
+
+<meta name="date" content="2022-04-24" />
+
+<title>PLS - Hoteles</title>
+
+<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<script src="site_libs/htmlwidgets-1.5.4/htmlwidgets.js"></script>
+<script src="site_libs/viz-1.8.2/viz.js"></script>
+<link href="site_libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+<script src="site_libs/grViz-binding-1.0.9/grViz.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+<!DOCTYPE html>
+<head><link rel="shortcut icon" href="https://drive.google.com/uc?export=view&id=1JbeH3BFMq-xjBIroa3lcnqhOJS4Ap-RB">&nbsp;</head>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">||IO||</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Inicio</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    J.Moreno
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="mr.art1.vfinal.html">Artículo 1</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    L.Vallejo
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Artículo 1</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="vll.art1.a.v02.html">Agencias - Modelo 02</a>
+        </li>
+      </ul>
+    </li>
+    <li class="dropdown-submenu">
+      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Artículo 2</a>
+      <ul class="dropdown-menu" role="menu">
+        <li>
+          <a href="vll.art2.a.v01.html">Agencias - Modelo 01</a>
+        </li>
+        <li>
+          <a href="vll.art2.h.v01.html">Hoteles - Modelo 01</a>
+        </li>
+        <li>
+          <a href="vll.art2.mga.v01.html">MGA de los dos grupos</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="about.html">
+    <span class="fa fa-question-circle"></span>
+     
+    Acerca de ...
+  </a>
+</li>
+<li>
+  <a href="https://www.investigaonline.com">InvestigaOnline.com</a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">PLS - Hoteles</h1>
+<h3 class="subtitle">Artículo 1, versión FINAL (Doctoranda Moreno)</h3>
+<h4 class="author">Roberto Gil-Saura</h4>
+<h4 class="date">2022-04-24</h4>
+
+</div>
+
+<div id="TOC">
+<ul>
+<li><a href="#análisis-del-modelo-de-medida."><span
+class="toc-section-number">1</span> Análisis del modelo de medida.</a>
+<ul>
+<li><a href="#constructos"><span class="toc-section-number">1.1</span>
+Constructos</a></li>
+<li><a href="#fiabilidad-del-instrumento-de-medida"><span
+class="toc-section-number">1.2</span> Fiabilidad del instrumento de
+medida</a></li>
+<li><a href="#validez-convergente"><span
+class="toc-section-number">1.3</span> Validez convergente</a>
+<ul>
+<li><a href="#ave-constructos-reflectivos"><span
+class="toc-section-number">1.3.1</span> AVE (constructos
+reflectivos)</a></li>
+<li><a
+href="#análisis-de-las-cargas-reflectivos-o-de-los-pesos-formativos"><span
+class="toc-section-number">1.3.2</span> Análisis de las cargas
+(reflectivos) o de los pesos (formativos)</a></li>
+</ul></li>
+<li><a href="#validez-discriminante"><span
+class="toc-section-number">1.4</span> Validez discriminante</a>
+<ul>
+<li><a href="#cross-loadings"><span
+class="toc-section-number">1.4.1</span> Cross-loadings</a></li>
+<li><a href="#fornell-larcker"><span
+class="toc-section-number">1.4.2</span> Fornell-Larcker</a></li>
+<li><a href="#htmt"><span class="toc-section-number">1.4.3</span>
+HTMT</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#análisis-del-modelo-estructural"><span
+class="toc-section-number">2</span> Análisis del modelo estructural</a>
+<ul>
+<li><a href="#paths-y-r²"><span class="toc-section-number">2.1</span>
+Paths y R²</a></li>
+<li><a href="#f²---tamaño-del-efecto"><span
+class="toc-section-number">2.2</span> f² - Tamaño del efecto</a></li>
+<li><a href="#efectos"><span class="toc-section-number">2.3</span>
+Efectos</a>
+<ul>
+<li><a href="#totales"><span class="toc-section-number">2.3.1</span>
+Totales</a></li>
+<li><a href="#indirectos"><span class="toc-section-number">2.3.2</span>
+Indirectos</a></li>
+<li><a href="#it_criteria"><span class="toc-section-number">2.3.3</span>
+it_criteria</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#modelización-con-bootstrapping"><span
+class="toc-section-number">3</span> Modelización con bootstrapping</a>
+<ul>
+<li><a href="#bootstrapped-structural-paths"><span
+class="toc-section-number">3.1</span> Bootstrapped Structural
+paths</a></li>
+<li><a href="#bootstrapped-loadings"><span
+class="toc-section-number">3.2</span> Bootstrapped loadings</a></li>
+<li><a href="#bootstrapped-htmt"><span
+class="toc-section-number">3.3</span> Bootstrapped HTMT</a></li>
+<li><a href="#bootstrapped-total-effects"><span
+class="toc-section-number">3.4</span> Bootstrapped total
+effects</a></li>
+<li><a href="#bootstrapped-indirect-effects"><span
+class="toc-section-number">3.5</span> Bootstrapped indirect
+effects</a></li>
+</ul></li>
+<li><a href="#modelos"><span class="toc-section-number">4</span>
+Modelos</a>
+<ul>
+<li><a href="#modelo-general"><span
+class="toc-section-number">4.1</span> Modelo general</a></li>
+</ul></li>
+<li><a href="#predicción-seminr"><span
+class="toc-section-number">5</span> Predicción (seminr)</a>
+<ul>
+<li><a href="#modelo"><span class="toc-section-number">5.1</span>
+Modelo</a></li>
+</ul></li>
+<li><a href="#descriptivo"><span class="toc-section-number">6</span>
+Descriptivo</a></li>
+<li><a href="#bibliografía"><span class="toc-section-number">7</span>
+Bibliografía</a></li>
+</ul>
+</div>
+
+<style type="text/css">
+.main-container {
+  max-width: 100%;
+  margin-left: 10px;
+  margin-right: 10px;}
+.p {
+  font-size: 0.8em
+}
+</style>
+<div id="análisis-del-modelo-de-medida." class="section level1"
+number="1">
+<h1><span class="header-section-number">1</span> Análisis del modelo de
+medida.</h1>
+<p>Seguidamente mostramos el modelo estructural (<em>inner model</em>),
+establecidos a partir de las hipótesis lanzadas. El modelo estructural
+es el siguiente:</p>
+<div id="constructos" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> Constructos</h2>
+<div class="figure">
+<div id="htmlwidget-2d70f65f95bc545a22e4" style="width:768px;height:432px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2d70f65f95bc545a22e4">{"x":{"diagram":"digraph G {\n\n// ----------------------\n// General graph settings\n// ----------------------\ngraph [\ncharset = \"UTF-8\",\nlayout = dot,\nlabel = \"Modelo de medida\",\nfontsize = 24,\nfontcolor = black,\nfontname = helvetica,\nrankdir = LR,\nlabelloc = t,\nsplines = TRUE\nbgcolor = transparent\n]\n\n// --------------------\n// The structural model\n// --------------------\nsubgraph sm {\nrankdir = LR;\nnode [\nshape = ellipse,\ncolor = black,\nfillcolor = white,\nstyle = filled,\nfontsize = 12,\nfontcolor = black,\nheight = 1.00833333333333,\nwidth = 0.696875,\nfontname = helvetica,\nfixedsize = true\n]\n\"ICT\" [label=<<B>ICT <\/B>>, shape = ellipse]\n\"COR\" [label=<<B>COR <\/B>>, shape = ellipse]\n\"SUS\" [label=<<B>SUS <\/B>>, shape = ellipse]\n\"BEQ\" [label=<<B>BEQ <\/B>>, shape = ellipse]\n\"SST\" [label=<<B>SST <\/B>>, shape = ellipse]\n\"EST\" [label=<<B>EST <\/B>>, shape = ellipse]\nedge [\ncolor = black,\nfontsize = 9,\nfontcolor = black,\nfontname = helvetica,\ndir = both,\narrowhead = normal,\narrowtail = none\n]\n\"ICT\" -> {\"SUS\"}[weight = 1, penwidth = 1.5, style = solid, color = black]\n\"ICT\" -> {\"COR\"}[weight = 1, penwidth = 1.5, style = solid, color = black]\n\"COR\" -> {\"BEQ\"}[weight = 1, penwidth = 1.5, style = solid, color = black]\n\"SUS\" -> {\"BEQ\"}[weight = 1, penwidth = 1.5, style = solid, color = black]\n\"SUS\" -> {\"SST\"}[weight = 1, penwidth = 1.5, style = solid, color = black]\n\"BEQ\" -> {\"SST\"}[weight = 1, penwidth = 1.5, style = solid, color = black]\n\"SST\" -> {\"EST\"}[weight = 1, penwidth = 1.5, style = solid, color = black]\n}\n\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<p class="caption">
+Modelo estructural
+</p>
+</div>
+</div>
+<div id="fiabilidad-del-instrumento-de-medida" class="section level2"
+number="1.2">
+<h2><span class="header-section-number">1.2</span> Fiabilidad del
+instrumento de medida</h2>
+<p>Para el modelo de medida se han considerado constructos de tipo
+composite mode_A (reflectivos). De este modo, el primer paso debe ser
+observar el resumen de los indicadores de fiabilidad, consistencia
+interna y validez.</p>
+<p>Comenzamos viendo el <em>Cronbach’s alpha</em>, y el resultado del
+análisis muestra todas las escalas que apoyan las variables latentes
+tienen un mayor que 0.7, completado por una fiabilidad del compuesto
+<em>rhoC</em> también por encima de 0.7. para valores superiores a 0.9<a
+href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>.</p>
+<pre><code>Modelo</code></pre>
+<pre><code>    alpha  rhoC   AVE  rhoA
+ICT 0.855 0.903 0.700 0.865
+COR 0.892 0.913 0.541 0.899
+SUS 0.738 0.845 0.652 0.867
+BEQ 0.917 0.931 0.599 0.922
+SST 0.856 0.912 0.777 0.874
+EST 0.825 0.896 0.742 0.833
+
+Alpha, rhoC, and rhoA should exceed 0.7 while AVE should exceed 0.5</code></pre>
+</div>
+<div id="validez-convergente" class="section level2" number="1.3">
+<h2><span class="header-section-number">1.3</span> Validez
+convergente</h2>
+<div id="ave-constructos-reflectivos" class="section level3"
+number="1.3.1">
+<h3><span class="header-section-number">1.3.1</span> AVE (constructos
+reflectivos)</h3>
+<p>Del mismo modo, para evaluar la <em>validez convergente</em> o grado
+con el que una medida correlaciona positivamente con medidas
+alternativas del mismo constructo, usamos el coeficiente <em>AVE
+(average variance extracted)</em> que también cumple con la expectativa
+de estar por encima de 0.5.</p>
+<p>El AVE (<em>average variance extracted</em>) se define como la
+cantidad de varianza que un constructo obtiene de sus indicadores con
+relación a la cantidad de varianza debida al error de medida,
+recomendándose que su valor sea superior a 0,50 lo que implica que más
+del 50% de la varianza del constructo es debida a sus indicadores
+(Fornell y Larcker, 1981).</p>
+<pre><code>Modelo</code></pre>
+<pre><code>  ICT   COR   SUS   BEQ   SST   EST 
+0.700 0.541 0.652 0.599 0.777 0.742 </code></pre>
+<p>Los indicadores son mostrados de forma conjunta en el siguiente
+gráfico.</p>
+<pre><code>Modelo</code></pre>
+<div class="figure">
+<img src="mr.art1.vfinal_files/figure-html/moreno6-1.png" alt="Tabla de fiabilidad" width="1536" />
+<p class="caption">
+Tabla de fiabilidad
+</p>
+</div>
+</div>
+<div id="análisis-de-las-cargas-reflectivos-o-de-los-pesos-formativos"
+class="section level3" number="1.3.2">
+<h3><span class="header-section-number">1.3.2</span> Análisis de las
+cargas (reflectivos) o de los pesos (formativos)</h3>
+<p>Para la valoración de la validez convergente se analiza también el
+tamaño de las cargas de los indicadores. El tamaño de las cargas también
+es considerado un indicador de fiabilidad; es por ello que todas las
+cargas de todos los indicadores deberían ser estadísticamente
+significativas y además su tamaño ser igual o superior<a href="#fn2"
+class="footnote-ref" id="fnref2"><sup>2</sup></a> al valor 0,708. Las
+cargas elevadas sobre un constructo, señalan que los indicadores
+asociados con el mismo tienen mucho en común y, por lo tanto, capturan
+correctamente la variable latente. Para aquellas cargas que están entre
+0.4 y 0.7 debe ser analizado el comportamiento del constructo ante una
+eliminación del indicador con carga baja<a href="#fn3"
+class="footnote-ref" id="fnref3"><sup>3</sup></a>.</p>
+<pre><code>Modelo</code></pre>
+<pre><code>        ICT   COR   SUS   BEQ   SST   EST    SA    SB    SC
+ICT1  0.854 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
+ICT2  0.893 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
+ICT3  0.863 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
+ICT4  0.726 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000
+SA    0.000 0.000 0.864 0.000 0.000 0.000 0.000 0.000 0.000
+SB    0.000 0.000 0.918 0.000 0.000 0.000 0.000 0.000 0.000
+SC    0.000 0.000 0.606 0.000 0.000 0.000 0.000 0.000 0.000
+COR1  0.000 0.696 0.000 0.000 0.000 0.000 0.000 0.000 0.000
+COR2  0.000 0.838 0.000 0.000 0.000 0.000 0.000 0.000 0.000
+COR3  0.000 0.734 0.000 0.000 0.000 0.000 0.000 0.000 0.000
+COR4  0.000 0.792 0.000 0.000 0.000 0.000 0.000 0.000 0.000
+COR5  0.000 0.794 0.000 0.000 0.000 0.000 0.000 0.000 0.000
+COR6  0.000 0.574 0.000 0.000 0.000 0.000 0.000 0.000 0.000
+COR7  0.000 0.651 0.000 0.000 0.000 0.000 0.000 0.000 0.000
+COR8  0.000 0.733 0.000 0.000 0.000 0.000 0.000 0.000 0.000
+COR9  0.000 0.774 0.000 0.000 0.000 0.000 0.000 0.000 0.000
+BEQ2  0.000 0.000 0.000 0.756 0.000 0.000 0.000 0.000 0.000
+BEQ3  0.000 0.000 0.000 0.813 0.000 0.000 0.000 0.000 0.000
+BEQ4  0.000 0.000 0.000 0.758 0.000 0.000 0.000 0.000 0.000
+BEQ5  0.000 0.000 0.000 0.821 0.000 0.000 0.000 0.000 0.000
+BEQ6  0.000 0.000 0.000 0.704 0.000 0.000 0.000 0.000 0.000
+BEQ7  0.000 0.000 0.000 0.757 0.000 0.000 0.000 0.000 0.000
+BEQ8  0.000 0.000 0.000 0.802 0.000 0.000 0.000 0.000 0.000
+BEQ9  0.000 0.000 0.000 0.774 0.000 0.000 0.000 0.000 0.000
+BEQ10 0.000 0.000 0.000 0.775 0.000 0.000 0.000 0.000 0.000
+SST1  0.000 0.000 0.000 0.000 0.817 0.000 0.000 0.000 0.000
+SST2  0.000 0.000 0.000 0.000 0.928 0.000 0.000 0.000 0.000
+SST3  0.000 0.000 0.000 0.000 0.895 0.000 0.000 0.000 0.000
+EST1  0.000 0.000 0.000 0.000 0.000 0.858 0.000 0.000 0.000
+EST2  0.000 0.000 0.000 0.000 0.000 0.904 0.000 0.000 0.000
+EST3  0.000 0.000 0.000 0.000 0.000 0.819 0.000 0.000 0.000
+SUS1  0.000 0.000 0.000 0.000 0.000 0.000 0.842 0.000 0.000
+SUS2  0.000 0.000 0.000 0.000 0.000 0.000 0.889 0.000 0.000
+SUS3  0.000 0.000 0.000 0.000 0.000 0.000 0.797 0.000 0.000
+SUS4  0.000 0.000 0.000 0.000 0.000 0.000 0.812 0.000 0.000
+SUS5  0.000 0.000 0.000 0.000 0.000 0.000 0.757 0.000 0.000
+SUS6  0.000 0.000 0.000 0.000 0.000 0.000 0.832 0.000 0.000
+SUS7  0.000 0.000 0.000 0.000 0.000 0.000 0.780 0.000 0.000
+SUS8  0.000 0.000 0.000 0.000 0.000 0.000 0.630 0.000 0.000
+SUS10 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.941 0.000
+SUS11 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.951 0.000
+SUS12 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.944 0.000
+SUS13 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.925
+SUS14 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.911
+SUS15 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.000 0.955</code></pre>
+</div>
+</div>
+<div id="validez-discriminante" class="section level2" number="1.4">
+<h2><span class="header-section-number">1.4</span> Validez
+discriminante</h2>
+<div id="cross-loadings" class="section level3" number="1.4.1">
+<h3><span class="header-section-number">1.4.1</span> Cross-loadings</h3>
+<p>Para el análisis de la validez discriminante o capacidad de un
+constructo de ser realmente distinto a otros, utilizamos las denominadas
+<em>cross-loadings</em>, que miden esa capacidad del constructo. En la
+tabla adjunta se puede observar en cada indicador carga de forma
+superior en su variable latente, siendo el resto de cargas de menor
+intensidad.</p>
+<pre><code>Modelo</code></pre>
+<pre><code>        ICT   COR   SUS   BEQ   SST   EST
+ICT1  0.854 0.478 0.367 0.212 0.127 0.081
+ICT2  0.893 0.555 0.394 0.275 0.168 0.110
+ICT3  0.863 0.530 0.381 0.269 0.110 0.011
+ICT4  0.726 0.393 0.371 0.083 0.176 0.051
+SA    0.378 0.396 0.864 0.182 0.242 0.177
+SB    0.456 0.607 0.918 0.318 0.337 0.222
+SC    0.192 0.321 0.606 0.106 0.132 0.117
+COR1  0.514 0.696 0.445 0.162 0.229 0.191
+COR2  0.463 0.838 0.525 0.214 0.333 0.249
+COR3  0.375 0.734 0.459 0.227 0.323 0.165
+COR4  0.469 0.792 0.475 0.227 0.239 0.151
+COR5  0.399 0.794 0.392 0.298 0.132 0.131
+COR6  0.361 0.574 0.244 0.176 0.059 0.091
+COR7  0.338 0.651 0.299 0.215 0.125 0.110
+COR8  0.523 0.733 0.439 0.300 0.120 0.147
+COR9  0.392 0.774 0.448 0.220 0.180 0.183
+BEQ2  0.198 0.218 0.221 0.756 0.479 0.455
+BEQ3  0.154 0.215 0.202 0.813 0.449 0.474
+BEQ4  0.236 0.397 0.258 0.758 0.340 0.379
+BEQ5  0.205 0.325 0.257 0.821 0.379 0.480
+BEQ6  0.133 0.124 0.089 0.704 0.415 0.532
+BEQ7  0.209 0.220 0.244 0.757 0.323 0.336
+BEQ8  0.182 0.188 0.165 0.802 0.268 0.277
+BEQ9  0.234 0.203 0.214 0.774 0.260 0.276
+BEQ10 0.252 0.220 0.242 0.775 0.277 0.248
+SST1  0.207 0.210 0.297 0.342 0.817 0.557
+SST2  0.139 0.232 0.288 0.393 0.928 0.725
+SST3  0.122 0.256 0.258 0.497 0.895 0.738
+EST1  0.039 0.187 0.172 0.433 0.631 0.858
+EST2  0.118 0.234 0.232 0.442 0.725 0.904
+EST3  0.032 0.134 0.165 0.448 0.631 0.819</code></pre>
+</div>
+<div id="fornell-larcker" class="section level3" number="1.4.2">
+<h3><span class="header-section-number">1.4.2</span>
+Fornell-Larcker</h3>
+<p>El criterio de Fornell-Larcker, compara la raíz cuadrado del
+<em>AVE</em> con la correlación de las variables latentes. La raíz
+cuadrada del <em>AVE</em> de cada constructo, debería ser más grande que
+la más alta correlación con cualquier otro constructo. Se puede observar
+en la tabla siguiente que el valor en la diagonal principal, es mayor
+que el resto de valores en la parte inferior de la matriz.</p>
+<pre><code>Modelo</code></pre>
+<pre><code>      ICT   COR   SUS   BEQ   SST   EST
+ICT 0.837     .     .     .     .     .
+COR 0.589 0.736     .     .     .     .
+SUS 0.452 0.571 0.807     .     .     .
+BEQ 0.258 0.311 0.275 0.774     .     .
+SST 0.172 0.265 0.316 0.471 0.882     .
+EST 0.076 0.217 0.222 0.511 0.771 0.861
+
+FL Criteria table reports square root of AVE on the diagonal and construct correlations on the lower triangle.</code></pre>
+</div>
+<div id="htmt" class="section level3" number="1.4.3">
+<h3><span class="header-section-number">1.4.3</span> HTMT</h3>
+<p>Por último el HTMT es un ratio que si es mayor que 0.90 indica una
+pérdida de validez discriminante. El ratio HTMT nos indica que los
+indicadores que pertenecen a una determinada variables latente están
+correlacionando más como otra variable latente que con la propia.
+HT/MT&gt; 0.85 Clark &amp; Watson, &gt; 0.90 Gold et al. 2001; Teo et
+al. 2008).</p>
+<pre><code>Modelo</code></pre>
+<pre><code>      ICT   COR   SUS   BEQ   SST EST
+ICT     .     .     .     .     .   .
+COR 0.662     .     .     .     .   .
+SUS 0.534 0.665     .     .     .   .
+BEQ 0.286 0.332 0.296     .     .   .
+SST 0.210 0.301 0.371 0.510     .   .
+EST 0.098 0.248 0.269 0.570 0.907   .</code></pre>
+<p><strong>Atención SST con EST tiene un valor de 0.907!!!</strong></p>
+</div>
+</div>
+</div>
+<div id="análisis-del-modelo-estructural" class="section level1"
+number="2">
+<h1><span class="header-section-number">2</span> Análisis del modelo
+estructural</h1>
+<p>Una vez analizados los constructos desde el punto de vista de su
+composición, debemos analizar el modelo estructural en su conjunto.
+Partiendo de que el objetivo del PLS es la maximización de la varianza
+explicada, las medidas más importantes son la fiabilidad, la validez
+convergente y la validez discriminante del conjunto del modelo.</p>
+<ul>
+<li>Paths o cargas de latentes…</li>
+<li>R², coeficiente de determinación y/o % de varianza explicada</li>
+<li>f² y q² efecto tamaño</li>
+<li>Q², relevancia predictiva</li>
+</ul>
+<div id="paths-y-r²" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Paths y R²</h2>
+<pre><code>Modelo</code></pre>
+<pre><code>         SUS   COR   BEQ   SST   EST
+R^2    0.204 0.347 0.111 0.260 0.595
+AdjR^2 0.201 0.344 0.104 0.254 0.594
+ICT    0.452 0.589     .     .     .
+COR        .     . 0.228     .     .
+SUS        .     . 0.145 0.202     .
+BEQ        .     .     . 0.416     .
+SST        .     .     .     . 0.771</code></pre>
+<p>Buscar R² mayores de 0.7, aunque valores alrededor de 0.25 sean
+aceptados según ámbitos; (sustancial mayor que 0.75, moderado alrededor
+de 0.5 y débil, 0.25). Usar R²<sub>adj</sub> para comparar modelos con
+diferente número de constructos y/u observaciones. En nuestro ámbito,
+podemos observar que todos los constructos independientes del modelo
+estructural observen valores para R² por encima de 0,1, umbral mínimo
+establecido por Falk y Miller (1992).</p>
+</div>
+<div id="f²---tamaño-del-efecto" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> f² - Tamaño del
+efecto</h2>
+<p>El f² permite evaluar la contribución de cada constructo exógeno a la
+R² de un constructo endógeno. Los valores de 0.02, 0.15 y 0.35 indican
+un efecto pequeño, mediano o grande sobre el constructo endógeno.</p>
+<pre><code>Modelo</code></pre>
+<pre><code>      ICT   COR   SUS   BEQ   SST   EST
+ICT 0.000 0.531 0.256 0.000 0.000 0.000
+COR 0.000 0.000 0.000 0.040 0.000 0.000
+SUS 0.000 0.000 0.000 0.015 0.050 0.000
+BEQ 0.000 0.000 0.000 0.000 0.215 0.000
+SST 0.000 0.000 0.000 0.000 0.000 1.470
+EST 0.000 0.000 0.000 0.000 0.000 0.000</code></pre>
+<p>En este caso específico, la eliminación de BEQ del modelo, tiene un
+efecto medio sobre la satisfacción social como refleja el f² de BEQ
+sobre SST en 0.215.</p>
+</div>
+<div id="efectos" class="section level2" number="2.3">
+<h2><span class="header-section-number">2.3</span> Efectos</h2>
+<div id="totales" class="section level3" number="2.3.1">
+<h3><span class="header-section-number">2.3.1</span> Totales</h3>
+<pre><code>Modelo</code></pre>
+<pre><code>      ICT   COR   SUS   BEQ   SST   EST
+ICT 0.000 0.589 0.452 0.200 0.174 0.134
+COR 0.000 0.000 0.000 0.228 0.095 0.073
+SUS 0.000 0.000 0.000 0.145 0.262 0.202
+BEQ 0.000 0.000 0.000 0.000 0.416 0.321
+SST 0.000 0.000 0.000 0.000 0.000 0.771
+EST 0.000 0.000 0.000 0.000 0.000 0.000</code></pre>
+</div>
+<div id="indirectos" class="section level3" number="2.3.2">
+<h3><span class="header-section-number">2.3.2</span> Indirectos</h3>
+<pre><code>Modelo</code></pre>
+<pre><code>      ICT   COR   SUS   BEQ   SST   EST
+ICT 0.000 0.000 0.000 0.200 0.174 0.134
+COR 0.000 0.000 0.000 0.000 0.095 0.073
+SUS 0.000 0.000 0.000 0.000 0.060 0.202
+BEQ 0.000 0.000 0.000 0.000 0.000 0.321
+SST 0.000 0.000 0.000 0.000 0.000 0.000
+EST 0.000 0.000 0.000 0.000 0.000 0.000</code></pre>
+</div>
+<div id="it_criteria" class="section level3" number="2.3.3">
+<h3><span class="header-section-number">2.3.3</span> it_criteria</h3>
+<pre><code>Modelo</code></pre>
+<pre><code>        SUS      COR     BEQ     SST      EST
+AIC -58.130 -111.086 -26.521 -75.614 -239.314
+BIC -50.948 -103.904 -15.748 -64.841 -232.132</code></pre>
+</div>
+</div>
+</div>
+<div id="modelización-con-bootstrapping" class="section level1"
+number="3">
+<h1><span class="header-section-number">3</span> Modelización con
+bootstrapping</h1>
+<p><em>Bootstrapping</em> para calcular la significatividad de los paths
+estimados y del resto de elementos que usamos para la validación.
+Habitualmente se trabaja con un 5% (t &gt; 1.96) lo que implica
+significatividad al 95%. Podemos cambiar al 10 o al 1 según ámbito. Usar
+doble <em>bootstrapping</em> si hay menos de 4 constructos.</p>
+<div id="bootstrapped-structural-paths" class="section level2"
+number="3.1">
+<h2><span class="header-section-number">3.1</span> Bootstrapped
+Structural paths</h2>
+<p>Conjunto de coeficiente path con intervalo de confianza. Los
+intervalos de confianza no deben contener el 0 para ser
+significativos.</p>
+<pre><code>Modelo</code></pre>
+<pre><code>             Original Est. Bootstrap Mean Bootstrap SD T Stat. 2.5% CI 97.5% CI
+ICT  -&gt;  COR         0.589          0.590        0.039  15.084   0.502    0.658
+ICT  -&gt;  SUS         0.452          0.457        0.058   7.778   0.337    0.551
+COR  -&gt;  BEQ         0.228          0.228        0.074   3.083   0.065    0.350
+SUS  -&gt;  BEQ         0.145          0.158        0.077   1.877   0.000    0.292
+SUS  -&gt;  SST         0.202          0.199        0.051   3.936   0.095    0.300
+BEQ  -&gt;  SST         0.416          0.413        0.067   6.221   0.290    0.531
+SST  -&gt;  EST         0.771          0.769        0.034  22.752   0.716    0.833</code></pre>
+</div>
+<div id="bootstrapped-loadings" class="section level2" number="3.2">
+<h2><span class="header-section-number">3.2</span> Bootstrapped
+loadings</h2>
+<p>Cargas (modelo con constructos reflectivos) con intervalo de
+confianza. Las cargas deberían ser significativas y mayores a 0.708 dado
+que este número al cuadrado es 0.50 (Hair et al. 2017).</p>
+<pre><code>Modelo</code></pre>
+<pre><code>               Original Est. Bootstrap Mean Bootstrap SD T Stat. 2.5% CI 97.5% CI
+ICT1  -&gt;  ICT          0.854          0.848        0.021  39.785   0.808    0.890
+ICT2  -&gt;  ICT          0.893          0.893        0.013  66.450   0.867    0.913
+ICT3  -&gt;  ICT          0.863          0.860        0.020  44.227   0.810    0.893
+ICT4  -&gt;  ICT          0.726          0.719        0.040  18.278   0.631    0.791
+SA  -&gt;  SUS            0.864          0.863        0.035  24.922   0.770    0.911
+SB  -&gt;  SUS            0.918          0.915        0.011  82.104   0.891    0.933
+SC  -&gt;  SUS            0.606          0.596        0.060  10.019   0.482    0.687
+COR1  -&gt;  COR          0.696          0.688        0.035  20.042   0.613    0.744
+COR2  -&gt;  COR          0.838          0.834        0.021  39.754   0.788    0.872
+COR3  -&gt;  COR          0.734          0.734        0.037  19.896   0.662    0.796
+COR4  -&gt;  COR          0.792          0.788        0.030  26.077   0.723    0.835
+COR5  -&gt;  COR          0.794          0.792        0.025  31.799   0.742    0.835
+COR6  -&gt;  COR          0.574          0.565        0.047  12.215   0.479    0.658
+COR7  -&gt;  COR          0.651          0.652        0.052  12.553   0.522    0.739
+COR8  -&gt;  COR          0.733          0.731        0.030  24.379   0.678    0.782
+COR9  -&gt;  COR          0.774          0.768        0.032  24.505   0.696    0.825
+BEQ2  -&gt;  BEQ          0.756          0.752        0.032  23.465   0.688    0.810
+BEQ3  -&gt;  BEQ          0.813          0.811        0.030  26.781   0.746    0.863
+BEQ4  -&gt;  BEQ          0.758          0.762        0.029  26.125   0.706    0.812
+BEQ5  -&gt;  BEQ          0.821          0.818        0.027  30.321   0.761    0.863
+BEQ6  -&gt;  BEQ          0.704          0.698        0.056  12.520   0.575    0.788
+BEQ7  -&gt;  BEQ          0.757          0.751        0.041  18.297   0.666    0.825
+BEQ8  -&gt;  BEQ          0.802          0.798        0.038  20.966   0.720    0.866
+BEQ9  -&gt;  BEQ          0.774          0.773        0.043  18.158   0.686    0.842
+BEQ10  -&gt;  BEQ         0.775          0.776        0.037  20.723   0.698    0.844
+SST1  -&gt;  SST          0.817          0.813        0.037  21.818   0.736    0.870
+SST2  -&gt;  SST          0.928          0.927        0.014  66.169   0.897    0.947
+SST3  -&gt;  SST          0.895          0.895        0.020  43.988   0.845    0.928
+EST1  -&gt;  EST          0.858          0.855        0.032  26.657   0.790    0.907
+EST2  -&gt;  EST          0.904          0.901        0.021  43.883   0.849    0.929
+EST3  -&gt;  EST          0.819          0.816        0.031  26.476   0.755    0.868
+SUS1  -&gt;  SA           0.842          0.838        0.024  34.491   0.780    0.881
+SUS2  -&gt;  SA           0.889          0.886        0.018  50.516   0.846    0.919
+SUS3  -&gt;  SA           0.797          0.795        0.037  21.555   0.721    0.854
+SUS4  -&gt;  SA           0.812          0.810        0.034  23.582   0.735    0.865
+SUS5  -&gt;  SA           0.757          0.755        0.039  19.469   0.668    0.812
+SUS6  -&gt;  SA           0.832          0.831        0.026  32.398   0.781    0.880
+SUS7  -&gt;  SA           0.780          0.773        0.042  18.448   0.692    0.846
+SUS8  -&gt;  SA           0.630          0.625        0.040  15.907   0.553    0.691
+SUS10  -&gt;  SB          0.941          0.939        0.011  85.478   0.915    0.955
+SUS11  -&gt;  SB          0.951          0.950        0.008 114.149   0.931    0.966
+SUS12  -&gt;  SB          0.944          0.943        0.007 128.681   0.927    0.954
+SUS13  -&gt;  SC          0.925          0.923        0.017  54.691   0.886    0.951
+SUS14  -&gt;  SC          0.911          0.907        0.019  47.673   0.872    0.944
+SUS15  -&gt;  SC          0.955          0.953        0.012  82.718   0.929    0.973</code></pre>
+</div>
+<div id="bootstrapped-htmt" class="section level2" number="3.3">
+<h2><span class="header-section-number">3.3</span> Bootstrapped
+HTMT</h2>
+<pre><code>Modelo</code></pre>
+<pre><code>             Original Est. Bootstrap Mean Bootstrap SD T Stat. 2.5% CI 97.5% CI
+ICT  -&gt;  COR         0.662          0.660        0.042  15.684   0.560    0.730
+ICT  -&gt;  SUS         0.534          0.541        0.077   6.936   0.370    0.664
+ICT  -&gt;  BEQ         0.286          0.287        0.063   4.524   0.181    0.412
+ICT  -&gt;  SST         0.210          0.212        0.057   3.684   0.113    0.307
+ICT  -&gt;  EST         0.098          0.126        0.046   2.137   0.066    0.226
+COR  -&gt;  SUS         0.665          0.665        0.071   9.431   0.527    0.783
+COR  -&gt;  BEQ         0.332          0.340        0.062   5.380   0.227    0.452
+COR  -&gt;  SST         0.301          0.302        0.056   5.338   0.197    0.414
+COR  -&gt;  EST         0.248          0.251        0.067   3.707   0.136    0.382
+SUS  -&gt;  BEQ         0.296          0.318        0.069   4.309   0.195    0.437
+SUS  -&gt;  SST         0.371          0.374        0.058   6.381   0.246    0.466
+SUS  -&gt;  EST         0.269          0.263        0.072   3.751   0.123    0.422
+BEQ  -&gt;  SST         0.510          0.506        0.071   7.176   0.371    0.632
+BEQ  -&gt;  EST         0.570          0.578        0.062   9.154   0.458    0.685
+SST  -&gt;  EST         0.907          0.906        0.039  23.154   0.833    0.971</code></pre>
+</div>
+<div id="bootstrapped-total-effects" class="section level2"
+number="3.4">
+<h2><span class="header-section-number">3.4</span> Bootstrapped total
+effects</h2>
+<p>Para la comprobación de los coeficientes b del modelo y conocer que
+son significativos.</p>
+<pre><code>Modelo</code></pre>
+<pre><code>             Original Est. Bootstrap Mean Bootstrap SD T Stat. 2.5% CI 97.5% CI
+ICT  -&gt;  COR         0.589          0.590        0.039  15.084   0.502    0.658
+ICT  -&gt;  SUS         0.452          0.457        0.058   7.778   0.337    0.551
+ICT  -&gt;  BEQ         0.200          0.207        0.041   4.925   0.133    0.282
+ICT  -&gt;  SST         0.174          0.176        0.032   5.513   0.119    0.230
+ICT  -&gt;  EST         0.134          0.136        0.025   5.280   0.092    0.186
+COR  -&gt;  BEQ         0.228          0.228        0.074   3.083   0.065    0.350
+COR  -&gt;  SST         0.095          0.094        0.035   2.704   0.027    0.163
+COR  -&gt;  EST         0.073          0.073        0.028   2.651   0.020    0.127
+SUS  -&gt;  BEQ         0.145          0.158        0.077   1.877   0.000    0.292
+SUS  -&gt;  SST         0.262          0.264        0.057   4.604   0.152    0.370
+SUS  -&gt;  EST         0.202          0.203        0.045   4.507   0.115    0.294
+BEQ  -&gt;  SST         0.416          0.413        0.067   6.221   0.290    0.531
+BEQ  -&gt;  EST         0.321          0.318        0.055   5.789   0.218    0.421
+SST  -&gt;  EST         0.771          0.769        0.034  22.752   0.716    0.833</code></pre>
+</div>
+<div id="bootstrapped-indirect-effects" class="section level2"
+number="3.5">
+<h2><span class="header-section-number">3.5</span> Bootstrapped indirect
+effects</h2>
+<pre><code>Modelo</code></pre>
+<pre><code>NULL</code></pre>
+<pre><code>           Original Est. Bootstrap Mean Bootstrap SD  T Stat.      2.5% CI   97.5% CI
+COR -&gt; BEQ    0.22831470     0.22828072   0.07406724 3.082533 6.458617e-02 0.34978866
+SUS -&gt; BEQ    0.14498435     0.15783279   0.07723151 1.877269 4.076036e-05 0.29159045
+COR -&gt; SST    0.09493731     0.09438099   0.03510632 2.704279 2.665415e-02 0.16329923
+SUS -&gt; SST    0.06028707     0.06531786   0.03423483 1.760987 2.264024e-04 0.13182534
+COR -&gt; EST    0.07323808     0.07277274   0.02762816 2.650849 2.007539e-02 0.12689696
+SUS -&gt; EST    0.04650763     0.05027579   0.02641371 1.760738 2.155267e-04 0.09924403</code></pre>
+</div>
+</div>
+<div id="modelos" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> Modelos</h1>
+<p>Representamos los modelos con su valores de trabajo obtenidos.</p>
+<div id="modelo-general" class="section level2" number="4.1">
+<h2><span class="header-section-number">4.1</span> Modelo general</h2>
+<pre><code>Modelo</code></pre>
+<div class="figure">
+<div id="htmlwidget-252fb3fbc169f2eedfba" style="width:1536px;height:864px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-252fb3fbc169f2eedfba">{"x":{"diagram":"digraph G {\n\n// ----------------------\n// General graph settings\n// ----------------------\ngraph [\ncharset = \"UTF-8\",\nlayout = dot,\nlabel = \"Modelo total\",\nfontsize = 24,\nfontcolor = black,\nfontname = helvetica,\nrankdir = LR,\nlabelloc = t,\nsplines = TRUE\nbgcolor = transparent\n]\n\n// --------------------\n// The structural model\n// --------------------\nsubgraph sm {\nrankdir = LR;\nnode [\nshape = ellipse,\ncolor = black,\nfillcolor = white,\nstyle = filled,\nfontsize = 12,\nfontcolor = black,\nheight = 1.00833333333333,\nwidth = 0.696875,\nfontname = helvetica,\nfixedsize = true\n]\n\"ICT\" [label=<<B>ICT <\/B>>, shape = hexagon]\n\"COR\" [label=<<B>COR <\/B><BR /><FONT POINT-SIZE=\"10\">r² = 0.347<\/FONT>>, shape = hexagon]\n\"SUS\" [label=<<B>SUS <\/B><BR /><FONT POINT-SIZE=\"10\">r² = 0.204<\/FONT>>, shape = hexagon]\n\"BEQ\" [label=<<B>BEQ <\/B><BR /><FONT POINT-SIZE=\"10\">r² = 0.111<\/FONT>>, shape = hexagon]\n\"SST\" [label=<<B>SST <\/B><BR /><FONT POINT-SIZE=\"10\">r² = 0.26<\/FONT>>, shape = hexagon]\n\"EST\" [label=<<B>EST <\/B><BR /><FONT POINT-SIZE=\"10\">r² = 0.595<\/FONT>>, shape = hexagon]\n\"SA\" [label=<<B>SA <\/B>>, shape = hexagon]\n\"SB\" [label=<<B>SB <\/B>>, shape = hexagon]\n\"SC\" [label=<<B>SC <\/B>>, shape = hexagon]\nedge [\ncolor = black,\nfontsize = 9,\nfontcolor = black,\nfontname = helvetica,\ndir = both,\narrowhead = normal,\narrowtail = none\n]\n\"ICT\" -> {\"SUS\"}[weight = 1, label = < 𝛽 = 0.452***<BR /><FONT POINT-SIZE=\"7\">95% CI [0.337, 0.551]   <\/FONT> >, penwidth = 2.76, style = solid, color = black]\n\"ICT\" -> {\"COR\"}[weight = 1, label = < 𝛽 = 0.589***<BR /><FONT POINT-SIZE=\"7\">95% CI [0.502, 0.658]   <\/FONT> >, penwidth = 3.445, style = solid, color = black]\n\"COR\" -> {\"BEQ\"}[weight = 1, label = < 𝛽 = 0.228**<BR /><FONT POINT-SIZE=\"7\">95% CI [0.065, 0.35]   <\/FONT> >, penwidth = 1.64, style = solid, color = black]\n\"SUS\" -> {\"BEQ\"}[weight = 1, label = < 𝛽 = 0.145*<BR /><FONT POINT-SIZE=\"7\">95% CI [0, 0.292]   <\/FONT> >, penwidth = 1.225, style = solid, color = black]\n\"SUS\" -> {\"SST\"}[weight = 1, label = < 𝛽 = 0.202***<BR /><FONT POINT-SIZE=\"7\">95% CI [0.095, 0.3]   <\/FONT> >, penwidth = 1.51, style = solid, color = black]\n\"BEQ\" -> {\"SST\"}[weight = 1, label = < 𝛽 = 0.416***<BR /><FONT POINT-SIZE=\"7\">95% CI [0.29, 0.531]   <\/FONT> >, penwidth = 2.58, style = solid, color = black]\n\"SST\" -> {\"EST\"}[weight = 1, label = < 𝛽 = 0.771***<BR /><FONT POINT-SIZE=\"7\">95% CI [0.716, 0.833]   <\/FONT> >, penwidth = 4.355, style = solid, color = black]\n}\n// ---------------------\n// The measurement model\n// ---------------------\n\nsubgraph construct_1 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = white,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.494791666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"ICT1\" [label = \"ICT1\", shape = box]\n\"ICT2\" [label = \"ICT2\", shape = box]\n\"ICT3\" [label = \"ICT3\", shape = box]\n\"ICT4\" [label = \"ICT4\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"ICT1\" -> {\"ICT\"}[weight = 1000, label = < 𝜆 = 0.854*** >, penwidth = 3.062, style = solid, color = dimgrey]\n\"ICT2\" -> {\"ICT\"}[weight = 1000, label = < 𝜆 = 0.893*** >, penwidth = 3.179, style = solid, color = dimgrey]\n\"ICT3\" -> {\"ICT\"}[weight = 1000, label = < 𝜆 = 0.863*** >, penwidth = 3.089, style = solid, color = dimgrey]\n\"ICT4\" -> {\"ICT\"}[weight = 1000, label = < 𝜆 = 0.726*** >, penwidth = 2.678, style = solid, color = dimgrey]\n\n}\nsubgraph construct_2 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = white,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.494791666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"SUS1\" [label = \"SUS1\", shape = box]\n\"SUS2\" [label = \"SUS2\", shape = box]\n\"SUS3\" [label = \"SUS3\", shape = box]\n\"SUS4\" [label = \"SUS4\", shape = box]\n\"SUS5\" [label = \"SUS5\", shape = box]\n\"SUS6\" [label = \"SUS6\", shape = box]\n\"SUS7\" [label = \"SUS7\", shape = box]\n\"SUS8\" [label = \"SUS8\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"SUS1\" -> {\"SA\"}[weight = 1000, label = < 𝜆 = 0.842*** >, penwidth = 3.026, style = solid, color = dimgrey]\n\"SUS2\" -> {\"SA\"}[weight = 1000, label = < 𝜆 = 0.889*** >, penwidth = 3.167, style = solid, color = dimgrey]\n\"SUS3\" -> {\"SA\"}[weight = 1000, label = < 𝜆 = 0.797*** >, penwidth = 2.891, style = solid, color = dimgrey]\n\"SUS4\" -> {\"SA\"}[weight = 1000, label = < 𝜆 = 0.812*** >, penwidth = 2.936, style = solid, color = dimgrey]\n\"SUS5\" -> {\"SA\"}[weight = 1000, label = < 𝜆 = 0.757*** >, penwidth = 2.771, style = solid, color = dimgrey]\n\"SUS6\" -> {\"SA\"}[weight = 1000, label = < 𝜆 = 0.832*** >, penwidth = 2.996, style = solid, color = dimgrey]\n\"SUS7\" -> {\"SA\"}[weight = 1000, label = < 𝜆 = 0.78*** >, penwidth = 2.84, style = solid, color = dimgrey]\n\"SUS8\" -> {\"SA\"}[weight = 1000, label = < 𝜆 = 0.63*** >, penwidth = 2.39, style = solid, color = dimgrey]\n\n}\nsubgraph construct_3 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = white,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.494791666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"SUS10\" [label = \"SUS10\", shape = box]\n\"SUS11\" [label = \"SUS11\", shape = box]\n\"SUS12\" [label = \"SUS12\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"SUS10\" -> {\"SB\"}[weight = 1000, label = < 𝜆 = 0.941*** >, penwidth = 3.323, style = solid, color = dimgrey]\n\"SUS11\" -> {\"SB\"}[weight = 1000, label = < 𝜆 = 0.951*** >, penwidth = 3.353, style = solid, color = dimgrey]\n\"SUS12\" -> {\"SB\"}[weight = 1000, label = < 𝜆 = 0.944*** >, penwidth = 3.332, style = solid, color = dimgrey]\n\n}\nsubgraph construct_4 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = white,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.494791666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"SUS13\" [label = \"SUS13\", shape = box]\n\"SUS14\" [label = \"SUS14\", shape = box]\n\"SUS15\" [label = \"SUS15\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"SUS13\" -> {\"SC\"}[weight = 1000, label = < 𝜆 = 0.925*** >, penwidth = 3.275, style = solid, color = dimgrey]\n\"SUS14\" -> {\"SC\"}[weight = 1000, label = < 𝜆 = 0.911*** >, penwidth = 3.233, style = solid, color = dimgrey]\n\"SUS15\" -> {\"SC\"}[weight = 1000, label = < 𝜆 = 0.955*** >, penwidth = 3.365, style = solid, color = dimgrey]\n\n}\nsubgraph construct_5 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = white,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.494791666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"SA\" [label = \"SA\", shape = box]\n\"SB\" [label = \"SB\", shape = box]\n\"SC\" [label = \"SC\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"SA\" -> {\"SUS\"}[weight = 1000, label = < 𝜆 = 0.864*** >, penwidth = 3.092, style = solid, color = dimgrey]\n\"SB\" -> {\"SUS\"}[weight = 1000, label = < 𝜆 = 0.918*** >, penwidth = 3.254, style = solid, color = dimgrey]\n\"SC\" -> {\"SUS\"}[weight = 1000, label = < 𝜆 = 0.606*** >, penwidth = 2.318, style = solid, color = dimgrey]\n\n}\nsubgraph construct_6 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = white,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.494791666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"COR1\" [label = \"COR1\", shape = box]\n\"COR2\" [label = \"COR2\", shape = box]\n\"COR3\" [label = \"COR3\", shape = box]\n\"COR4\" [label = \"COR4\", shape = box]\n\"COR5\" [label = \"COR5\", shape = box]\n\"COR6\" [label = \"COR6\", shape = box]\n\"COR7\" [label = \"COR7\", shape = box]\n\"COR8\" [label = \"COR8\", shape = box]\n\"COR9\" [label = \"COR9\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"COR1\" -> {\"COR\"}[weight = 1000, label = < 𝜆 = 0.696*** >, penwidth = 2.588, style = solid, color = dimgrey]\n\"COR2\" -> {\"COR\"}[weight = 1000, label = < 𝜆 = 0.838*** >, penwidth = 3.014, style = solid, color = dimgrey]\n\"COR3\" -> {\"COR\"}[weight = 1000, label = < 𝜆 = 0.734*** >, penwidth = 2.702, style = solid, color = dimgrey]\n\"COR4\" -> {\"COR\"}[weight = 1000, label = < 𝜆 = 0.792*** >, penwidth = 2.876, style = solid, color = dimgrey]\n\"COR5\" -> {\"COR\"}[weight = 1000, label = < 𝜆 = 0.794*** >, penwidth = 2.882, style = solid, color = dimgrey]\n\"COR6\" -> {\"COR\"}[weight = 1000, label = < 𝜆 = 0.574*** >, penwidth = 2.222, style = solid, color = dimgrey]\n\"COR7\" -> {\"COR\"}[weight = 1000, label = < 𝜆 = 0.651*** >, penwidth = 2.453, style = solid, color = dimgrey]\n\"COR8\" -> {\"COR\"}[weight = 1000, label = < 𝜆 = 0.733*** >, penwidth = 2.699, style = solid, color = dimgrey]\n\"COR9\" -> {\"COR\"}[weight = 1000, label = < 𝜆 = 0.774*** >, penwidth = 2.822, style = solid, color = dimgrey]\n\n}\nsubgraph construct_7 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = white,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.494791666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"BEQ2\" [label = \"BEQ2\", shape = box]\n\"BEQ3\" [label = \"BEQ3\", shape = box]\n\"BEQ4\" [label = \"BEQ4\", shape = box]\n\"BEQ5\" [label = \"BEQ5\", shape = box]\n\"BEQ6\" [label = \"BEQ6\", shape = box]\n\"BEQ7\" [label = \"BEQ7\", shape = box]\n\"BEQ8\" [label = \"BEQ8\", shape = box]\n\"BEQ9\" [label = \"BEQ9\", shape = box]\n\"BEQ10\" [label = \"BEQ10\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"BEQ2\" -> {\"BEQ\"}[weight = 1000, label = < 𝜆 = 0.756*** >, penwidth = 2.768, style = solid, color = dimgrey]\n\"BEQ3\" -> {\"BEQ\"}[weight = 1000, label = < 𝜆 = 0.813*** >, penwidth = 2.939, style = solid, color = dimgrey]\n\"BEQ4\" -> {\"BEQ\"}[weight = 1000, label = < 𝜆 = 0.758*** >, penwidth = 2.774, style = solid, color = dimgrey]\n\"BEQ5\" -> {\"BEQ\"}[weight = 1000, label = < 𝜆 = 0.821*** >, penwidth = 2.963, style = solid, color = dimgrey]\n\"BEQ6\" -> {\"BEQ\"}[weight = 1000, label = < 𝜆 = 0.704*** >, penwidth = 2.612, style = solid, color = dimgrey]\n\"BEQ7\" -> {\"BEQ\"}[weight = 1000, label = < 𝜆 = 0.757*** >, penwidth = 2.771, style = solid, color = dimgrey]\n\"BEQ8\" -> {\"BEQ\"}[weight = 1000, label = < 𝜆 = 0.802*** >, penwidth = 2.906, style = solid, color = dimgrey]\n\"BEQ9\" -> {\"BEQ\"}[weight = 1000, label = < 𝜆 = 0.774*** >, penwidth = 2.822, style = solid, color = dimgrey]\n\"BEQ10\" -> {\"BEQ\"}[weight = 1000, label = < 𝜆 = 0.775*** >, penwidth = 2.825, style = solid, color = dimgrey]\n\n}\nsubgraph construct_8 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = white,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.494791666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"SST1\" [label = \"SST1\", shape = box]\n\"SST2\" [label = \"SST2\", shape = box]\n\"SST3\" [label = \"SST3\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = none\narrowtail = normal\n]\n\"SST1\" -> {\"SST\"}[weight = 1000, label = < 𝜆 = 0.817*** >, penwidth = 2.951, style = solid, color = dimgrey]\n\"SST2\" -> {\"SST\"}[weight = 1000, label = < 𝜆 = 0.928*** >, penwidth = 3.284, style = solid, color = dimgrey]\n\"SST3\" -> {\"SST\"}[weight = 1000, label = < 𝜆 = 0.895*** >, penwidth = 3.185, style = solid, color = dimgrey]\n\n}\nsubgraph construct_9 {\nnode [\nshape = box,\ncolor = dimgrey,\nfillcolor = white,\nstyle = filled,\nfontsize = 8,\nfontcolor = black,\nheight = 0.164583333333333,\nwidth = 0.494791666666667,\nfontname = helvetica,\nfixedsize = true\n]\n\"EST1\" [label = \"EST1\", shape = box]\n\"EST2\" [label = \"EST2\", shape = box]\n\"EST3\" [label = \"EST3\", shape = box]\nedge [\ncolor = dimgrey,\nfontsize = 7,\nfontcolor = black,\nfontname = helvetica,\nminlen = 1,\ndir = both\narrowhead = normal\narrowtail = none\n]\n\"EST\" -> {\"EST1\"}[weight = 1000, label = < 𝜆 = 0.858*** >, penwidth = 3.074, style = solid, color = dimgrey]\n\"EST\" -> {\"EST2\"}[weight = 1000, label = < 𝜆 = 0.904*** >, penwidth = 3.212, style = solid, color = dimgrey]\n\"EST\" -> {\"EST3\"}[weight = 1000, label = < 𝜆 = 0.819*** >, penwidth = 2.957, style = solid, color = dimgrey]\n\n}\n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<p class="caption">
+Modelo con bootstrapping
+</p>
+</div>
+</div>
+</div>
+<div id="predicción-seminr" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Predicción
+(seminr)</h1>
+<div id="modelo" class="section level2" number="5.1">
+<h2><span class="header-section-number">5.1</span> Modelo</h2>
+</div>
+</div>
+<div id="descriptivo" class="section level1" number="6">
+<h1><span class="header-section-number">6</span> Descriptivo</h1>
+<p>Para justificar la ausencia de un multigrupo, se realiza las prueba
+de Wilcoxon o Mann - Wihitney que nos permite determinar si existen
+diferencias significativas en los rangos de las variables utilizadas.
+Nótese la utilización de la prueba no paramétrica ante la asunción de la
+no normalidad de las distribuciones de las variables utilizadas en el
+análisis exploratorio.</p>
+</div>
+<div id="bibliografía" class="section level1" number="7">
+<h1><span class="header-section-number">7</span> Bibliografía</h1>
+<ul>
+<li>Aldás Manzano, J., &amp; Uriel Jimenez, E. (2017). Análisis
+multivariante aplicado con R. Ediciones Paraninfo, SA.</li>
+<li>Anderson. (1990). A model of distributor firm and manufacturer firm
+working partnerships. Journal of Marketing, 54(1). <a
+href="https://doi.org/10.1177/002224299005400103"
+class="uri">https://doi.org/10.1177/002224299005400103</a></li>
+<li>Champely, S. (2020). pwr: Basic Functions for Power Analysis. R
+package version 1.3-0. <a href="https://CRAN.R-project.org/package=pwr"
+class="uri">https://CRAN.R-project.org/package=pwr</a></li>
+<li>Chin, W.W., 1998. The partial least squares approach to structural
+equation modelling. In G. A. Marcoulides (Ed.), Modern methods for
+business research, 295-336. Mahwah, NJ: Lawrence Erlbaum
+Associates.</li>
+<li>Chung, J. E., Huang, Y., Jin, B., &amp; Sternquist, B. (2011). The
+impact of market orientation on Chinese retailers’ channel
+relationships. Journal of Business &amp; Industrial Marketing.</li>
+<li>Clark, L. y Watson, D. (1995). Constructing validity: basic issues
+in objective scale development. Psychological Assessment,
+7(3):309—319.</li>
+<li>Cohen, J. (1988). Statistical power analysis for the behavioral
+sciences (2nd ed.). Hillsdale,NJ: Lawrence Erlbaum.</li>
+<li>Demin, Gregory. 2020. Expss: Tables, Labels and Some Useful
+Functions from Spreadsheets and ’SPSS’ Statistics. <a
+href="https://CRAN.R-project.org/package=expss"
+class="uri">https://CRAN.R-project.org/package=expss</a>.</li>
+<li>Deshpandé, R., Farley, J. U., &amp; Webster Jr, F. E. (1993).
+Corporate culture, customer orientation, and innovativeness in Japanese
+firms: a quadrad analysis. Journal of marketing, 57(1), 23-37.</li>
+<li>Falk, R. F. y Miller, N. B., 1992. A primer for soft modeling. Ohio:
+University of Akron Press.</li>
+<li>Geyskens, I., &amp; Steenkamp, J. B. E. (2000). Economic and social
+satisfaction: measurement and relevance to marketing channel
+relationships. Journal of retailing, 76(1), 11-32.</li>
+<li>Gil, R., 2021. Tablas y gráficos con R y R Studio. 1st ed. [ebook]
+València, ISBN: 978-84-09-29382-7; disponible en: <a
+href="https://tables.investigaonline.com"
+class="uri">https://tables.investigaonline.com</a>.</li>
+<li>Gold, A., Malhotra, A., y Segars, A. (2001). Knowledge management:
+An organizational capabilities perspective. Journal of Management
+Information Systems, 18(1):185—214.</li>
+<li>Hair Jr., Joseph F.; G. Tomas M. Hult; Christian M. Ringle; Marko
+Sarstedt. (2017) A Primer on Partial Least Squares Structural Equation
+Modeling (PLS-SEM). SAGE Publications. 2ª edición, Kindle.</li>
+<li>Henseler, J., Ringle, C.M., &amp; Sarstedt, M., 2016. Testing
+measurement invariance of com- posites using partial least squares.
+International Marketing Review, 33(3), 405-431.</li>
+<li>Hernández‐Espallardo, M., &amp; Navarro‐Bailón, M. Á. (2009).
+Accessing retailer equity through integration in retailers’ buying
+groups. International Journal of Retail &amp; Distribution
+Management.</li>
+<li>Joreskog, K.G., 1978. Structural analysis of covariance and
+correlation matrices. Psychometrika, 43, 443-477.</li>
+<li>R Core Team (2021). R: A language and environment for statistical
+computing. R Foundation for Statistical Computing, Vienna, Austria.URL
+<a href="https://www.R-project.org/"
+class="uri">https://www.R-project.org/</a>.</li>
+<li>Ray, S., Danks, N.P.&amp; Calero, A. (2021). seminr: Domain-Specific
+Language for Building and Estimating Structural Equation Models. R
+package version 2.0.1. <a
+href="https://CRAN.R-project.org/package=seminr"
+class="uri">https://CRAN.R-project.org/package=seminr</a>.</li>
+<li>Rönkkö, M. (2016). matrixpls: Matrix-based Partial Least Squares
+Estimation. R package version 1.0.12.</li>
+<li>Shen, P. (2010, August). A study on the multi-dimensional
+relationship between consumer shopping value and retailer brand equity.
+In Marketing Sciencie Innovations and Economic Development–Proceedings
+of 2010 Summit Inernational Marketing Sciencie and Management Technology
+Conference (pp. 128-132).</li>
+<li>Wu, F., Yeniyurt, S., Kim, D., &amp; Cavusgil, S. T. (2006). The
+impact of information technology on supply chain capabilities and firm
+performance: A resource-based view. Industrial Marketing Management,
+35(4), 493-504.</li>
+<li>Xu, X., &amp; Gursoy, D. (2015). Influence of sustainable
+hospitality supply chain management on customers’ attitudes and
+behaviors. International journal of hospitality management, 49,
+105-116.</li>
+<li>Yoo, B., &amp; Donthu, N. (2001). Developing and validating a
+multidimensional consumer-based brand equity scale. Journal of business
+research, 52(1), 1-14.</li>
+<li>Yoo, B., Donthu, N., &amp; Lee, S. (2000). An examination of
+selected marketing mix elements and brand equity. Journal of the academy
+of marketing science, 28(2), 195-211.</li>
+</ul>
+</div>
+<div class="footnotes footnotes-end-of-document">
+<hr />
+<ol>
+<li id="fn1"><p>En <a
+href="https://forum.smartpls.com/viewtopic.php?f=5&amp;t=3805"
+class="uri">https://forum.smartpls.com/viewtopic.php?f=5&amp;t=3805</a>
+hay una “discusión en torno al”greater than 0.9” de Primer PLS … de
+Hair; lo solventa un investigador / desarrollador de SmartPLS: <a
+href="https://www.researchgate.net/profile/Jan_Michael_Becker"
+class="uri">https://www.researchgate.net/profile/Jan_Michael_Becker</a><a
+href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>El cuadrado de una carga estandarizada de un indicador
+representa cuanto de la variación en un ítem se explica por el
+constructo, y se describe como la varianza extraída del ítem. Una regla
+de oro que se establece es que una variable latente explicaría una parte
+sustancial de la varianza de cada indicador, usualmente al menos el 50%.
+Esto implica que la varianza compartida entre el constructo y sus
+indicadores, es mayor que la varianza del error de medida. Esto
+significa que la carga de un indicador debería ser mayor de 0,708 puesto
+que ese número al cuadrado (0,7082) es igual a 0,50. (Hair <em>et
+al.,</em> 2017: 113).<a href="#fnref2"
+class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p>En nuestro caso al proceder con la eliminación de
+aquellas cargas menores de 0.7 no mejoraba significativamente el
+modelo<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>
+
+<br>
+<hr>
+<div style="text-align: center;">All rights reserved - 2008-2021 (c) - InvestigaOnline.com</div>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
