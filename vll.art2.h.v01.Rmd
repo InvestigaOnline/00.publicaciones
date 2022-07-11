@@ -3,11 +3,14 @@ title: "PLS - HOTELES"
 author: "Roberto Gil-Saura"
 date: "`r Sys.time()`"
 output:
+  word_document:
+    toc: yes
   html_document:
     highlight: tango
     number_sections: yes
-    df_print: paged
     toc: yes
+editor_options:
+  chunk_output_type: inline
 ---
 
 NOTA: Incluye constructo de segundo orden
@@ -24,34 +27,99 @@ NOTA: Incluye constructo de segundo orden
 </style>
 ```
 
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, comment=NA, warning=FALSE, message=FALSE)
 suppressMessages(library(readr))
 suppressMessages(library(dplyr))
 suppressMessages(library(seminr))
 suppressMessages(library(matrixpls))
-suppressMessages(library(semPLS))
 suppressMessages(library(pwr))
 suppressMessages(library(expss))
 suppressMessages(library(openxlsx))
-suppressMessages(library(lavaan))
 h.data <- read_csv("~/R/r-projects/00.publicaciones/data.art2.vallejo/datos.art2.hoteles.csv")
 options(width=9999)
+seminr_robert <- seminr_theme_create(
+	plot.title.fontcolor = "black",
+	plot.title.fontsize = 24,
+	plot.fontname = "helvetica",
+	plot.splines = TRUE,
+	plot.rounding = 3,
+	plot.adj = FALSE,
+	plot.specialcharacters = TRUE,
+	plot.randomizedweights = FALSE,
+	plot.bgcolor = "white",
+	mm.node.color = "dimgray",
+	mm.node.fill = "white",
+	mm.node.label.fontsize = 14,
+	mm.node.label.fontcolor = "black",
+	mm.edge.positive.color = "dimgray",
+	mm.edge.negative.color = "dimgray",
+	mm.edge.positive.style = "solid",
+	mm.edge.negative.style = "dashed",
+	mm.edge.label.fontsize = 12,
+	mm.edge.label.fontcolor = "black",
+	mm.edge.label.show = TRUE,
+	mm.edge.width_multiplier = 3,
+	mm.edge.width_offset = 0.5,
+	mm.edge.minlen = 1,
+	mm.edge.use_outer_weights = TRUE,
+	mm.edge.boot.show_t_value = FALSE,
+	mm.edge.boot.show_p_value = FALSE,
+	mm.edge.boot.show_p_stars = TRUE,
+	mm.edge.boot.show_ci = FALSE,
+	mm.edge.boot.template = "{variable} = {value}{stars}",
+	sm.node.color = "black",
+	sm.node.fill = "white",
+	sm.node.label.fontsize = 18,
+	sm.node.label.fontcolor = "black",
+	sm.node.endo.template = "<B>{name} </B><BR /><FONT POINT-SIZE='10'>{rstring}</FONT>",
+	sm.node.exo.template = "<B>{name} </B>",
+	sm.edge.positive.color = "black",
+	sm.edge.negative.color = "black",
+	sm.edge.positive.style = "solid",
+	sm.edge.negative.style = "dashed",
+	sm.edge.label.fontsize = 14,
+	sm.edge.label.fontcolor = "black",
+	sm.edge.label.show = TRUE,
+	sm.edge.label.all_betas = TRUE,
+	sm.edge.boot.show_t_value = FALSE,
+	sm.edge.boot.show_p_value = FALSE,
+	sm.edge.boot.show_p_stars = TRUE,
+	sm.edge.boot.show_ci = TRUE,
+	sm.edge.boot.template = "{variable} = {value}{stars}<BR /><FONT POINT-SIZE='7'>{civalue} {tvalue} {pvalue} </FONT>",
+	sm.edge.width_multiplier = 5,
+	sm.edge.width_offset = 0.5,
+	sm.edge.minlen = NA,
+	construct.reflective.shape = "circle",
+	construct.reflective.arrow = "backward",
+	construct.reflective.use_weights = FALSE,
+	construct.compositeA.shape = "circle",
+	construct.compositeA.arrow = "backward",
+	construct.compositeA.use_weights = FALSE,
+	construct.compositeB.shape = "hexagon",
+	construct.compositeB.arrow = "forward",
+	construct.compositeB.use_weights = TRUE,
+	manifest.reflective.shape = "box",
+	manifest.compositeA.shape = "box",
+	manifest.compositeB.shape = "box"
+	)
+
 ```
 
 # Tablas muestra
 
 ```{r}
+sink("~/R/r-projects/00.publicaciones/data.art2.vallejo/hoteles-art2-vallejo-tablas.xlsx")
 suppressMessages(hoteles <- read_spss("~/R/r-projects/00.publicaciones/data.art2.vallejo/hoteles_dc.sav"))
-wb = createWorkbook()
-sh = addWorksheet(wb, "Tablas")
+tablas <- list()
 tab1 <- hoteles %>%
      tab_cells(mrset(P1_1,P1_2), P2, P2A) %>% 
      tab_stat_cases(label='casos') %>%
      tab_stat_cpct(label='% casos') %>% 
      tab_pivot(stat_position='inside_columns')
 as.datatable_widget(tab1)
-xl_write(tab1, wb, sh)
+tablas$tab1 <- tab1
 tab2 <- hoteles %>%
     tab_cols(total()) %>% 
      tab_cells(P3) %>%
@@ -61,12 +129,11 @@ tab2 <- hoteles %>%
      tab_stat_fun(Mean = w_mean, "Sd" = w_sd) %>% 
      tab_pivot()
 as.datatable_widget(tab2)
-xl_write(tab2, wb, sh, col=6)
-saveWorkbook(wb, "~/R/r-projects/00.publicaciones/data.art2.vallejo/hoteles-art2-vallejo-tablas.xlsx", overwrite = TRUE)
+tablas$tab2 <- tab2
+xl_write_file(tablas, "~/R/r-projects/00.publicaciones/data.art2.vallejo/hoteles-art2-vallejo-tablas.xlsx", gap=3)
 ```
 
 # Modelización
-
 
 ```{r include=FALSE, warning=FALSE, message=FALSE}
 h.df <- h.data[,2:20]
@@ -110,23 +177,29 @@ plot(h.simple_sm)
 
 ## Análisis de la fiabilidad
 
-Para el modelo de medida se han considerado composites, mode A (reflectivos???). De este modo, el primer paso debe ser observar el resumen de los indicadores de fiabilidad, consistencia interna y validez.
+Para el modelo de medida se han considerado composites mode A. De este modo, el primer paso debe ser observar el resumen de los indicadores de
+fiabilidad, consistencia interna y validez.
 
-El resultado del análisis muestra todas las escalas que apoyan las variables latentes tienen un *Cronbach's alpha* mayor que 0.7, completado por una fiabilidad del compuesto *rhoC* también por encima de 0.7. para valores superiores a 0.9[^1].
+El resultado del análisis muestra todas las escalas que apoyan las variables latentes tienen un *Cronbach's alpha* mayor que 0.7, completado por una
+fiabilidad del compuesto *rhoC* también por encima de 0.7. para valores superiores a 0.9[^1].
 
-[^1]: En <https://forum.smartpls.com/viewtopic.php?f=5&t=3805> hay una "discusión en torno al "greater than 0.9" de Primer PLS ... de Hair; lo solventa un investigador / desarrollador de SmartPLS: <https://www.researchgate.net/profile/Jan_Michael_Becker>
+[^1]: En <https://forum.smartpls.com/viewtopic.php?f=5&t=3805> hay una "discusión en torno al "greater than 0.9" de Primer PLS ... de Hair; lo
+    solventa un investigador / desarrollador de SmartPLS: <https://www.researchgate.net/profile/Jan_Michael_Becker>
 
-```{r fig.cap='Tabla Resumen', fig.width=16, fig.height=9}
+
+```{r fig.cap='Fiabilidad', fig.width=16, fig.height=9}
 # Summarize the model results
 summary_simple <- summary(simple_model)
 summary_simple$reliability
 ```
 
+
 ## Validez convergente
 
 ### AVE
 
-Del mismo modo, para evaluar la *validez convergente* o grado con el que una medida correlaciona positivamente con medidas alternativas del mismo constructo, usamos el coeficiente *AVE (average variance extracted)* que también cumple con la expectativa de estar por encima de 0.5.
+Del mismo modo, para evaluar la *validez convergente* o grado con el que una medida correlaciona positivamente con medidas alternativas del mismo
+constructo, usamos el coeficiente *AVE (average variance extracted)* que también cumple con la expectativa de estar por encima de 0.5.
 
 ```{r}
 summary_simple$reliability
@@ -140,20 +213,24 @@ plot(summary_simple$reliability)
 
 ### Análisis de las cargas
 
-Por otro lado, es importante analizar también las cargas o *loadings*, indicadores de la fiabilidad del indicador en el constructo, y que deberían ser mayores de 0.7 para retener el indicador; para aquellas que están entre 0.4 y 0.7 debe ser analizado el comportamiento del constructo ante una eliminación del indicador con carga baja[^2].
+Por otro lado, es importante analizar también las cargas o *loadings*, indicadores de la fiabilidad del indicador en el constructo, y que deberían ser
+mayores de 0.7 para retener el indicador; para aquellas que están entre 0.4 y 0.7 debe ser analizado el comportamiento del constructo ante una
+eliminación del indicador con carga baja[^2].
 
 [^2]: En nuestro caso al proceder con la eliminación de aquellas cargas menores de 0.7 no mejoraba significativamente el modelo
 
 ```{r}
 summary_simple$loadings
-#as.data.frame(rowSums(round(summary_simple$loadings,3)))
+as.data.frame(rowSums(round(summary_simple$loadings,3)))
 ```
 
 ## Validez discriminante
 
 ### Cross-loadings
 
-Para el análisis de la validez discriminante o capacidad de un constructo de ser realmente distinto a otros, utilizamos las denominadas *cross-loadings*, que miden esa capacidad del constructo. En la tabla adjunta se puede observar en cada indicador carga de forma superior en su variable latente, siendo el resto de cargas de menor intensidad.
+Para el análisis de la validez discriminante o capacidad de un constructo de ser realmente distinto a otros, utilizamos las denominadas
+*cross-loadings*, que miden esa capacidad del constructo. En la tabla adjunta se puede observar en cada indicador carga de forma superior en su
+variable latente, siendo el resto de cargas de menor intensidad.
 
 ```{r}
 summary_simple$validity$cross_loadings
@@ -161,7 +238,9 @@ summary_simple$validity$cross_loadings
 
 ### Fornell-Larcker
 
-El criterio de *Fornell-Larcker*, compara la raíz cuadrado del *AVE* con la correlación de las variables latentes. La raíz cuadrada del AVE de cada constructo, debería ser más grande que la más alta correlación con cualquier otro constructo. Se puede observar en la tabla siguiente que el valor en la diagonal principal, es mayor que el resto de valores en la parte inferior de la matriz.
+El criterio de *Fornell-Larcker*, compara la raíz cuadrado del *AVE* con la correlación de las variables latentes. La raíz cuadrada del AVE de cada
+constructo, debería ser más grande que la más alta correlación con cualquier otro constructo. Se puede observar en la tabla siguiente que el valor en
+la diagonal principal, es mayor que el resto de valores en la parte inferior de la matriz.
 
 ```{r}
 summary_simple$validity$fl_criteria
@@ -177,7 +256,9 @@ summary_simple$validity$htmt
 
 ## Análisis del modelo estructural
 
-Una vez analizados los constructos desde el punto de vista de su composición, debemos analizar el modelo estructural en su conjunto. Partiendo de que el objetivo del PLS es la maximización de la varianza explicada, las medidas más importantes son la fiabilidad, la validez convergente y la validez discriminante del conjunto del modelo.
+Una vez analizados los constructos desde el punto de vista de su composición, debemos analizar el modelo estructural en su conjunto. Partiendo de que
+el objetivo del PLS es la maximización de la varianza explicada, las medidas más importantes son la fiabilidad, la validez convergente y la validez
+discriminante del conjunto del modelo.
 
 -   R<sup>2</sup>, coeficiente de determinación y/o % de varianza explicada
 -   f<sup>2</sup> y q<sup>2</sup> efecto tamaño
@@ -191,7 +272,8 @@ summary_simple$paths
 
 ### R<sup>2</sup>
 
-Buscar *R<sup>2</sup>* mayores de 0.7, aunque valores alrededor de 0.25 sean aceptados según ámbitos; (sustancial mayor que 0.75, moderado alrededor de 0.5 y débil, 0.25). Usar R<sup>2</sup><sub>adj</sub> para comparar modelos con diferente número de constructos y/u observaciones.
+Buscar *R*<sup>2</sup> mayores de 0.7, aunque valores alrededor de 0.25 sean aceptados según ámbitos; (sustancial mayor que 0.75, moderado alrededor
+de 0.5 y débil, 0.25). Usar R<sup>2</sup><sub>adj</sub> para comparar modelos con diferente número de constructos y/u observaciones.
 
 ```{r}
 simple_model$rSquared
@@ -199,7 +281,8 @@ simple_model$rSquared
 
 ### f<sup>2</sup> - effect sizes
 
-El *f<sup>2</sup>* permite evaluar la contribución de cada constructo exógeno a la R<sup>2</sup> de un constructo endógeno. Los valores de 0.02, 0.15 y 0.35 indican un efecto pequeño, mediano o grande sobre el constructo endógeno.
+El *f*<sup>2</sup> permite evaluar la contribución de cada constructo exógeno a la R<sup>2</sup> de un constructo endógeno. Los valores de 0.02, 0.15
+y 0.35 indican un efecto pequeño, mediano o grande sobre el constructo endógeno.
 
 ```{r}
 summary_simple$fSquare
@@ -221,11 +304,12 @@ summary_simple$total_indirect_effects
 
 # Modelización con bootstrapping
 
-*Bootstrapping* para calcular la significatividad de los paths estimados. Habitualmente se trabaja con un 5% (t \> 1.96) lo que implica significatividad al 95%. Podemos cambiar al 10 o al 1 según ámbito. Usar doble bootstrapping si hay menos de 4 constructos.
+*Bootstrapping* para calcular la significatividad de los paths estimados. Habitualmente se trabaja con un 5% (t \> 1.96) lo que implica
+significatividad al 95%. Podemos cambiar al 10 o al 1 según ámbito. Usar doble bootstrapping si hay menos de 4 constructos.
 
 ```{r}
 # Bootstrap the model
-boot_model <- bootstrap_model(seminr_model = simple_model,nboot = 1000,seed = 123)
+boot_model <- bootstrap_model(seminr_model = simple_model,nboot = 5000,seed = 123)
 summary_boot <- summary(boot_model)
 ```
 
@@ -256,7 +340,7 @@ summary_boot$bootstrapped_total_paths
 ## Plot model
 
 ```{r fig.cap='Modelo con bootstrapping', fig.width=8, fig.height=4.5}
-plot(boot_model, theme=seminr_theme_smart())
+plot(boot_model, theme=seminr_robert)
 ```
 
 # Predicción
@@ -295,7 +379,6 @@ ysum_predict_simple_model
 
 En nuestro ejemplo tenemos una muestra 268 HOTELES, y la regresión más complicada es la del HCO con 3 regresores por lo que v=268-3-1=264.
 
-
 ```{r}
 
 #======================================
@@ -315,4 +398,32 @@ pwr.f2.test(u =3, v = 264 , f2 =0.15 , sig.level = 0.05, power = NULL)
 pwr.f2.test(u =3, v = NULL , f2 =0.15 , sig.level = 0.05, power = 0.80)
 ```
 
-El resultado indica que nuestro tamaño muestra posee una potencia igual al valor del resultado de *power*, ya que el tamaño muestral máximo para una potencia del 80% sería del valor del resultado del valor de *v* elementos con los parámetros indicados.
+El resultado indica que nuestro tamaño muestra posee una potencia igual al valor del resultado de *power*, ya que el tamaño muestral máximo para una
+potencia del 80% sería del valor del resultado del valor de *v* elementos con los parámetros indicados.
+
+```{r}
+write.csv(simple_model[["data"]],file='data.art2.h.hco')
+```
+
+```{r}
+modelo.lavaan <- '
+  VCC=~VCC1+VCC2+VCC3+VCC4+VCC5+VCC6
+  RQ=~TRUST+COMMIT+SOCSAT
+  ECOSAT=~ECOSAT1+ECOSAT2+ECOSAT3
+
+  VCC~RQ
+  RQ~ECOSAT
+'
+datos <- select(ydf, c(8:16,20:22))
+datos <- scale(datos)
+#Estimacion e indicadores de calidad OBLIGATORIO que use matriz de covarianzas no raw data
+modelo.lavaan.out <- matrixpls(cov(datos),modelo.lavaan)
+summary(modelo.lavaan.out)
+
+#Blindfolding
+
+predictions.blindfold <- matrixpls.crossvalidate(cov(datos), model = modelo.lavaan, blindfold = TRUE, predictionType = "redundancy",groups = 7)
+
+q2(cov(datos), predictions.blindfold, model=modelo.lavaan)
+
+```
